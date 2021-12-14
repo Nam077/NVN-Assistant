@@ -128,11 +128,11 @@ function handlePostback(sender_psid, received_postback) {
         case 'no':
             response = { "text": "Oops, try sending another image." }
             break;
-        case 'GET_STARTED_PAYLOAD':
+        case 'GET_STARTED':
             response = { "text": "Chào bạn tôi là NVN" }
             break;
         default:
-            response = { 'Xin lỗi tôi không hiểu' }
+            response = { "text": 'Xin lỗi tôi không hiểu' }
     }
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
@@ -167,7 +167,7 @@ let setupProfile = async(req, res) => {
     // Construct the message body
     let request_body = {
             "get_started": {
-                "payload": "GET_STARTED_PAYLOAD"
+                "payload": "GET_STARTED"
             },
             "whitelisted_domains": ["https://chatbot-nvn.herokuapp.com/"]
         }
