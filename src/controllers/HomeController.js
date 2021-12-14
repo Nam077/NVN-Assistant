@@ -1,5 +1,6 @@
 require('dotenv').config();
 import request from "request";
+
 //process.env.NAME_VARIABLES
 let getHomePage = (req, res) => {
     return res.render('homepage.ejs');
@@ -69,6 +70,7 @@ let getWebhook = (req, res) => {
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
+
     let response;
 
     // Checks if the message contains text
