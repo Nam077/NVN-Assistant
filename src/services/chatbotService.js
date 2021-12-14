@@ -42,7 +42,7 @@ let callSendAPI = (sender_psid, response) => {
 let getUserName = async(sender_psid) => {
     return new Promise((reslove, reject) => {
         request({
-            "uri": `https://graph.facebook.com/${sender_psid}?fields=first_name,last_name,profile_pic&access_token=${PAGE_ACCESS_TOKEN}`,
+            "uri": `https://graph.facebook.com/${sender_psid}?fields=first_name,last_name,name,profile_pic&access_token=${PAGE_ACCESS_TOKEN}`,
             "qs": { "access_token": process.env.PAGE_ACCESS_TOKEN },
             "method": "GET",
         }, (err, res, body) => {
