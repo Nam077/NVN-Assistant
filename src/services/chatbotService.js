@@ -1,11 +1,11 @@
 import request from "request";
 require('dotenv').config();
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
-let handleGetStarted = () => {
+let handleGetStarted = (sender_psid) => {
     return Promise(async(reslove, reject) => {
         try {
             let response = { "text": "Chào bạn tôi là NVN" }
-            await callSendAPI(response);
+            await callSendAPI(sender_psid, response);
             reslove('done');
         } catch (e) {
             reject(e);
@@ -13,7 +13,7 @@ let handleGetStarted = () => {
     });
 
 }
-let callSendAPI = () => {
+let callSendAPI = (sender_psid, response) => {
     // Construct the message body
     let request_body = {
         "recipient": {
