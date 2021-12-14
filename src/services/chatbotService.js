@@ -5,7 +5,7 @@ let handleGetStarted = (sender_psid) => {
     return new Promise(async(reslove, reject) => {
         try {
             let username = await getUserName(sender_psid);
-            let response = { "text": `Chào ${username} tôi là NVN` }
+            let response = { "text": `Chào ${username}tôi là NVN` }
             await callSendAPI(sender_psid, response);
             reslove('done');
         } catch (e) {
@@ -48,7 +48,7 @@ let getUserName = async(sender_psid) => {
         }, (err, res, body) => {
             if (!err) {
                 body = JSON.parse(body);
-                let username = `${body.last_name} ${body.first_name} `;
+                let username = `${body.name}`;
                 reslove(username)
             } else {
                 console.error("Unable to send message:" + err);
