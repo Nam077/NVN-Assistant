@@ -5,7 +5,7 @@ let handleGetStarted = () => {
     return Promise(async(reslove, reject) => {
         try {
             let response = { "text": "Chào bạn tôi là NVN" }
-            await this.callSendAPI(response);
+            await callSendAPI(response);
             reslove('done');
         } catch (e) {
             reject(e);
