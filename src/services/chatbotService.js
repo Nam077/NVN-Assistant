@@ -5,7 +5,7 @@ let handleGetStarted = (sender_psid) => {
     return new Promise(async(reslove, reject) => {
         try {
             let username = await getUserName(sender_psid);
-            let response = { "text": `Chào ${username}tôi là NVN` }
+            let response = { "text": `Chào ${username} tôi là NVN` }
             await callSendAPI(sender_psid, response);
             reslove('done');
         } catch (e) {
