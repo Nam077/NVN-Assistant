@@ -73,12 +73,15 @@ let getWebhook = (req, res) => {
 async function handleMessage(sender_psid, received_message) {
 
     let response;
-
     // Checks if the message contains text
-    if (received_message.text) {
-        if (received_message.text = 'NVN') {
+    if (received_message.text.toLowerCase()) {
+        if (received_message.text = 'nvn') {
             await chatbotService.sendMessage(sender_psid);
             callSendAPI(sender_psid, response);
+        }
+        if (received_message.text == 'bắt đầu' || received_message.text == 'start') {
+            await chatbotService.handleGetStarted(sender_psid);
+            break;
         }
 
     } else if (received_message.attachments) {
