@@ -82,8 +82,7 @@ async function handleMessage(sender_psid, received_message) {
         if (message.indexOf(text) != -1) {
             await chatbotService.sendMessage(sender_psid);
             callSendAPI(sender_psid, response);
-        }
-        if (message == 'bắt đầu' || message == 'start') {
+        } else if (message == 'bắt đầu' || message == 'start') {
             await chatbotService.handleGetStarted(sender_psid);
         } else {
             response = { "text": "Bot không hiểu chờ admin vào rep nha ^^ !" };
