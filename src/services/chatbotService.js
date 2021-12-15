@@ -72,7 +72,7 @@ let sendMessage = (sender_psid) => {
                         "elements": [{
                             "title": "Is this the right picture?",
                             "subtitle": "Tap a button to answer.",
-                            "image_url": attachment_url,
+                            "image_url": 'https://scontent.fhan3-2.fna.fbcdn.net/v/t1.15752-9/s960x960/263466413_2909610869351584_6247793863845033518_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=ae9488&_nc_ohc=dCYspV0w4-kAX-JtLJ9&_nc_ht=scontent.fhan3-2.fna&oh=03_AVKjZqm-An2nkOfqduYD1YedN9NLRPo-FeH5iTpAoqas2A&oe=61E071D0',
                             "buttons": [{
                                     "type": "postback",
                                     "title": "Yes!",
