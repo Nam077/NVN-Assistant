@@ -77,13 +77,14 @@ function handleMessage(sender_psid, received_message) {
     // Checks if the message contains text
     if (received_message.text) {
         if (received_message.text = 'NVN') {
-            let titile = `Chào Nguyễn Văn Nam  !
+            let titile = `Link font tổng hợp NVN`;
+            let subtitle = `Chào Nguyễn Văn Nam  !
             Đây là tổng hợp các font việt hóa của NVN
             Link tải xuống: https://tinyurl.com/NVNVintAge
             Hoặc nhấn vào nút "Tải Xuống".
             Vui lòng không rep tin nhắn này. 
             Nếu rep tn này bot sẽ tự động block đó nhé
-            #NVNFONT `;
+            #NVNFONT `
             response = {
                 "attachment": {
                     "type": "template",
@@ -91,7 +92,7 @@ function handleMessage(sender_psid, received_message) {
                         "template_type": "generic",
                         "elements": [{
                             "title": titile,
-                            "subtitle": "Tap a button to answer.",
+                            "subtitle": subtitle,
                             "image_url": 'https://scontent.fhan3-3.fna.fbcdn.net/v/t1.15752-9/p180x540/261763414_1211473426012223_1071923516214947637_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=ae9488&_nc_ohc=osBCyJCwRJsAX-Vg6mD&_nc_ht=scontent.fhan3-3.fna&oh=03_AVLJi0FaUKXn8HM7-sDDV5d7duTp5dWZP0QSAuzVaLGKHA&oe=61DE9B30',
                             "buttons": [{
                                     "type": "postback",
