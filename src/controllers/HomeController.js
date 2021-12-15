@@ -85,8 +85,6 @@ async function handleMessage(sender_psid, received_message) {
         let message = received_message.text;
         message = message.toLowerCase();
         console.log(message);
-        let a;
-        let name;
         let config = require('../../font.json');
         let font = config;
         let arr = []
@@ -299,21 +297,13 @@ let getGoogleSheet = async(req, res) => {
             client_email: CLIENT_EMAIL,
             private_key: PRIVATE_KEY,
         });
-
         await doc.loadInfo(); // loads document properties and worksheets
-
         const sheet = doc.sheetsByIndex[0]; // or use doc.sheetsById[id] or doc.sheetsByTitle[title]
-
-        // append rows
         const name = [];
         const key = [];
         const linkdownload = [];
         const linkimage = [];
         const rows = await sheet.getRows();
-
-        // console.log(rows.length);
-        // console.log(rows);
-        // console.log(rows[0].Name);
         for (const element of rows) {
             name.push(element.Name);
             key.push(element.Key.toLowerCase());
@@ -338,8 +328,8 @@ let getGoogleSheet = async(req, res) => {
         } catch (error) {
             console.error(err);
         }
-        return res.send("Load dữ liệu thành công")
-
+        res.redirect('/');
+        return console.log('ok');
     } catch (e) {
         console.log(e);
         return res.send('Oops! Something wrongs, check logs console for detail ... ')

@@ -4,18 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nam đẹp trai</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 
 <body>
-    <h1>Nam đẹp trai</h1>
-    <form method="post" action="/setup-persistent-menu">
-        <button type="submit">Set up Menu</button>
-    </form>
-    <br>
-    <form method="post" action="/setup-profile">
-        <button type="submit">Set up profile</button>
-    </form>
-    <a href="/excel">Add Excel</a>
+
+    <div class="container overflow-hidden" style="padding-top: 100px;">
+        <div class="row gy-5">
+            <div class="col-6">
+                <div class="p-3 border bg-light"> <a type="button" class="btn btn-primary" href="/setup-persistent-menu">Cập nhật menu</a></div>
+            </div>
+            <div class="col-6">
+                <div class="p-3 border bg-light"><a type="button" class="btn btn-primary" href="/setup-profile">Cập nhật người dùng</a></div>
+            </div>
+
+
+            <div class="col-6">
+                <div class="p-3 border bg-light"><a type="button" class="btn btn-primary" href="/excel">Cập nhật dữ liệu</a></div>
+            </div>
+
+            <div class="col-6">
+                <div class="p-3 border bg-light"><a type="button" class="btn btn-primary" href="#">Nút này để cho đẹp</a></div>
+            </div>
+        </div>
+    </div>
+
+
+    </div>
 
     <!-- Messenger Plugin chat Code -->
     <div id="fb-root"></div>
