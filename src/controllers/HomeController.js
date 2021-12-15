@@ -84,6 +84,7 @@ async function handleMessage(sender_psid, received_message) {
     if (received_message.text) {
         let message = received_message.text;
         message = message.toLowerCase();
+        let a;
         console.log(message);
         let config = require('../../font.json');
         let font = config;
