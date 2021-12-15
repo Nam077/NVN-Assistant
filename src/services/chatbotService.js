@@ -70,7 +70,9 @@ let sendMessage = (sender_psid) => {
                     "payload": {
                         "template_type": "generic",
                         "elements": [{
-                            "image_url": 'https://botbanhang.vn/images/logo.png',
+                            "title": "Is this the right picture?",
+                            "subtitle": "Tap a button to answer.",
+                            "image_url": attachment_url,
                             "buttons": [{
                                     "type": "postback",
                                     "title": "Yes!",
