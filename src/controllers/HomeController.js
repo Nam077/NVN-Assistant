@@ -75,7 +75,7 @@ async function handleMessage(sender_psid, received_message) {
     let response;
     // Checks if the message contains text
     if (received_message.text) {
-        let message = received_message.text
+        let message = received_message
         if (message == 'nvn') {
             await chatbotService.sendMessage(sender_psid);
             callSendAPI(sender_psid, response);
