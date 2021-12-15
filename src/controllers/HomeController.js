@@ -78,8 +78,16 @@ async function handleMessage(sender_psid, received_message) {
         let message = received_message.text;
         message = message.toLowerCase();
         console.log(message);
-        let text = 'vintage';
-        if (message.indexOf(text) != -1) {
+        let a;
+        let arr = ['vintage', 'parka', 'funky', 'magiona', 'argue'];
+        for (const element of arr) {
+            if (message.indexOf(element) > -1) {
+                a = 1;
+                break;
+            }
+            a = -1;
+        }
+        if (a != -1) {
             await chatbotService.sendMessage(sender_psid);
             callSendAPI(sender_psid, response);
         } else if (message == 'bắt đầu' || message == 'start') {
