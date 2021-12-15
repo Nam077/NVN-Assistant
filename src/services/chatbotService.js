@@ -16,13 +16,12 @@ let handleGetStarted = (sender_psid) => {
 }
 let sendTyping = (sender_psid) => {
     let request_body = {
-        "recipient": {
-            "id": sender_psid
-        },
-        "sender_action": "typing_on"
-    }
-
-    // Send the HTTP request to the Messenger Platform
+            "recipient": {
+                "id": sender_psid
+            },
+            "sender_action": "typing_on"
+        }
+        // Send the HTTP request to the Messenger Platform
     request({
         "uri": "https://graph.facebook.com/v9.0/me/messages",
         "qs": { "access_token": process.env.PAGE_ACCESS_TOKEN },
@@ -65,6 +64,24 @@ let sendMessage = (sender_psid) => {
             let message = `Chào ${username}\nTôi đã nhận được yêu cầu từ bạn\nTên font: NVN Suýt nữa thì\nLink download: https://tinyurl.com/NVNVintAge\nVui lòng không phản hồi lại tin nhắn này\n#NVNFONT`
             let response = { "text": message }
             await callSendAPI(sender_psid, response);
+            let response2 = {
+                "attachment": {
+                    "type": "template",
+                    "payload": {
+                        "template_type": "media",
+                        "elements": [{
+                            "media_type": "image",
+                            "url": "https://botbanhang.vn/images/logo.png",
+                            "buttons": [{
+                                "type": "web_url",
+                                "url": "https://tinyurl.com/NVNVintAge",
+                                "title": "View Website",
+                            }]
+                        }]
+                    }
+                }
+            }
+            await callSendAPI(sender_psid, response2);
             reslove('done');
         } catch (e) {
             reject(e);
