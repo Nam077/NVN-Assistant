@@ -6,9 +6,9 @@ import moment from "moment";
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 const fs = require("fs")
 const PRIVATE_KEY = '-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC5HoFZFah8impx\nX2s4LmCImHQarqevuxy6L1hQcvtuVyNizNgSCpvyb59gnplIvMuBoEzgAJppjq5d\nEVNrdfJjRCWj6PL0hDN/Y+ONMJXvnmhfeeZpiFdnW7+hz1jkyK8w0ZK3/nLGz2fE\nz015F8dIuCWWvBXq0BQUm+5Z3qPLemylXJb//Wu3eZkCQpAAZUgInSHOUNBwqzek\nxS44BHQ6uCt5QPIgUMXZ1aiioCo/3tGYcURDdqk1yVJVFvUY/J1GGB7t0Cho8Q/y\nIiX5CWQnnApqtU71vE7GDtffN/ZXzP5CiSiia/+0xkJ3XsigYO9PVd5Bky4XfenK\nb+oHcS0bAgMBAAECggEABlAnAx28+DpUNPeXFXxnaGEinIJWT6Tm7uaMcXnqXzHz\nj/wCZmMcPGFYIxhli9h8bDhGRuFeYrkt8xiTKrgEAySgz/0yw+n6Q57pdLgydNCH\nKLJkjDbNHEZBu8fxdSPu7ZBIG6Q+z87k8A5NyxJnhnBZP9G8QZzFAorqzv/LwDWm\nwrbmujbG6NjddMoNcOIZdYhVVuPCrmrkk4b3GYi282dtBbcEjf190yin9HrfK8qB\nHgAdudUa7ZG2YVw27OlJX7ljWaKB6boHgVa1hsCrOxeRC/aiXazngXphgF7ZE2wj\nkX9GkjrqqGZUvW+m3+pUCJpbdj5j5ivwgZzV/JPkEQKBgQDe0fLgC9ZD4kT+0J+v\nxVaeMnRquOMRa+CDqa6izBZutCHimO+qXR6Go+vMYqaYbB3otVwILTBxW87WIrNp\nVZ9d4izSNDMCUSnldyZXY1y5Iegd6e+1X4zTLkpQJKvmw8LF/DlxfeXq+cCf2gDA\nUts+RSptDiTClbAelpY+AUc+2QKBgQDUr18C/voDG6ybYP+DdaP8dopvAvnhIbR7\nlA2nMq4qn6DjYF7D7KesS0cVgUiHU/ZpOujS8aPwwjHt0EX2KF2O/s5tQI9XUaDE\nnGe4bOAZWl9DCRzXv0ZezJWSEN8NXvuPQNTN/jYHhaWiLuePoDKnp7vfF4AK/7QP\nD/WqfNe7EwKBgAXgA0dlCIFBthAB8DPyQBZrviYSOep7ra/LCY/BUdYZactPvQIA\n8o0aRV1ePIZIU4GPRp3wkxZqFUoQICrm1wziqcvhFHc7LJ+gRKKJPCilfDlNscRW\ngKAQ2GTEksPC5Z/SxrD3YNiRPUL5vItVo/JAYJ3/gXif+cTUs6Fu5zIBAoGBAJzs\nxFqujQNsEOAYIo75ZsRpJl0gQgSlXMhtheFemHkkjI4X1fQTkeejJ1Crsjr/bWlZ\nKN4zonWKo1JHgMdOIzHVubOMlfakaM2IZVMDKhoqvuz0NU7Od3qM0rMSNbFk6pFZ\nEWrn7S+BoaNXnk0vsxBWx1yktznmTxFqAiYHtRj3AoGAHpKWPmng3itZ3Xsr2UXP\nTVYdulHGCCYpr9TecYsGb0MHsotbmHyQl9sn74relRTxJtkqz5PlmdCqZNDHDLko\nEl1VUM5kyLdhv0V3pADIpDmOAVkvjwg5YVCG7hodtbC7zdM8HULhtyt/sTJ5XbEK\nWJSed/k0HM+fZueJbFS0uZk=\n-----END PRIVATE KEY-----\n'
-const CLIENT_EMAIL = 'nvnfont@nvnfont.iam.gserviceaccount.com'
-const SHEET_ID = '1J9A7a2HOteOZahQUP2Yw8CoUf5sE7v6vJYZ2n918JMo';
-
+const CLIENT_EMAIL = process.env.CLIENT_EMAIL
+const SHEET_ID = process.env.SHEET_ID;
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 //process.env.NAME_VARIABLES
 let getHomePage = (req, res) => {
     return res.render('homepage.ejs');
@@ -87,7 +87,12 @@ async function handleMessage(sender_psid, received_message) {
         console.log(message);
         let a;
         let name;
-        let arr = ['vintage', 'parka', 'funky', 'hillstown', 'excellent'];
+        let config = require('../../font.json');
+        let font = config;
+        let arr = []
+        for (let i = 0; i < font.length; i++)
+            arr[i] = font[i].key;
+        console.log(arr);
         for (const element of arr) {
             if (message.indexOf(element) > -1) {
                 a = 1;
@@ -115,17 +120,17 @@ async function handleMessage(sender_psid, received_message) {
                 "payload": {
                     "template_type": "generic",
                     "elements": [{
-                        "title": "Is this the right picture?",
-                        "subtitle": "Tap a button to answer.",
+                        "title": "Bạn chắc chắc đây là ảnh của bạn chứ",
+                        "subtitle": "Nhấn vào nút để trả lời",
                         "image_url": attachment_url,
                         "buttons": [{
                                 "type": "postback",
-                                "title": "Yes!",
+                                "title": "Đúng!",
                                 "payload": "yes",
                             },
                             {
                                 "type": "postback",
-                                "title": "No!",
+                                "title": "Không phải!",
                                 "payload": "no",
                             }
                         ],
@@ -337,9 +342,7 @@ let getGoogleSheet = async(req, res) => {
         file.on('error', function(err) { Console.log(err) });
         key.forEach(value => file.write(`${value}\r\n `));
         file.end();
-        var config = require('../../font.json');
-        console.log(config);
-        return res.send(config)
+        return res.send("Load dữ liệu thành công")
 
     } catch (e) {
         console.log(e);
