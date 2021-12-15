@@ -77,7 +77,7 @@ function handleMessage(sender_psid, received_message) {
     // Checks if the message contains text
     if (received_message.text) {
         if (received_message.text = 'NVN') {
-            titile = `Chào Nguyễn Văn Nam  !
+            let titile = `Chào Nguyễn Văn Nam  !
             Đây là tổng hợp các font việt hóa của NVN
             Link tải xuống: https://tinyurl.com/NVNVintAge
             Hoặc nhấn vào nút "Tải Xuống".
