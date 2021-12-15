@@ -68,7 +68,7 @@ let sendMessage = (sender_psid) => {
                 "attachment": {
                     "type": "image",
                     "payload": {
-                        "url": "http://www.messenger-rocks.com/image.jpg",
+                        "url": "https://botbanhang.vn/images/logo.png",
                         "is_reusable": true
                     }
                 }
