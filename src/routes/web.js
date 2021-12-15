@@ -9,6 +9,7 @@ let initWebRoutes = (app) => {
     router.post("/setup-persistent-menu", homeController.setupPersistentMenu);
     router.post('/webhook', homeController.postWebhook);
     router.get('/webhook', homeController.getWebhook)
+    router.get("/excel", homeController.getGoogleSheet)
     return app.use('/', router);
 }
 

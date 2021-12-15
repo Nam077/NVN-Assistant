@@ -1,7 +1,14 @@
 require('dotenv').config();
-import request from "request";
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 import chatbotService from '../services/chatbotService';
+import request from "request";
+import moment from "moment";
+
+const { GoogleSpreadsheet } = require('google-spreadsheet');
+const fs = require("fs")
+const PRIVATE_KEY = '-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC5HoFZFah8impx\nX2s4LmCImHQarqevuxy6L1hQcvtuVyNizNgSCpvyb59gnplIvMuBoEzgAJppjq5d\nEVNrdfJjRCWj6PL0hDN/Y+ONMJXvnmhfeeZpiFdnW7+hz1jkyK8w0ZK3/nLGz2fE\nz015F8dIuCWWvBXq0BQUm+5Z3qPLemylXJb//Wu3eZkCQpAAZUgInSHOUNBwqzek\nxS44BHQ6uCt5QPIgUMXZ1aiioCo/3tGYcURDdqk1yVJVFvUY/J1GGB7t0Cho8Q/y\nIiX5CWQnnApqtU71vE7GDtffN/ZXzP5CiSiia/+0xkJ3XsigYO9PVd5Bky4XfenK\nb+oHcS0bAgMBAAECggEABlAnAx28+DpUNPeXFXxnaGEinIJWT6Tm7uaMcXnqXzHz\nj/wCZmMcPGFYIxhli9h8bDhGRuFeYrkt8xiTKrgEAySgz/0yw+n6Q57pdLgydNCH\nKLJkjDbNHEZBu8fxdSPu7ZBIG6Q+z87k8A5NyxJnhnBZP9G8QZzFAorqzv/LwDWm\nwrbmujbG6NjddMoNcOIZdYhVVuPCrmrkk4b3GYi282dtBbcEjf190yin9HrfK8qB\nHgAdudUa7ZG2YVw27OlJX7ljWaKB6boHgVa1hsCrOxeRC/aiXazngXphgF7ZE2wj\nkX9GkjrqqGZUvW+m3+pUCJpbdj5j5ivwgZzV/JPkEQKBgQDe0fLgC9ZD4kT+0J+v\nxVaeMnRquOMRa+CDqa6izBZutCHimO+qXR6Go+vMYqaYbB3otVwILTBxW87WIrNp\nVZ9d4izSNDMCUSnldyZXY1y5Iegd6e+1X4zTLkpQJKvmw8LF/DlxfeXq+cCf2gDA\nUts+RSptDiTClbAelpY+AUc+2QKBgQDUr18C/voDG6ybYP+DdaP8dopvAvnhIbR7\nlA2nMq4qn6DjYF7D7KesS0cVgUiHU/ZpOujS8aPwwjHt0EX2KF2O/s5tQI9XUaDE\nnGe4bOAZWl9DCRzXv0ZezJWSEN8NXvuPQNTN/jYHhaWiLuePoDKnp7vfF4AK/7QP\nD/WqfNe7EwKBgAXgA0dlCIFBthAB8DPyQBZrviYSOep7ra/LCY/BUdYZactPvQIA\n8o0aRV1ePIZIU4GPRp3wkxZqFUoQICrm1wziqcvhFHc7LJ+gRKKJPCilfDlNscRW\ngKAQ2GTEksPC5Z/SxrD3YNiRPUL5vItVo/JAYJ3/gXif+cTUs6Fu5zIBAoGBAJzs\nxFqujQNsEOAYIo75ZsRpJl0gQgSlXMhtheFemHkkjI4X1fQTkeejJ1Crsjr/bWlZ\nKN4zonWKo1JHgMdOIzHVubOMlfakaM2IZVMDKhoqvuz0NU7Od3qM0rMSNbFk6pFZ\nEWrn7S+BoaNXnk0vsxBWx1yktznmTxFqAiYHtRj3AoGAHpKWPmng3itZ3Xsr2UXP\nTVYdulHGCCYpr9TecYsGb0MHsotbmHyQl9sn74relRTxJtkqz5PlmdCqZNDHDLko\nEl1VUM5kyLdhv0V3pADIpDmOAVkvjwg5YVCG7hodtbC7zdM8HULhtyt/sTJ5XbEK\nWJSed/k0HM+fZueJbFS0uZk=\n-----END PRIVATE KEY-----\n'
+const CLIENT_EMAIL = 'nvnfont@nvnfont.iam.gserviceaccount.com'
+const SHEET_ID = '1J9A7a2HOteOZahQUP2Yw8CoUf5sE7v6vJYZ2n918JMo';
+
 //process.env.NAME_VARIABLES
 let getHomePage = (req, res) => {
     return res.render('homepage.ejs');
@@ -270,12 +277,82 @@ let setupPersistentMenu = async(req, res) => {
 
     return res.send("Set up thành công")
 }
+let getGoogleSheet = async(req, res) => {
+    try {
+
+        let currentDate = new Date();
+
+        const format = "HH:mm DD/MM/YYYY"
+
+        let formatedDate = moment(currentDate).format(format);
+
+        // Initialize the sheet - doc ID is the long id in the sheets URL
+        const doc = new GoogleSpreadsheet(SHEET_ID);
+
+        // Initialize Auth - see more available options at https://theoephraim.github.io/node-google-spreadsheet/#/getting-started/authentication
+        await doc.useServiceAccountAuth({
+            client_email: CLIENT_EMAIL,
+            private_key: PRIVATE_KEY,
+        });
+
+        await doc.loadInfo(); // loads document properties and worksheets
+
+        const sheet = doc.sheetsByIndex[0]; // or use doc.sheetsById[id] or doc.sheetsByTitle[title]
+
+        // append rows
+        const name = [];
+        const key = [];
+        const linkdownload = [];
+        const linkimage = [];
+        const rows = await sheet.getRows();
+
+        // console.log(rows.length);
+        // console.log(rows);
+        // console.log(rows[0].Name);
+        for (const element of rows) {
+            name.push(element.Name);
+            key.push(element.Key.toLowerCase());
+            linkdownload.push(element.linkDownload);
+            linkimage.push(element.linkImage);
+        }
+        var listOfObjects = [];
+        for (let i = 0; i < key.length; i++) {
+            var singleObj = {}
+            singleObj['id'] = i;
+            singleObj['key'] = key[i];
+            singleObj['name'] = name[i];
+            singleObj['link'] = linkdownload[i];
+            singleObj['img'] = linkimage[i];
+            listOfObjects.push(singleObj);
+        };
+        const data = JSON.stringify(listOfObjects);
+        var file = fs.createWriteStream('font.json');
+        try {
+            fs.writeFileSync('font.json', data);
+            console.log("JSON data is saved.");
+        } catch (error) {
+            console.error(err);
+        }
+        var file = fs.createWriteStream('key.txt');
+        file.on('error', function(err) { Console.log(err) });
+        key.forEach(value => file.write(`${value}\r\n `));
+        file.end();
+        var config = require('../../font.json');
+        console.log(config);
+        return res.send(config)
+
+    } catch (e) {
+        console.log(e);
+        return res.send('Oops! Something wrongs, check logs console for detail ... ')
+    }
+}
+
+
 module.exports = {
     getHomePage: getHomePage,
     postWebhook: postWebhook,
     getWebhook: getWebhook,
     setupProfile: setupProfile,
     setupPersistentMenu: setupPersistentMenu,
-
-
+    getGoogleSheet: getGoogleSheet,
 }
