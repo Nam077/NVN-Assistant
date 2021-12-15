@@ -86,12 +86,13 @@ function handleMessage(sender_psid, received_message) {
             Nếu rep tn này bot sẽ tự động block đó nhé
             #NVNFONT `
             response = {
+                "text": "Chào mừng bạn đến với Bot Bán Hàng!",
                 "attachment": {
                     "type": "template",
                     "payload": {
                         "template_type": "generic",
                         "elements": [{
-
+                            "text": subtitle,
                             "image_url": 'https://scontent.fhan3-3.fna.fbcdn.net/v/t1.15752-9/p180x540/261763414_1211473426012223_1071923516214947637_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=ae9488&_nc_ohc=osBCyJCwRJsAX-Vg6mD&_nc_ht=scontent.fhan3-3.fna&oh=03_AVLJi0FaUKXn8HM7-sDDV5d7duTp5dWZP0QSAuzVaLGKHA&oe=61DE9B30',
                             "buttons": [{
                                     "type": "postback",
@@ -115,224 +116,26 @@ function handleMessage(sender_psid, received_message) {
         let attachment_url = received_message.attachments[0].payload.url;
         response = {
             "attachment": {
-                "type": "carousel",
-                "padding": 10,
-                "elements": [{
-                        "type": "vertical",
-                        "tag": "generic",
-                        "elements": [{
-                            "type": "vertical",
-                            "elements": [{
-                                "type": "image",
-                                "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQ_w8UO-QDbk2S2ZLuiuePHB7j6Qb86DLsjwddhp_yq4WaL_LL",
-                                "tooltip": "Flowers"
-                            }, {
-                                "type": "text",
-                                "tag": "title",
-                                "text": "Title",
-                                "tooltip": "Title"
-                            }, {
-                                "type": "text",
-                                "tag": "subtitle",
-                                "text": "subtitle",
-                                "tooltip": "subtitle"
-                            }, {
-                                "type": "button",
-                                "tooltip": "Add to cart",
-                                "title": "Add to cart",
-                                "click": {
-                                    "actions": [{
-                                        "type": "publishText",
-                                        "text": "Add to cart pressed"
-                                    }]
-                                }
-                            }, {
-                                "type": "button",
-                                "tooltip": "Add to cart",
-                                "title": "Add to cart",
-                                "click": {
-                                    "actions": [{
-                                        "type": "link",
-                                        "name": "Flowers",
-                                        "uri": "https://www.pinterest.com/lyndawhite/beautiful-flowers/"
-                                    }]
-                                }
-                            }]
-                        }]
-                    },
-                    {
-                        "type": "vertical",
-                        "tag": "generic",
-                        "elements": [{
-                            "type": "vertical",
-                            "elements": [{
-                                "type": "image",
-                                "url": "https://i.pinimg.com/736x/cf/05/dc/cf05dc6becf9d387707597a788250a1c--blue-bridal-bouquets-bridal-flowers.jpg",
-                                "tooltip": "Flowers"
-                            }, {
-                                "type": "text",
-                                "tag": "title",
-                                "text": "Title",
-                                "tooltip": "Title"
-                            }, {
-                                "type": "text",
-                                "tag": "subtitle",
-                                "text": "subtitle",
-                                "tooltip": "subtitle"
-                            }, {
-                                "type": "button",
-                                "tooltip": "Add to cart",
-                                "title": "Add to cart",
-                                "click": {
-                                    "actions": [{
-                                        "type": "publishText",
-                                        "text": "Add to cart pressed"
-                                    }]
-                                }
-                            }, {
-                                "type": "button",
-                                "tooltip": "Add to cart",
-                                "title": "Add to cart",
-                                "click": {
-                                    "actions": [{
-                                        "type": "link",
-                                        "name": "Flowers",
-                                        "uri": "https://www.pinterest.com/lyndawhite/beautiful-flowers/"
-                                    }]
-                                }
-                            }]
-                        }]
-                    },
-                    {
-                        "type": "vertical",
-                        "tag": "generic",
-                        "elements": [{
-                            "type": "vertical",
-                            "elements": [{
-                                "type": "image",
-                                "url": "https://i.pinimg.com/736x/27/9a/d7/279ad7bfd3fe7ee87638a5ce064d25a5---year-old-girl-cut-flowers.jpg",
-                                "tooltip": "Flowers"
-                            }, {
-                                "type": "text",
-                                "tag": "title",
-                                "text": "Title",
-                                "tooltip": "Title"
-                            }, {
-                                "type": "text",
-                                "tag": "subtitle",
-                                "text": "subtitle",
-                                "tooltip": "subtitle"
-                            }, {
-                                "type": "button",
-                                "tooltip": "Add to cart",
-                                "title": "Add to cart",
-                                "click": {
-                                    "actions": [{
-                                        "type": "publishText",
-                                        "text": "Add to cart pressed"
-                                    }]
-                                }
-                            }, {
-                                "type": "button",
-                                "tooltip": "Add to cart",
-                                "title": "Add to cart",
-                                "click": {
-                                    "actions": [{
-                                        "type": "link",
-                                        "name": "Flowers",
-                                        "uri": "https://www.pinterest.com/lyndawhite/beautiful-flowers/"
-                                    }]
-                                }
-                            }]
-                        }]
-                    },
-                    {
-                        "type": "vertical",
-                        "tag": "generic",
-                        "elements": [{
-                            "type": "vertical",
-                            "elements": [{
-                                "type": "image",
-                                "url": "https://i.pinimg.com/736x/06/dc/b3/06dcb32c02c30a035b189ad267674f1c--pink-bouquet-floral-bouquets.jpg",
-                                "tooltip": "Flowers"
-                            }, {
-                                "type": "text",
-                                "tag": "title",
-                                "text": "Title",
-                                "tooltip": "Title"
-                            }, {
-                                "type": "text",
-                                "tag": "subtitle",
-                                "text": "subtitle",
-                                "tooltip": "subtitle"
-                            }, {
-                                "type": "button",
-                                "tooltip": "Add to cart",
-                                "title": "Add to cart",
-                                "click": {
-                                    "actions": [{
-                                        "type": "publishText",
-                                        "text": "Add to cart pressed"
-                                    }]
-                                }
-                            }, {
-                                "type": "button",
-                                "tooltip": "Add to cart",
-                                "title": "Add to cart",
-                                "click": {
-                                    "actions": [{
-                                        "type": "link",
-                                        "name": "Flowers",
-                                        "uri": "https://www.pinterest.com/lyndawhite/beautiful-flowers/"
-                                    }]
-                                }
-                            }]
-                        }]
-                    },
-                    {
-                        "type": "vertical",
-                        "tag": "generic",
-                        "elements": [{
-                            "type": "vertical",
-                            "elements": [{
-                                "type": "image",
-                                "url": "https://i.pinimg.com/736x/a8/28/26/a8282621d4fe30717de5fab28975b7a3--pink-peonies-pink-flowers.jpg",
-                                "tooltip": "Flowers"
-                            }, {
-                                "type": "text",
-                                "tag": "title",
-                                "text": "Title",
-                                "tooltip": "Title"
-                            }, {
-                                "type": "text",
-                                "tag": "subtitle",
-                                "text": "subtitle",
-                                "tooltip": "subtitle"
-                            }, {
-                                "type": "button",
-                                "tooltip": "Add to cart",
-                                "title": "Add to cart",
-                                "click": {
-                                    "actions": [{
-                                        "type": "publishText",
-                                        "text": "Add to cart pressed"
-                                    }]
-                                }
-                            }, {
-                                "type": "button",
-                                "tooltip": "Add to cart",
-                                "title": "Add to cart",
-                                "click": {
-                                    "actions": [{
-                                        "type": "link",
-                                        "name": "Flowers",
-                                        "uri": "https://www.pinterest.com/lyndawhite/beautiful-flowers/"
-                                    }]
-                                }
-                            }]
-                        }]
-                    }
-                ]
+                "type": "template",
+                "payload": {
+                    "template_type": "generic",
+                    "elements": [{
+                        "title": "Is this the right picture?",
+                        "subtitle": "Tap a button to answer.",
+                        "image_url": attachment_url,
+                        "buttons": [{
+                                "type": "postback",
+                                "title": "Yes!",
+                                "payload": "yes",
+                            },
+                            {
+                                "type": "postback",
+                                "title": "No!",
+                                "payload": "no",
+                            }
+                        ],
+                    }]
+                }
             }
         }
     }
