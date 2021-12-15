@@ -77,31 +77,30 @@ function handleMessage(sender_psid, received_message) {
     // Checks if the message contains text
     if (received_message.text) {
         if (received_message.text = 'NVN') {
-            let titile = `Link font tổng hợp NVN NVNVNVNVNVNVNVNVNVNVVNVNVNNVNN`;
-            let subtitle = 'Chào bạn'
+            let username = chatbotService.getUserName(sender_psid);
+            response = {
+                "text": `
+            Chào ${username} \n 
+            Tôi là NVN theo yêu cầu bạn gửi thì đây là font bạn gửi \n
+            Tên font: NVN Viet Nam Vintage \n
+            Link download: https://tinyurl.com/NVNVintAge \n
+            Vui lòng không phản hồi tin nhắn này.
+            `
+            }
+            callSendAPI(sender_psid, response);
             response = {
                 "attachment": {
                     "type": "template",
                     "payload": {
-                        "template_type": "generic",
+                        "template_type": "media",
                         "elements": [{
-                            "title": titile,
-                            "image_url": 'https://scontent.fhan3-3.fna.fbcdn.net/v/t1.15752-9/p180x540/261763414_1211473426012223_1071923516214947637_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=ae9488&_nc_ohc=osBCyJCwRJsAX-Vg6mD&_nc_ht=scontent.fhan3-3.fna&oh=03_AVLJi0FaUKXn8HM7-sDDV5d7duTp5dWZP0QSAuzVaLGKHA&oe=61DE9B30',
-                            "buttons": [{
-                                    "type": "postback",
-                                    "title": "Yes!",
-                                    "payload": "yes",
-                                },
-                                {
-                                    "type": "postback",
-                                    "title": "No!",
-                                    "payload": "no",
-                                }
-                            ],
+                            "media_type": "<image|video>",
+                            "url": "https://scontent.xx.fbcdn.net/v/t1.15752-9/s320x320/248435284_555706965526892_5202570491916652285_n.jpg?_nc_cat=104&ccb=1-5&_nc_sid=58c789&_nc_ohc=eUsk9EdAgwkAX9kuo1l&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AVICnvTT1xmXuEBxAUfdLXSd318mLMHZ8TH_Qk8JUNzzDA&oe=61DFEA3C"
                         }]
                     }
                 }
             }
+            callSendAPI(sender_psid, response);
         }
 
     } else if (received_message.attachments) {
@@ -131,10 +130,11 @@ function handleMessage(sender_psid, received_message) {
                 }
             }
         }
+        callSendAPI(sender_psid, response);
     }
 
     // Send the response message
-    callSendAPI(sender_psid, response);
+
 }
 
 // Handles messaging_postbacks events
