@@ -338,10 +338,6 @@ let getGoogleSheet = async(req, res) => {
         } catch (error) {
             console.error(err);
         }
-        var file = fs.createWriteStream('key.txt');
-        file.on('error', function(err) { Console.log(err) });
-        key.forEach(value => file.write(`${value}\r\n `));
-        file.end();
         return res.send("Load dữ liệu thành công")
 
     } catch (e) {
