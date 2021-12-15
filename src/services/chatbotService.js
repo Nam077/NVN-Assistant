@@ -65,26 +65,24 @@ let sendMessage = (sender_psid) => {
             let response = { "text": message }
             await callSendAPI(sender_psid, response);
             let response2 = {
-                response = {
-                    "attachment": {
-                        "type": "template",
-                        "payload": {
-                            "template_type": "generic",
-                            "elements": [{
-                                "image_url": 'https://botbanhang.vn/images/logo.png',
-                                "buttons": [{
-                                        "type": "postback",
-                                        "title": "Yes!",
-                                        "payload": "yes",
-                                    },
-                                    {
-                                        "type": "postback",
-                                        "title": "No!",
-                                        "payload": "no",
-                                    }
-                                ],
-                            }]
-                        }
+                "attachment": {
+                    "type": "template",
+                    "payload": {
+                        "template_type": "generic",
+                        "elements": [{
+                            "image_url": 'https://botbanhang.vn/images/logo.png',
+                            "buttons": [{
+                                    "type": "postback",
+                                    "title": "Yes!",
+                                    "payload": "yes",
+                                },
+                                {
+                                    "type": "postback",
+                                    "title": "No!",
+                                    "payload": "no",
+                                }
+                            ],
+                        }]
                     }
                 }
 
