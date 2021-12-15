@@ -18,12 +18,7 @@ let sendMessage = (sender_psid) => {
     return new Promise(async(reslove, reject) => {
         try {
             let username = await getUserName(sender_psid);
-            let message = `Chào ${username} \n 
-            Tôi đã nhận được yêu cầu từ bạn \n 
-            Tên font: NVN Suýt nữa thì \n
-            Link download: https://tinyurl.com/NVNVintAge \n
-            Vui lòng không phản hồi lại tin nhắn này \n
-            #NVNFONT`
+            let message = `Chào ${username} \n Tôi đã nhận được yêu cầu từ bạn \n Tên font: NVN Suýt nữa thì \nLink download: https://tinyurl.com/NVNVintAge \nVui lòng không phản hồi lại tin nhắn này \ns#NVNFONT`
             let response = { "text": message }
             await callSendAPI(sender_psid, response);
             reslove('done');
