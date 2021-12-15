@@ -21,12 +21,26 @@ let sendMessage = (sender_psid) => {
             let message = `Chào ${username}\nTôi đã nhận được yêu cầu từ bạn\nTên font: NVN Suýt nữa thì\nLink download: https://tinyurl.com/NVNVintAge\nVui lòng không phản hồi lại tin nhắn này\n#NVNFONT`
             let response = { "text": message }
             await callSendAPI(sender_psid, response);
+            let response2 = {
+                "attachment": {
+                    "type": "template",
+                    "payload": {
+                        "template_type": "media",
+                        "elements": [{
+                            "media_type": "image",
+                            "url": "https://scontent.xx.fbcdn.net/v/t1.15752-9/s320x320/248435284_555706965526892_5202570491916652285_n.jpg?_nc_cat=104&ccb=1-5&_nc_sid=58c789&_nc_ohc=eUsk9EdAgwkAX9kuo1l&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AVICnvTT1xmXuEBxAUfdLXSd318mLMHZ8TH_Qk8JUNzzDA&oe=61DFEA3C"
+                        }]
+                    }
+                }
+            }
+            await callSendAPI(sender_psid, response2);
             reslove('done');
         } catch (e) {
             reject(e);
         }
     });
 }
+
 let callSendAPI = (sender_psid, response) => {
     // Construct the message body
     let request_body = {
