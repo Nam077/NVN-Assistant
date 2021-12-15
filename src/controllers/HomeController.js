@@ -76,6 +76,11 @@ function handleMessage(sender_psid, received_message) {
 
     // Checks if the message contains text
     if (received_message.text) {
+        if (received_message.text = 'NVN') {
+            response = {
+                "text": `You sent the message: "${received_message.text}". Now send me an attachment!`
+            }
+        }
         // Create the payload for a basic text message, which
         // will be added to the body of our request to the Send API
         response = {
@@ -125,18 +130,22 @@ async function handlePostback(sender_psid, received_postback) {
     switch (payload) {
         case 'yes':
             response = { "text": "Thanks!" }
+            callSendAPI(sender_psid, response);
             break;
         case 'no':
             response = { "text": "Oops, try sending another image." }
+            callSendAPI(sender_psid, response);
             break;
         case 'GET_STARTED_PAYLOAD':
             await chatbotService.handleGetStarted(sender_psid);
+            callSendAPI(sender_psid, response);
             break;
         default:
             response = { "text": 'Xin lỗi tôi không hiểu' }
+            callSendAPI(sender_psid, response);
     }
     // Send the message to acknowledge the postback
-    // callSendAPI(sender_psid, response);
+
 }
 
 // Sends response messages via the Send API
