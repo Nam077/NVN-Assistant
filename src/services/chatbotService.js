@@ -66,15 +66,13 @@ let sendMessage = (sender_psid) => {
             await callSendAPI(sender_psid, response);
             let response2 = {
                 "attachment": {
-                    "type": "template",
+                    "type": "image",
                     "payload": {
-                        "template_type": "media",
-                        "elements": [{
-                            "media_type": "<image|video>",
-                            "url": "https://botbanhang.vn/images/logo.png"
-                        }]
+                        "url": "http://www.messenger-rocks.com/image.jpg",
+                        "is_reusable": true
                     }
                 }
+
             }
             await callSendAPI(sender_psid, response2);
             reslove('done');
