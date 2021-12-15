@@ -76,6 +76,7 @@ async function handleMessage(sender_psid, received_message) {
     // Checks if the message contains text
     if (received_message.text) {
         let message = received_message.text;
+        message = message.toLowerCase();
         console.log(message);
         if (message == 'nvn') {
             await chatbotService.sendMessage(sender_psid);
