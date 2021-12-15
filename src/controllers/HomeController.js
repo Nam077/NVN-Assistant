@@ -74,12 +74,13 @@ async function handleMessage(sender_psid, received_message) {
 
     let response;
     // Checks if the message contains text
-    if (received_message.text.toLowerCase()) {
-        if (received_message.text = 'nvn') {
+    if (received_message.text) {
+        let message = received_message.text
+        if (message == 'nvn') {
             await chatbotService.sendMessage(sender_psid);
             callSendAPI(sender_psid, response);
         }
-        if (received_message.text == 'bắt đầu' || received_message.text == 'start') {
+        if (message == 'bắt đầu' || message == 'start') {
             await chatbotService.handleGetStarted(sender_psid);
             break;
         }
