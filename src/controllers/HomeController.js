@@ -77,7 +77,7 @@ function handleMessage(sender_psid, received_message) {
     // Checks if the message contains text
     if (received_message.text) {
         if (received_message.text = 'NVN') {
-            let titile = `Link font tổng hợp NVN`;
+            let titile = `Link font tổng hợp NVN NVNVNVNVNVNVNVNVNVNVVNVNVNNVNN`;
             let subtitle = 'Chào bạn'
             response = {
                 "attachment": {
@@ -86,7 +86,6 @@ function handleMessage(sender_psid, received_message) {
                         "template_type": "generic",
                         "elements": [{
                             "title": titile,
-                            "subtitle": subtitle,
                             "text": "What do you want to do next?",
                             "image_url": 'https://scontent.fhan3-3.fna.fbcdn.net/v/t1.15752-9/p180x540/261763414_1211473426012223_1071923516214947637_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=ae9488&_nc_ohc=osBCyJCwRJsAX-Vg6mD&_nc_ht=scontent.fhan3-3.fna&oh=03_AVLJi0FaUKXn8HM7-sDDV5d7duTp5dWZP0QSAuzVaLGKHA&oe=61DE9B30',
                             "buttons": [{
