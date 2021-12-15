@@ -78,12 +78,16 @@ async function handleMessage(sender_psid, received_message) {
         let message = received_message.text;
         message = message.toLowerCase();
         console.log(message);
-        if (message == 'nvn') {
+        let text = 'vintage';
+        if (message.indexOf(text) != -1) {
             await chatbotService.sendMessage(sender_psid);
             callSendAPI(sender_psid, response);
         }
         if (message == 'bắt đầu' || message == 'start') {
             await chatbotService.handleGetStarted(sender_psid);
+        } else {
+            response = { "text": "Bot không hiểu chờ admin vào rep nha ^^ !" };
+            callSendAPI(sender_psid, response);
         }
 
     } else if (received_message.attachments) {
