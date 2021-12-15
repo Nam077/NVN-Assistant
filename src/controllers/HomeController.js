@@ -77,30 +77,16 @@ function handleMessage(sender_psid, received_message) {
     // Checks if the message contains text
     if (received_message.text) {
         if (received_message.text = 'NVN') {
-            let username = chatbotService.getUserName(sender_psid);
-            response = {
-                "text": `
-            Chào ${username} \n 
-            Tôi là NVN theo yêu cầu bạn gửi thì đây là font bạn gửi \n
-            Tên font: NVN Viet Nam Vintage \n
-            Link download: https://tinyurl.com/NVNVintAge \n
-            Vui lòng không phản hồi tin nhắn này.
-            `
-            }
-            callSendAPI(sender_psid, response);
-            response = {
-                "attachment": {
-                    "type": "template",
-                    "payload": {
-                        "template_type": "media",
-                        "elements": [{
-                            "media_type": "<image|video>",
-                            "url": "https://scontent.xx.fbcdn.net/v/t1.15752-9/s320x320/248435284_555706965526892_5202570491916652285_n.jpg?_nc_cat=104&ccb=1-5&_nc_sid=58c789&_nc_ohc=eUsk9EdAgwkAX9kuo1l&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AVICnvTT1xmXuEBxAUfdLXSd318mLMHZ8TH_Qk8JUNzzDA&oe=61DFEA3C"
-                        }]
-                    }
+            return new Promise(async(reslove, reject) => {
+                try {
+                    let username = await chatbotService.getUserName(sender_psid);
+                    let response = { "text": `Chào ${username} tôi là NVN` }
+                    await callSendAPI(sender_psid, response);
+                    reslove('done');
+                } catch (e) {
+                    reject(e);
                 }
-            }
-            callSendAPI(sender_psid, response);
+            });
         }
 
     } else if (received_message.attachments) {
