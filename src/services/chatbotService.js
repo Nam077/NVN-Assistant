@@ -70,7 +70,7 @@ let sendMessage = (sender_psid) => {
                     "payload": {
                         "template_type": "media",
                         "elements": [{
-                            "media_type": "image",
+                            "media_type": "<image|video>",
                             "url": "https://botbanhang.vn/images/logo.png"
                         }]
                     }
