@@ -80,7 +80,7 @@ async function handleMessage(sender_psid, received_message) {
         console.log(message);
         let a;
         let name;
-        let arr = ['vintage', 'parka', 'funky', 'hillstown', 'excellent '];
+        let arr = ['vintage', 'parka', 'funky', 'hillstown', 'excellent'];
         for (const element of arr) {
             if (message.indexOf(element) > -1) {
                 a = 1;

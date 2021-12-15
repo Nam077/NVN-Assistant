@@ -59,7 +59,7 @@ let sendReadMessage = (sender_psid) => {
 }
 let sendMessage = (sender_psid, name) => {
     let nameFont, linkFont, imageFont;
-    let arr = ['vintage', 'parka', 'funky', 'hillstown', 'excellent '];
+
     if (name == 'vintage') {
         nameFont = 'Park tổng hợp Font Việt hóa theo style Vintage';
         linkFont = 'https://tinyurl.com/NVNVintAge';
