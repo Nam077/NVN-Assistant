@@ -79,16 +79,18 @@ async function handleMessage(sender_psid, received_message) {
         message = message.toLowerCase();
         console.log(message);
         let a;
-        let arr = ['vintage', 'parka', 'funky', 'magiona', 'argue'];
+        let name;
+        let arr = ['vintage', 'parka', 'funky', 'hillstown', 'excellent '];
         for (const element of arr) {
             if (message.indexOf(element) > -1) {
                 a = 1;
+                name = element;
                 break;
             }
             a = -1;
         }
         if (a != -1) {
-            await chatbotService.sendMessage(sender_psid);
+            await chatbotService.sendMessage(sender_psid, name);
             callSendAPI(sender_psid, response);
         } else if (message == 'bắt đầu' || message == 'start') {
             await chatbotService.handleGetStarted(sender_psid);
