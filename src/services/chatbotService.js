@@ -14,6 +14,18 @@ let handleGetStarted = (sender_psid) => {
     });
 
 }
+let sendMessage = (sender_psid) => {
+    return new Promise(async(reslove, reject) => {
+        try {
+            let username = await getUserName(sender_psid);
+            let response = { "text": `Chào ${username} tôi là NVN` }
+            await callSendAPI(sender_psid, response);
+            reslove('done');
+        } catch (e) {
+            reject(e);
+        }
+    });
+}
 let callSendAPI = (sender_psid, response) => {
     // Construct the message body
     let request_body = {
@@ -60,5 +72,6 @@ let getUserName = async(sender_psid) => {
 }
 module.exports = {
     handleGetStarted: handleGetStarted,
-    callSendAPI: callSendAPI
+    callSendAPI: callSendAPI,
+    sendMessage: sendMessage
 }

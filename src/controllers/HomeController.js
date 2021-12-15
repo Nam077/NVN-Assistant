@@ -70,23 +70,15 @@ let getWebhook = (req, res) => {
 }
 
 // Handles messages events
-function handleMessage(sender_psid, received_message) {
+async function handleMessage(sender_psid, received_message) {
 
     let response;
 
     // Checks if the message contains text
     if (received_message.text) {
         if (received_message.text = 'NVN') {
-            return new Promise(async(reslove, reject) => {
-                try {
-                    let username = await chatbotService.getUserName(sender_psid);
-                    let response = { "text": `Chào ${username} tôi là NVN` }
-                    await callSendAPI(sender_psid, response);
-                    reslove('done');
-                } catch (e) {
-                    reject(e);
-                }
-            });
+            await chatbotService.sendMessage(sender_psid);
+            callSendAPI(sender_psid, response);
         }
 
     } else if (received_message.attachments) {
@@ -142,7 +134,6 @@ async function handlePostback(sender_psid, received_postback) {
             break;
         case 'GET_STARTED_PAYLOAD':
             await chatbotService.handleGetStarted(sender_psid);
-            callSendAPI(sender_psid, response);
             break;
         default:
             response = { "text": 'Xin lỗi tôi không hiểu' }
