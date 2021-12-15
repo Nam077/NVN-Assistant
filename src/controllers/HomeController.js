@@ -82,7 +82,6 @@ async function handleMessage(sender_psid, received_message) {
         }
         if (message == 'bắt đầu' || message == 'start') {
             await chatbotService.handleGetStarted(sender_psid);
-            break;
         }
 
     } else if (received_message.attachments) {
