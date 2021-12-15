@@ -133,6 +133,7 @@ async function handlePostback(sender_psid, received_postback) {
             callSendAPI(sender_psid, response);
             break;
         case 'GET_STARTED_PAYLOAD':
+        case 'RESTART_BOT':
             await chatbotService.handleGetStarted(sender_psid);
             break;
         default:
@@ -195,11 +196,68 @@ let setupProfile = async(req, res) => {
     return res.send("Set up thành công")
 
 }
+let setupPersistentMenu = async(req, res) => {
+    //call profile facebook api
+    // Construct the message body
+    let request_body = {
+            "persistent_menu": [{
+                "locale": "default",
+                "composer_input_disabled": false,
+                "call_to_actions": [{
+                        "type": "web_url",
+                        "title": "Xem Trang",
+                        "url": "https://www.facebook.com/NVNFONT/",
+                        "webview_height_ratio": "full"
+                    },
+                    {
+                        "type": "web_url",
+                        "title": "Tham gia group",
+                        "url": "https://www.facebook.com/groups/NVNFONT/",
+                        "webview_height_ratio": "full"
+                    },
+                    {
+                        "type": "postback",
+                        "title": "Xem hướng dẫn sử dụng bot",
+                        "payload": "BOT_TUTORIAL"
+                    },
+                    {
+                        "type": "postback",
+                        "title": "Xem giá Việt hóa",
+                        "payload": "PRICE_SERVICE"
+                    },
+                    {
+                        "type": "postback",
+                        "title": "Khởi động lại bot",
+                        "payload": "RESTART_BOT"
+                    },
+
+                ]
+            }]
+        }
+        //
+        // Send the HTTP request to the Messenger Platform
+    await request({
+        "uri": `https://graph.facebook.com/v12.0/me/messenger_profile?access_token=${PAGE_ACCESS_TOKEN}`,
+        "qs": { "access_token": PAGE_ACCESS_TOKEN },
+        "method": "POST",
+        "json": request_body
+    }, (err, res, body) => {
+        console.log(body);
+        if (!err) {
+            console.log('Setup user profile succes')
+        } else {
+            console.error("Unable Setup user profile:" + err);
+        }
+    });
+
+    return res.send("Set up thành công")
+}
 module.exports = {
     getHomePage: getHomePage,
     postWebhook: postWebhook,
     getWebhook: getWebhook,
-    setupProfile: setupProfile
+    setupProfile: setupProfile,
+    setupPersistentMenu: setupPersistentMenu,
 
 
 }
