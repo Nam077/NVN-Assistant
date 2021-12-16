@@ -100,7 +100,7 @@ let sendMessage = (sender_psid, name) => {
                             },
                             {
                                 "type": "postback",
-                                "title": "Không phải!",
+                                "title": "Danh sách font hỗ trợ",
                                 "payload": "LIST_FONT",
                             }
                         ]
