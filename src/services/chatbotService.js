@@ -4,8 +4,23 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 let handleGetStarted = (sender_psid) => {
     return new Promise(async(reslove, reject) => {
         try {
+            let time = new Date().toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' })
+            time = new Date(time);
+            time = time.getHours();
+            let msgtime;
             let username = await getUserName(sender_psid);
-            let response = { "text": `Chào ${username} tôi là NVN` }
+            if (time > 5 && time < 12) {
+                msgtime = `Chào buổi sáng ${username}. Chúc bạn buổi sáng tối lành`;
+            } else if (time > 12 && time < 17) {
+                msgtime = `Chào buổi chiều ${username}. Rất vui được gặp bạn`;
+            } else if (time > 17 && time < 21) {
+                msgtime = `Chào buổi tối ${username}. Bạn đã ăn tối chưa nhỉ`;
+            } else if (time < 23) {
+                msgtime = `Chào buổi tối ${username}. Bạn đã ăn tối chưa nhỉ`;
+            } else if (time < 23) {
+                msgtime = `Chào ${username}, khuya rồi bạn nên đi ngủ đi`;
+            }
+            let response = { "text": msg }
             let response2 = getImageGetStarted();
             let response3 = getStartedQuickReplyTemplate();
             await callSendAPI(sender_psid, response);
