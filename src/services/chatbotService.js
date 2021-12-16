@@ -94,10 +94,16 @@ let sendMessage = (sender_psid, name) => {
                         "template_type": "button",
                         "text": message,
                         "buttons": [{
-                            "type": "web_url",
-                            "url": linkFont,
-                            "title": "Tải xuống"
-                        }, ]
+                                "type": "web_url",
+                                "url": linkFont,
+                                "title": "Tải xuống"
+                            },
+                            {
+                                "type": "postback",
+                                "title": "Không phải!",
+                                "payload": "LIST_FONT",
+                            }
+                        ]
                     }
                 }
             }
