@@ -90,6 +90,11 @@ async function handleMessage(sender_psid, received_message) {
             response = { "text": "Giá là 50.000 đồng một font nhé." }
             await chatbotService.callSendAPI(sender_psid, response);
         }
+        if (received_message.quick_reply.payload === 'LIST_FONT') {
+            let msg = chatbotService.getFontSupport();
+            response = { "text": msg }
+            await chatbotService.callSendAPI(sender_psid, response);
+        }
         return;
     }
     if (received_message.text) {
@@ -412,7 +417,6 @@ let getGoogleSheet = async(req, res) => {
         return res.send('Oops! Something wrongs, check logs console for detail ... ')
     }
 }
-
 
 
 

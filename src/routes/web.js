@@ -8,8 +8,8 @@ let initWebRoutes = (app) => {
     router.get("/setup-profile", homeController.setupProfile);
     router.get("/setup-persistent-menu", homeController.setupPersistentMenu);
     router.post('/webhook', homeController.postWebhook);
-    router.get('/webhook', homeController.getWebhook)
-    router.get("/excel", homeController.getGoogleSheet)
+    router.get('/webhook', homeController.getWebhook);
+    router.get("/excel", homeController.getGoogleSheet);
     return app.use('/', router);
 }
 

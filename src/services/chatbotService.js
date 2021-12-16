@@ -176,6 +176,20 @@ let stripAccents = (str) => {
     str = str.replace(/Đ/g, "D");
     return str;
 }
+let getFontSupport = () => {
+    let dataFont = '';
+    let config = require('../../font.json');
+    let arr = [];
+    for (let i = 0; i < config.length; i++) {
+        if (!arr.includes(config[i].name)) {
+            arr.push(config[i].name);
+        }
+    }
+    for (const element of arr) {
+        dataFont += element + '\n';
+    }
+    return dataFont;
+}
 let getUserName = async(sender_psid) => {
     return new Promise((reslove, reject) => {
         request({
@@ -198,14 +212,20 @@ let getStartedQuickReplyTemplate = () => {
     let respone = {
         "text": "Bạn cần tôi giúp gì không nhỉ?",
         "quick_replies": [{
-            "content_type": "text",
-            "title": "Hướng dẫn sử dụng",
-            "payload": "BOT_TUTORIAL"
-        }, {
-            "content_type": "text",
-            "title": "Giá dịch vụ việt hóa",
-            "payload": "PRICE_SERVICE"
-        }]
+                "content_type": "text",
+                "title": "HD Sử dụng",
+                "payload": "BOT_TUTORIAL"
+            },
+            {
+                "content_type": "text",
+                "title": "List Font hỗ trợ",
+                "payload": "LIST_FONT"
+            }, {
+                "content_type": "text",
+                "title": "Giá Việt hóa",
+                "payload": "PRICE_SERVICE"
+            }
+        ]
     }
     return respone;
 
@@ -230,4 +250,5 @@ module.exports = {
     sendMessage: sendMessage,
     stripAccents: stripAccents,
     sendTextMessage: sendTextMessage,
+    getFontSupport: getFontSupport
 }
