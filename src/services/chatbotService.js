@@ -106,11 +106,11 @@ let sendTextMessage = (sender_psid, name) => {
     let config = require('../../data.json');
     var item = config.find(item => item.key === name);
     console.log(item);
-    respon = item['respone'];
+    let respon = item['respone'];
     return new Promise(async(reslove, reject) => {
         try {
             let username = await getUserName(sender_psid);
-            response = { "text": respon }
+            let response = { "text": respon }
             await callSendAPI(sender_psid, response);
             reslove('done');
         } catch (e) {
