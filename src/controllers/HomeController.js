@@ -95,7 +95,6 @@ async function handleMessage(sender_psid, received_message) {
     if (received_message.text) {
         let message = received_message.text;
         message = message.toLowerCase();
-        let message2 = chatbotService.stripAccents(message)
         let a;
         console.log(message);
         let config = require('../../font.json');
@@ -115,7 +114,7 @@ async function handleMessage(sender_psid, received_message) {
             }
         }
         for (const element of arr2) {
-            if (message2.indexOf(element) > -1) {
+            if (message.indexOf(element) > -1) {
                 a = 2;
                 name = element;
                 break;
@@ -367,7 +366,6 @@ let getGoogleSheet = async(req, res) => {
             for (let j = 0; j < listKey.length; j++) {
 
                 let singlekey = listKey[j].trim();
-                singlekey = chatbotService.stripAccents(singlekey);
                 if (singlekey.length > 0) {
                     var singleObj = {}
                     singleObj['key'] = singlekey;
