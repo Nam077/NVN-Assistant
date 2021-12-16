@@ -117,6 +117,7 @@ async function handleMessage(sender_psid, received_message) {
         } else if (message.indexOf('mấy giờ') != -1 || message.indexOf('giờ giấc') != -1) {
             let msg = chatbotService.getTimeVietNam();
             let response = { "text": `Bây giờ là ${msg} ` };
+            console.log(username);
             await chatbotService.callSendAPI(sender_psid, response);
             msgtime = chatbotService.checkTime(username);
             let response2 = { "text": msgtime }
