@@ -190,6 +190,10 @@ async function handlePostback(sender_psid, received_postback) {
             response = { "text": "Vui lòng gửi tên font bạn cần tìm vào đây\nNếu không có bot sẽ không phản hồi nhé !" }
             callSendAPI(sender_psid, response);
             break;
+        case 'PRICE_SERVICE':
+            response = { "text": "Hiện tại bên mình nhận việt hóa với giá 50.000 đồng một font nhé." }
+            callSendAPI(sender_psid, response);
+            break;
         case 'GET_STARTED_PAYLOAD':
         case 'RESTART_BOT':
             await chatbotService.handleGetStarted(sender_psid);
