@@ -83,9 +83,9 @@ async function handleMessage(sender_psid, received_message) {
     // Checks if the message contains text
     if (received_message.quick_reply && received_message.quick_reply.payload) {
         if (received_message.quick_reply.payload === 'BOT_TUTORIAL') {
-            response = { "text": "Vui lòng gửi tên font bạn cần tìm vào đây\nNếu không có bot sẽ không phản hồi nhé !" }
+            response = { "text": "Vui lòng gửi tên font bạn cần tìm vào đây\nNếu không có bot sẽ không phản hồi!" }
             await chatbotService.callSendAPI(sender_psid, response);
-            let response2 = { "text": "Nếu bạn muốn nhận hướng dẫn đầy đủ vui lòng gửi lại tin nhắn 'HDSD' nhé" }
+            let response2 = { "text": "Nếu bạn muốn nhận hướng dẫn đầy đủ vui lòng gửi lại tin nhắn 'HDSD'" }
             await chatbotService.callSendAPI(sender_psid, response2);
         }
         if (received_message.quick_reply.payload === 'PRICE_SERVICE') {
@@ -96,7 +96,7 @@ async function handleMessage(sender_psid, received_message) {
             let msg = chatbotService.getFontSupport();
             response = { "text": msg }
             await chatbotService.callSendAPI(sender_psid, response);
-            let response2 = { "text": 'Nếu bạn muốn lấy link nào thì nhắn tin tên một font trong list này\nHệ thống sẽ gửi cho bạn nhé' }
+            let response2 = { "text": 'Nếu bạn muốn lấy link nào thì nhắn tin tên một font trong list này\nHệ thống sẽ gửi cho bạn' }
             await chatbotService.callSendAPI(sender_psid, response2);
         }
         return;
@@ -128,7 +128,7 @@ async function handleMessage(sender_psid, received_message) {
             let msg = chatbotService.getFontSupport();
             let response = { "text": msg }
             await chatbotService.callSendAPI(sender_psid, response);
-            let response2 = { "text": 'Nếu bạn muốn lấy link nào thì nhắn tin tên một font trong list này\nHệ thống sẽ gửi cho bạn nhé' }
+            let response2 = { "text": 'Nếu bạn muốn lấy link nào thì nhắn tin tên một font trong list này\nHệ thống sẽ gửi cho bạn.' }
             await chatbotService.callSendAPI(sender_psid, response2);
         } else {
             return 0;
@@ -186,9 +186,9 @@ async function handlePostback(sender_psid, received_postback) {
             callSendAPI(sender_psid, response);
             break;
         case 'BOT_TUTORIAL':
-            response = { "text": "Vui lòng gửi tên font bạn cần tìm vào đây\nNếu không có bot sẽ không phản hồi nhé !" }
+            response = { "text": "Vui lòng gửi tên font bạn cần tìm vào đây\nNếu không có bot sẽ không phản hồi. !" }
             await chatbotService.callSendAPI(sender_psid, response);
-            let response2 = { "text": "Nếu bạn muốn nhận hướng dẫn đầy đủ vui lòng gửi lại tin nhắn 'HDSD' nhé" }
+            let response2 = { "text": "Nếu bạn muốn nhận hướng dẫn đầy đủ vui lòng gửi lại tin nhắn 'HDSD'." }
             await chatbotService.callSendAPI(sender_psid, response2);
             break;
         case 'LIST_FONT':
@@ -197,7 +197,7 @@ async function handlePostback(sender_psid, received_postback) {
             await chatbotService.callSendAPI(sender_psid, response);
             break;
         case 'PRICE_SERVICE':
-            response = { "text": "Hiện tại bên mình nhận việt hóa với giá 50.000 đồng một font nhé." }
+            response = { "text": "Hiện tại bên mình nhận việt hóa với giá 50.000 đồng một font." }
             callSendAPI(sender_psid, response);
             break;
         case 'GET_STARTED_PAYLOAD':
