@@ -7,6 +7,23 @@ let handleGetStarted = (sender_psid) => {
             let username = await getUserName(sender_psid);
             let response = { "text": `Chào ${username} tôi là NVN` }
             await callSendAPI(sender_psid, response);
+            let response2 = {
+                "text": "Tôi có thể giúp gì cho bạn nhỉ ?:",
+                "quick_replies": [{
+                    "content_type": "text",
+                    "title": "Red",
+                    "payload": "BOT_TUTORIAL",
+
+                }, {
+                    "content_type": "Giá việt hóa",
+                    "title": "Green",
+                    "payload": "PRICE_SERVICE",
+
+                }]
+
+
+            }
+            await callSendAPI(sender_psid, response2);
             reslove('done');
         } catch (e) {
             reject(e);

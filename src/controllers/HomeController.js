@@ -335,7 +335,7 @@ let getGoogleSheet = async(req, res) => {
             linkimage.push(element.linkImage);
         }
         for (const element of rows2) {
-            keylist.push(element.Key);
+            keylist.push(element.Key.toLowerCase());
             respone.push(element.Respone);
         }
         var listOfObjects = [];
