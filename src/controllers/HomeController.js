@@ -84,7 +84,7 @@ async function handleMessage(sender_psid, received_message) {
     if (received_message.text) {
         let message = received_message.text;
         message = message.toLowerCase();
-        message2 = chatbotService.stripAccents(message)
+        let message2 = chatbotService.stripAccents(message)
         let a;
         console.log(message);
         let config = require('../../font.json');
