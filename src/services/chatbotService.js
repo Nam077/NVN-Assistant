@@ -62,29 +62,32 @@ let sendReadMessage = (sender_psid) => {
     });
 }
 let sendMessage = (sender_psid, name) => {
-    let nameFont, linkFont, imageFont;
+    let nameFont, linkFont, imageFont, messagebody;
     let config = require('../../font.json');
     var item = config.find(item => item.key === name);
     console.log(item);
-    nameFont = item['name'];
-    linkFont = item['link'];
-    imageFont = item['img'];
+    messagebody = item['msg'].trim();
+    nameFont = item['name'].trim();
+    linkFont = item['link'].trim();
+    imageFont = item['img'].trim();
     return new Promise(async(reslove, reject) => {
         try {
             let username = await getUserName(sender_psid);
-            let response2 = {
-                "attachment": {
-                    "type": "image",
-                    "payload": {
+            if (imageFont != null && imageFont != '') {
+                let response2 = {
+                    "attachment": {
+                        "type": "image",
+                        "payload": {
 
-                        "url": imageFont,
-                        "is_reusable": true
+                            "url": imageFont,
+                            "is_reusable": true
+                        }
                     }
-                }
 
+                }
+                await callSendAPI(sender_psid, response2);
             }
-            await callSendAPI(sender_psid, response2);
-            let message = `Chào ${username}\nTôi đã nhận được yêu cầu từ bạn\nTên font: ${nameFont}\nLink download: ${linkFont}\nVui lòng không phản hồi lại tin nhắn này\n#NVNFONT`
+            let message = `Chào ${username}\nTôi đã nhận được yêu cầu từ bạn\nTên font: ${nameFont}\nLink download: ${linkFont}\n${messagebody}\n#NVNFONT`
             let response = {
                 "attachment": {
                     "type": "template",

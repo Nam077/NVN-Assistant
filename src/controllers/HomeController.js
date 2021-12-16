@@ -335,6 +335,7 @@ let getGoogleSheet = async(req, res) => {
         const key = [];
         const linkdownload = [];
         const linkimage = [];
+        const msg = [];
         const respone = [];
         const keylist = [];
         const rows = await sheet.getRows();
@@ -343,6 +344,7 @@ let getGoogleSheet = async(req, res) => {
             key.push(element.Key.toLowerCase());
             linkdownload.push(element.linkDownload);
             linkimage.push(element.linkImage);
+            msg.push(element.Message);
         }
         for (const element of rows2) {
             keylist.push(element.Key.toLowerCase());
@@ -350,13 +352,21 @@ let getGoogleSheet = async(req, res) => {
         }
         var listOfObjects = [];
         for (let i = 0; i < key.length; i++) {
-            var singleObj = {}
-            singleObj['id'] = i;
-            singleObj['key'] = key[i];
-            singleObj['name'] = name[i];
-            singleObj['link'] = linkdownload[i];
-            singleObj['img'] = linkimage[i];
-            listOfObjects.push(singleObj);
+            let listkeyfont = [];
+            listkeyfont = key[i].split(',');
+            for (let j = 0; j < listkeyfont.length; j++) {
+                let singlekey = listkeyfont[j].trim();
+                if (singlekey.length > 0) {
+                    var singleObj = {}
+                    singleObj['key'] = singlekey;
+                    singleObj['name'] = name[i];
+                    singleObj['link'] = linkdownload[i];
+                    singleObj['img'] = linkimage[i];
+                    singleObj['msg'] = msg[i];
+                    listOfObjects.push(singleObj);
+                }
+            }
+
         };
 
         var listOfObjects2 = [];
