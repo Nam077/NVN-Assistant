@@ -119,7 +119,7 @@ async function handleMessage(sender_psid, received_message) {
             let response = { "text": `Bây giờ là ${msg} ` };
             console.log(username);
             await chatbotService.callSendAPI(sender_psid, response);
-            msgtime = chatbotService.checktime(username);
+            let msgtime = chatbotService.checktime(username);
             let response2 = { "text": msgtime }
             await chatbotService.callSendAPI(sender_psid, response2);
         } else if (message == 'list font' || message == 'danh sách font') {
