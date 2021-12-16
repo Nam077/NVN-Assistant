@@ -230,6 +230,14 @@ let getStartedQuickReplyTemplate = () => {
     return respone;
 
 }
+let getArraydatafromJson = (file) => {
+    let config = require(`../../${file}.json`);
+    let arr = [];
+    for (let i = 0; i < config.length; i++) {
+        arr.push(config[i].key);
+    }
+    return arr;
+}
 let getImageGetStarted = () => {
     let respone = {
         "attachment": {
@@ -250,5 +258,6 @@ module.exports = {
     sendMessage: sendMessage,
     stripAccents: stripAccents,
     sendTextMessage: sendTextMessage,
-    getFontSupport: getFontSupport
+    getFontSupport: getFontSupport,
+    getArraydatafromJson: getArraydatafromJson,
 }

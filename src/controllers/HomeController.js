@@ -104,8 +104,10 @@ async function handleMessage(sender_psid, received_message) {
         console.log(message);
         let config = require('../../font.json');
         let config2 = require('../../data.json');
-        let arr = [];
-        let arr2 = [];
+        let arr = chatbotService.getArraydatafromJson(font);
+        let arr2 = chatbotService.getArraydatafromJson(data);
+        console.log(arr);
+        console.log(arr2);
         let name;
         for (let i = 0; i < config.length; i++)
             arr[i] = config[i].key;
