@@ -65,7 +65,6 @@ let sendMessage = (sender_psid, name) => {
     let nameFont, linkFont, imageFont, messagebody;
     let config = require('../../font.json');
     var item = config.find(item => item.key === name);
-    console.log(item);
     messagebody = item['msg'].trim();
     nameFont = item['name'].trim();
     linkFont = item['link'].trim();

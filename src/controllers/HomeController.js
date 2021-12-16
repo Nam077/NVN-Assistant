@@ -100,11 +100,8 @@ async function handleMessage(sender_psid, received_message) {
     if (received_message.text) {
         let message = received_message.text;
         message = message.toLowerCase();
-        let a;
         let arr = chatbotService.getArraydatafromJson('font');
         let arr2 = chatbotService.getArraydatafromJson('data');
-        console.log(arr);
-        console.log(arr2);
         let keyfont = chatbotService.checkKey(arr, message);
         let keydata = chatbotService.checkKey(arr2, message);
         if (keyfont != null && keyfont != '') {
@@ -115,6 +112,10 @@ async function handleMessage(sender_psid, received_message) {
             callSendAPI(sender_psid, response);
         } else if (message == 'bắt đầu' || message == 'start') {
             await chatbotService.handleGetStarted(sender_psid);
+        } else if (message == 'list font' || message == 'danh sách font') {
+            let msg = chatbotService.getFontSupport();
+            response = { "text": msg }
+            await chatbotService.callSendAPI(sender_psid, response);
         } else {
             return 0;
         }
@@ -173,6 +174,11 @@ async function handlePostback(sender_psid, received_postback) {
         case 'BOT_TUTORIAL':
             response = { "text": "Vui lòng gửi tên font bạn cần tìm vào đây\nNếu không có bot sẽ không phản hồi nhé !" }
             callSendAPI(sender_psid, response);
+            break;
+        case 'LIST_FONT':
+            let msg = chatbotService.getFontSupport();
+            response = { "text": msg }
+            await chatbotService.callSendAPI(sender_psid, response);
             break;
         case 'PRICE_SERVICE':
             response = { "text": "Hiện tại bên mình nhận việt hóa với giá 50.000 đồng một font nhé." }
@@ -265,6 +271,11 @@ let setupPersistentMenu = async(req, res) => {
                         "type": "postback",
                         "title": "Xem hướng dẫn sử dụng bot",
                         "payload": "BOT_TUTORIAL"
+                    },
+                    {
+                        "type": "postback",
+                        "title": "Danh sách font hỗ trợ",
+                        "payload": "LIST_FONT"
                     },
                     {
                         "type": "postback",
