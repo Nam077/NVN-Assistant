@@ -6,7 +6,6 @@ let handleGetStarted = (sender_psid) => {
         try {
             let username = await getUserName(sender_psid);
             let response = { "text": `Chào ${username} tôi là NVN` }
-            await callSendAPI(sender_psid, response);
             let response2 = getImageGetStarted();
             let response3 = getStartedQuickReplyTemplate();
             await callSendAPI(sender_psid, response);
