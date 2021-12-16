@@ -250,7 +250,13 @@ let getImageGetStarted = () => {
         }
     }
     return respone;
-
+}
+let checkKey = (arr, message) => {
+    for (const element of arr) {
+        if (message.indexOf(element) > -1) {
+            return element;
+        }
+    }
 }
 module.exports = {
     handleGetStarted: handleGetStarted,
@@ -260,4 +266,5 @@ module.exports = {
     sendTextMessage: sendTextMessage,
     getFontSupport: getFontSupport,
     getArraydatafromJson: getArraydatafromJson,
+    checkKey: checkKey,
 }

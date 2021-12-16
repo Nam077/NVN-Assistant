@@ -101,40 +101,17 @@ async function handleMessage(sender_psid, received_message) {
         let message = received_message.text;
         message = message.toLowerCase();
         let a;
-        console.log(message);
-        let config = require('../../font.json');
-        let config2 = require('../../data.json');
         let arr = chatbotService.getArraydatafromJson('font');
         let arr2 = chatbotService.getArraydatafromJson('data');
         console.log(arr);
         console.log(arr2);
-        let name;
-        for (let i = 0; i < config.length; i++)
-            arr[i] = config[i].key;
-        for (let i = 0; i < config2.length; i++)
-            arr2[i] = config2[i].key;
-        for (const element of arr) {
-            if (message.indexOf(element) > -1) {
-                a = 1;
-                name = element;
-                break;
-            }
-        }
-        for (const element of arr2) {
-            if (message.indexOf(element) > -1) {
-                a = 2;
-                name = element;
-                break;
-            }
-        }
-        console.log(arr);
-        console.log(arr2);
-        console.log(a);
-        if (a == 1) {
-            await chatbotService.sendMessage(sender_psid, name);
+        let keyfont = chatbotService.checkKey(arr, message);
+        let keydata = chatbotService.checkKey(arr2, message);
+        if (keyfont != null && keyfont != '') {
+            await chatbotService.sendMessage(sender_psid, keyfont);
             callSendAPI(sender_psid, response);
-        } else if (a == 2) {
-            await chatbotService.sendTextMessage(sender_psid, name);
+        } else if (keydata != null && keydata != '') {
+            await chatbotService.sendTextMessage(sender_psid, keydata);
             callSendAPI(sender_psid, response);
         } else if (message == 'bắt đầu' || message == 'start') {
             await chatbotService.handleGetStarted(sender_psid);
