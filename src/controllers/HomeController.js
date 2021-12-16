@@ -189,7 +189,7 @@ async function handlePostback(sender_psid, received_postback) {
             response = { "text": "Vui lòng gửi tên font bạn cần tìm vào đây\nNếu không có bot sẽ không phản hồi nhé !" }
             await chatbotService.callSendAPI(sender_psid, response);
             let response2 = { "text": "Nếu bạn muốn nhận hướng dẫn đầy đủ vui lòng gửi lại tin nhắn 'HDSD' nhé" }
-            await chatbotService.callSendAPI(sender_psid, response);
+            await chatbotService.callSendAPI(sender_psid, response2);
             break;
         case 'LIST_FONT':
             let msg = chatbotService.getFontSupport();
