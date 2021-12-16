@@ -411,10 +411,9 @@ let getGoogleSheet = async(req, res) => {
         } catch (error) {
             console.error(err);
         }
-        let time = new Date().toLocaleString('en-GB', { timeZone: 'Asia/Ho_Chi_Minh' })
-        console.log(time);
+
         // res.redirect('/');
-        return console.log('ok');
+        return;
 
     } catch (e) {
         console.log(e);
