@@ -111,10 +111,12 @@ async function handleMessage(sender_psid, received_message) {
             }
             a = -1;
         }
+        console.log(arr);
+        console.log(arr2);
+        console.log(a);
         if (a == 1) {
             await chatbotService.sendMessage(sender_psid, name);
             callSendAPI(sender_psid, response);
-
         } else if (a == 2) {
             await chatbotService.sendTextMessage(sender_psid, name);
             callSendAPI(sender_psid, response);
