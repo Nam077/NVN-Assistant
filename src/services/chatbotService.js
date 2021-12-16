@@ -7,23 +7,11 @@ let handleGetStarted = (sender_psid) => {
             let username = await getUserName(sender_psid);
             let response = { "text": `Chào ${username} tôi là NVN` }
             await callSendAPI(sender_psid, response);
-            let response = {
-                "text": "Tôi có thể giúp gì cho bạn nhỉ ?:",
-                "quick_replies": [{
-                    "content_type": "text",
-                    "title": "Xem hướng dẫ",
-                    "payload": "BOT_TUTORIAL",
-                    "image_url": "http://example.com/img/red.png"
-                }, {
-                    "content_type": "text",
-                    "title": "Green",
-                    "payload": "PRICE_SERVICE",
-                    "image_url": "http://example.com/img/green.png"
-                }]
-
-
-            }
+            let response2 = getImageGetStarted();
+            let response3 = getStartedQuickReplyTemplate();
             await callSendAPI(sender_psid, response);
+            await callSendAPI(sender_psid, response2);
+            await callSendAPI(sender_psid, response3);
             reslove('done');
         } catch (e) {
             reject(e);
@@ -138,28 +126,34 @@ let sendTextMessage = (sender_psid, name) => {
 
 let callSendAPI = async(sender_psid, response) => {
     // Construct the message body
-    let request_body = {
-        "recipient": {
-            "id": sender_psid
-        },
-        "message": response
-    }
-    await sendTyping(sender_psid);
-    await sendReadMessage(sender_psid);
+    return new Promise(async(reslove, reject) => {
+        try {
+            let request_body = {
+                "recipient": {
+                    "id": sender_psid
+                },
+                "message": response
+            }
+            await sendTyping(sender_psid);
+            await sendReadMessage(sender_psid);
 
-    // Send the HTTP request to the Messenger Platform
-    request({
-        "uri": "https://graph.facebook.com/v9.0/me/messages",
-        "qs": { "access_token": process.env.PAGE_ACCESS_TOKEN },
-        "method": "POST",
-        "json": request_body
-    }, (err, res, body) => {
-        if (!err) {
-            console.log('message sent!')
-        } else {
-            console.error("Unable to send message:" + err);
+            // Send the HTTP request to the Messenger Platform
+            request({
+                "uri": "https://graph.facebook.com/v9.0/me/messages",
+                "qs": { "access_token": process.env.PAGE_ACCESS_TOKEN },
+                "method": "POST",
+                "json": request_body
+            }, (err, res, body) => {
+                if (!err) {
+                    reslove('message sent!')
+                } else {
+                    console.error("Unable to send message:" + err);
+                }
+            });
+        } catch (e) {
+            reject(e);
         }
-    });
+    })
 
 }
 
@@ -197,6 +191,36 @@ let getUserName = async(sender_psid) => {
             }
         });
     });
+}
+let getStartedQuickReplyTemplate = () => {
+    let respone = {
+        "text": "Bạn cần tôi giúp gì không nhỉ?",
+        "quick_replies": [{
+            "content_type": "text",
+            "title": "Hướng dẫn sử dụng",
+            "payload": "BOT_TUTORIAL"
+        }, {
+            "content_type": "text",
+            "title": "Giá dịch vụ việt hóa",
+            "payload": "PRICE_SERVICE"
+        }]
+    }
+    return respone;
+
+}
+let getImageGetStarted = () => {
+    let respone = {
+        "attachment": {
+            "type": "image",
+            "payload": {
+
+                "url": 'https://bit.ly/3sakE56',
+                "is_reusable": true
+            }
+        }
+    }
+    return respone;
+
 }
 module.exports = {
     handleGetStarted: handleGetStarted,
