@@ -86,7 +86,7 @@ async function handleMessage(sender_psid, received_message) {
             response = { "text": "Vui lòng gửi tên font bạn cần tìm vào đây\nNếu không có bot sẽ không phản hồi nhé !" }
             await chatbotService.callSendAPI(sender_psid, response);
             let response2 = { "text": "Nếu bạn muốn nhận hướng dẫn đầy đủ vui lòng gửi lại tin nhắn 'HDSD' nhé" }
-            await chatbotService.callSendAPI(sender_psid, response);
+            await chatbotService.callSendAPI(sender_psid, response2);
         }
         if (received_message.quick_reply.payload === 'PRICE_SERVICE') {
             response = { "text": "Giá là 50.000 đồng một font nhé." }
