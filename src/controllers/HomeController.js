@@ -94,6 +94,8 @@ async function handleMessage(sender_psid, received_message) {
             let msg = chatbotService.getFontSupport();
             response = { "text": msg }
             await chatbotService.callSendAPI(sender_psid, response);
+            let response2 = { "text": 'Nếu bạn muốn lấy link nào thì nhắn tin tên một font trong list này\nHệ thống sẽ gửi cho bạn nhé' }
+            await chatbotService.callSendAPI(sender_psid, response2);
         }
         return;
     }
@@ -110,12 +112,14 @@ async function handleMessage(sender_psid, received_message) {
         } else if (keydata != null && keydata != '') {
             await chatbotService.sendTextMessage(sender_psid, keydata);
             callSendAPI(sender_psid, response);
-        } else if (message.indexOf('bắt đầu') != -1 || message.indexOf('start')) {
+        } else if (message.indexOf('bắt đầu') != -1 || message.indexOf('start') != -1) {
             await chatbotService.handleGetStarted(sender_psid);
         } else if (message == 'list font' || message == 'danh sách font') {
             let msg = chatbotService.getFontSupport();
-            response = { "text": msg }
+            let response = { "text": msg }
             await chatbotService.callSendAPI(sender_psid, response);
+            let response2 = { "text": 'Nếu bạn muốn lấy link nào thì nhắn tin tên một font trong list này\nHệ thống sẽ gửi cho bạn nhé' }
+            await chatbotService.callSendAPI(sender_psid, response2);
         } else {
             return 0;
         }
@@ -407,8 +411,11 @@ let getGoogleSheet = async(req, res) => {
         } catch (error) {
             console.error(err);
         }
-        res.redirect('/');
+        let time = new Date().toLocaleString('en-GB', { timeZone: 'Asia/Ho_Chi_Minh' })
+        console.log(time);
+        // res.redirect('/');
         return console.log('ok');
+
     } catch (e) {
         console.log(e);
         return res.send('Oops! Something wrongs, check logs console for detail ... ')
