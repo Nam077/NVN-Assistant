@@ -81,12 +81,12 @@ async function handleMessage(sender_psid, received_message) {
 
     let response;
     // Checks if the message contains text
-    if (received_message.quick_replies && quick_replies.payload) {
-        if (received_message.quick_replies.payload === BOT_TUTORIAL) {
+    if (received_message.quick_reply && received_message.quick_reply.payload) {
+        if (received_message.quick_reply.payload === BOT_TUTORIAL) {
             response = { "text": "Vui lòng gửi tên font bạn cần tìm vào đây\nNếu không có bot sẽ không phản hồi nhé !" }
             await chatbotService.callSendAPI(sender_psid, response);
         }
-        if (received_message.quick_replies.payload === PRICE_SERVICE) {
+        if (received_message.quick_reply.payload === PRICE_SERVICE) {
             response = { "text": "Giá là 50.000 đồng một font nhé." }
             await chatbotService.callSendAPI(sender_psid, response);
         }
