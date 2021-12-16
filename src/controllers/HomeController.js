@@ -112,7 +112,7 @@ async function handleMessage(sender_psid, received_message) {
         } else if (keydata != null && keydata != '') {
             await chatbotService.sendTextMessage(sender_psid, keydata);
             callSendAPI(sender_psid, response);
-        } else if (message.indexOf('bắt đầu') != -1 || message.indexOf('start') != -1) {
+        } else if (message.indexOf('bắt đầu') != -1 || message.indexOf('start')) {
             await chatbotService.handleGetStarted(sender_psid);
         } else if (message == 'list font' || message == 'danh sách font') {
             let msg = chatbotService.getFontSupport();
@@ -411,10 +411,8 @@ let getGoogleSheet = async(req, res) => {
         } catch (error) {
             console.error(err);
         }
-
-        // res.redirect('/');
-        return;
-
+        res.redirect('/');
+        return console.log('ok');
     } catch (e) {
         console.log(e);
         return res.send('Oops! Something wrongs, check logs console for detail ... ')
