@@ -107,8 +107,7 @@ async function handleMessage(sender_psid, received_message) {
         } else if (message == 'bắt đầu' || message == 'start') {
             await chatbotService.handleGetStarted(sender_psid);
         } else {
-            response = { "text": "Bot không hiểu chờ admin vào rep nha ^^ !" };
-            callSendAPI(sender_psid, response);
+            return 0;
         }
 
     } else if (received_message.attachments) {
