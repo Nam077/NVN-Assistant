@@ -316,4 +316,5 @@ module.exports = {
     checkKey: checkKey,
     getTimeVietNam: getTimeVietNam,
     checktime: checktime,
+    getUserName: getUserName
 }
