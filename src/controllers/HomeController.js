@@ -110,7 +110,7 @@ async function handleMessage(sender_psid, received_message) {
         } else if (keydata != null && keydata != '') {
             await chatbotService.sendTextMessage(sender_psid, keydata);
             callSendAPI(sender_psid, response);
-        } else if (message == 'bắt đầu' || message == 'start') {
+        } else if (message.indexOf('bắt đầu') != -1 || message.indexOf('start')) {
             await chatbotService.handleGetStarted(sender_psid);
         } else if (message == 'list font' || message == 'danh sách font') {
             let msg = chatbotService.getFontSupport();
