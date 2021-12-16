@@ -113,12 +113,28 @@ let sendTextMessage = (sender_psid, name) => {
     var item = config.find(item => item.key === name);
     console.log(item);
     let respon = item['respone'];
+    let img = item['img'];
     return new Promise(async(reslove, reject) => {
         try {
             let username = await getUserName(sender_psid);
             let response = { "text": respon }
             await callSendAPI(sender_psid, response);
+            if (img != null && img != '') {
+                let response2 = {
+                    "attachment": {
+                        "type": "image",
+                        "payload": {
+
+                            "url": img,
+                            "is_reusable": true
+                        }
+                    }
+
+                }
+                await callSendAPI(sender_psid, response2);
+            }
             reslove('done');
+
         } catch (e) {
             reject(e);
         }
@@ -219,7 +235,8 @@ let getStartedQuickReplyTemplate = () => {
                 "content_type": "text",
                 "title": "List Font hỗ trợ",
                 "payload": "LIST_FONT"
-            }, {
+            },
+            {
                 "content_type": "text",
                 "title": "Giá Việt hóa",
                 "payload": "PRICE_SERVICE"

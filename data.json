@@ -1,1 +1,246 @@
-[{"key":"chào","respone":"Chào bạn bot có thể giúp gì cho bạn nhỉ ^^"},{"key":"hello","respone":"Chào bạn bot có thể giúp gì cho bạn nhỉ ^^"},{"key":"ad ơi","respone":"Chào bạn bot có thể giúp gì cho bạn nhỉ ^^"},{"key":"bot ơi","respone":"Chào bạn bot có thể giúp gì cho bạn nhỉ ^^"},{"key":"cảm ơn","respone":"Ngại quá đi, rất vui khi giúp được bạn nè^^"},{"key":"thanks","respone":"Ngại quá đi, rất vui khi giúp được bạn nè^^"},{"key":"thank you","respone":"Ngại quá đi, rất vui khi giúp được bạn nè^^"},{"key":"tạm biệt","respone":"Tạm biệt bạn"},{"key":"bye","respone":"Tạm biệt bạn"},{"key":"thôi","respone":"Tạm biệt bạn"},{"key":"giá việt hóa","respone":"Hiện tại bên mình nhận việt hóa với giá 50.000 đồng một font nhé."},{"key":"giá cả việt hóa","respone":"Hiện tại bên mình nhận việt hóa với giá 50.000 đồng một font nhé."},{"key":"việt hóa giá bao nhiêu","respone":"Hiện tại bên mình nhận việt hóa với giá 50.000 đồng một font nhé."},{"key":"font đẹp quá","respone":"Chuyện này bình thường rồi haha"},{"key":"đẹp quá","respone":"Chuyện này bình thường rồi haha"},{"key":"xinh xẻo","respone":"Chuyện này bình thường rồi haha"},{"key":"xịn quá","respone":"Chuyện này bình thường rồi haha"},{"key":"ngủ ngon","respone":"Chúc bạn ngủ ngon lalala"},{"key":"nn","respone":"Chúc bạn ngủ ngon lalala"},{"key":"good night","respone":"Chúc bạn ngủ ngon lalala"},{"key":"ngủ","respone":"Chúc bạn ngủ ngon lalala"},{"key":"yêu ad","respone":"Mình cũng iu bạn ❤️"},{"key":"iu ad","respone":"Mình cũng iu bạn ❤️"},{"key":"yêu em","respone":"Mình cũng iu bạn ❤️"},{"key":"yêu anh","respone":"Mình cũng iu bạn ❤️"},{"key":"bot là ai","respone":"Mình là NVN nè bạn :v"},{"key":"ai vậy","respone":"Mình là NVN nè bạn :v"},{"key":"người yêu chưa","respone":"Người yêu hả, bạn hỏi cô tên gì chứ mình nhiều lắm"},{"key":"người yêu","respone":"Người yêu hả, bạn hỏi cô tên gì chứ mình nhiều lắm"},{"key":"thích làm gì","respone":"Mình thích làm những thứ người khác không thích làm"},{"key":"thích gì","respone":"Mình thích làm những thứ người khác không thích làm"},{"key":"thích nghe nhạc gì","respone":"Thích nghe bài nào càng buồn càng tốt"},{"key":"nghe nhạc gì","respone":"Thích nghe bài nào càng buồn càng tốt"},{"key":"gửi nhạc","respone":"Tui hay nghe mấy bài của Andiez, Chillies, với của Vũ nữa bạn lên youtube search đi kaka"},{"key":"đẹp trai","respone":"Èo không biết nhưng mà tui thấy tui là số 1 haha"},{"key":"đẹp gái","respone":"Èo không biết nhưng mà tui thấy tui là số 1 haha"},{"key":"xinh gái","respone":"Èo không biết nhưng mà tui thấy tui là số 1 haha"},{"key":"hihi","respone":"Èo nghe cười mà mắc ghét chưa kìa"},{"key":"haha","respone":"Èo nghe cười mà mắc ghét chưa kìa"},{"key":"hehe","respone":"Èo nghe cười mà mắc ghét chưa kìa"},{"key":"buồn quá","respone":"Sao vậy nè kể ad nghe xem nào :vv"},{"key":"hix","respone":"Sao vậy nè kể ad nghe xem nào :vv"},{"key":"hic","respone":"Sao vậy nè kể ad nghe xem nào :vv"},{"key":"hát đi","respone":"Em on tóp không phải tren đing, không phải du túp không phải trên ding.\nEm on top em ở trên anh, bích tua li vơ tráp người ta gọi tên anh.\nBích xi ty bích xi ty boi."},{"key":"hát nghe","respone":"Em on tóp không phải tren đing, không phải du túp không phải trên ding.\nEm on top em ở trên anh, bích tua li vơ tráp người ta gọi tên anh.\nBích xi ty bích xi ty boi."}]
+[{
+        "key": "chào",
+        "respone": "Chào bạn bot có thể giúp gì cho bạn nhỉ ^^\nBạn nhấn vào cái menu ở góc phải rồi chọn \"Khởi động lại bot\"\nHoặc gõ \"Bắt đầu\" để bắt đầu với Bot nhé 😘😘",
+        "img": ""
+    },
+    {
+        "key": "hello",
+        "respone": "Chào bạn bot có thể giúp gì cho bạn nhỉ ^^\nBạn nhấn vào cái menu ở góc phải rồi chọn \"Khởi động lại bot\"\nHoặc gõ \"Bắt đầu\" để bắt đầu với Bot nhé 😘😘",
+        "img": ""
+    },
+    {
+        "key": "ad ơi",
+        "respone": "Chào bạn bot có thể giúp gì cho bạn nhỉ ^^\nBạn nhấn vào cái menu ở góc phải rồi chọn \"Khởi động lại bot\"\nHoặc gõ \"Bắt đầu\" để bắt đầu với Bot nhé 😘😘",
+        "img": ""
+    },
+    {
+        "key": "bot ơi",
+        "respone": "Chào bạn bot có thể giúp gì cho bạn nhỉ ^^\nBạn nhấn vào cái menu ở góc phải rồi chọn \"Khởi động lại bot\"\nHoặc gõ \"Bắt đầu\" để bắt đầu với Bot nhé 😘😘",
+        "img": ""
+    },
+    {
+        "key": "cảm ơn",
+        "respone": "Ngại quá đi, rất vui khi giúp được bạn nè^^",
+        "img": ""
+    },
+    {
+        "key": "thanks",
+        "respone": "Ngại quá đi, rất vui khi giúp được bạn nè^^",
+        "img": ""
+    },
+    {
+        "key": "thank you",
+        "respone": "Ngại quá đi, rất vui khi giúp được bạn nè^^",
+        "img": ""
+    },
+    {
+        "key": "tạm biệt",
+        "respone": "Tạm biệt bạn",
+        "img": ""
+    },
+    {
+        "key": "bye",
+        "respone": "Tạm biệt bạn",
+        "img": ""
+    },
+    {
+        "key": "thôi",
+        "respone": "Tạm biệt bạn",
+        "img": ""
+    },
+    {
+        "key": "giá việt hóa",
+        "respone": "Hiện tại bên mình nhận việt hóa với giá 50.000 đồng một font nhé.",
+        "img": ""
+    },
+    {
+        "key": "giá cả việt hóa",
+        "respone": "Hiện tại bên mình nhận việt hóa với giá 50.000 đồng một font nhé.",
+        "img": ""
+    },
+    {
+        "key": "việt hóa giá bao nhiêu",
+        "respone": "Hiện tại bên mình nhận việt hóa với giá 50.000 đồng một font nhé.",
+        "img": ""
+    },
+    {
+        "key": "font đẹp quá",
+        "respone": "Chuyện này bình thường rồi haha",
+        "img": ""
+    },
+    {
+        "key": "đẹp quá",
+        "respone": "Chuyện này bình thường rồi haha",
+        "img": ""
+    },
+    {
+        "key": "xinh xẻo",
+        "respone": "Chuyện này bình thường rồi haha",
+        "img": ""
+    },
+    {
+        "key": "xịn quá",
+        "respone": "Chuyện này bình thường rồi haha",
+        "img": ""
+    },
+    {
+        "key": "ngủ ngon",
+        "respone": "Chúc bạn ngủ ngon lalala",
+        "img": ""
+    },
+    {
+        "key": "nn",
+        "respone": "Chúc bạn ngủ ngon lalala",
+        "img": ""
+    },
+    {
+        "key": "good night",
+        "respone": "Chúc bạn ngủ ngon lalala",
+        "img": ""
+    },
+    {
+        "key": "ngủ",
+        "respone": "Chúc bạn ngủ ngon lalala",
+        "img": ""
+    },
+    {
+        "key": "yêu ad",
+        "respone": "Mình cũng iu bạn ❤️",
+        "img": ""
+    },
+    {
+        "key": "iu ad",
+        "respone": "Mình cũng iu bạn ❤️",
+        "img": ""
+    },
+    {
+        "key": "yêu em",
+        "respone": "Mình cũng iu bạn ❤️",
+        "img": ""
+    },
+    {
+        "key": "yêu anh",
+        "respone": "Mình cũng iu bạn ❤️",
+        "img": ""
+    },
+    {
+        "key": "bot là ai",
+        "respone": "Mình là NVN nè bạn :v",
+        "img": ""
+    },
+    {
+        "key": "ai vậy",
+        "respone": "Mình là NVN nè bạn :v",
+        "img": ""
+    },
+    {
+        "key": "người yêu chưa",
+        "respone": "Người yêu hả, bạn hỏi cô tên gì chứ mình nhiều lắm",
+        "img": ""
+    },
+    {
+        "key": "người yêu",
+        "respone": "Người yêu hả, bạn hỏi cô tên gì chứ mình nhiều lắm",
+        "img": ""
+    },
+    {
+        "key": "thích làm gì",
+        "respone": "Mình thích làm những thứ người khác không thích làm",
+        "img": ""
+    },
+    {
+        "key": "thích gì",
+        "respone": "Mình thích làm những thứ người khác không thích làm",
+        "img": ""
+    },
+    {
+        "key": "thích nghe nhạc gì",
+        "respone": "Thích nghe bài nào càng buồn càng tốt",
+        "img": ""
+    },
+    {
+        "key": "nghe nhạc gì",
+        "respone": "Thích nghe bài nào càng buồn càng tốt",
+        "img": ""
+    },
+    {
+        "key": "gửi nhạc",
+        "respone": "Tui hay nghe mấy bài của Andiez, Chillies, với của Vũ nữa bạn lên youtube search đi kaka",
+        "img": ""
+    },
+    {
+        "key": "đẹp trai",
+        "respone": "Èo không biết nhưng mà tui thấy tui là số 1 haha",
+        "img": ""
+    },
+    {
+        "key": "đẹp gái",
+        "respone": "Èo không biết nhưng mà tui thấy tui là số 1 haha",
+        "img": ""
+    },
+    {
+        "key": "xinh gái",
+        "respone": "Èo không biết nhưng mà tui thấy tui là số 1 haha",
+        "img": ""
+    },
+    {
+        "key": "hihi",
+        "respone": "Èo nghe cười mà mắc ghét chưa kìa",
+        "img": ""
+    },
+    {
+        "key": "haha",
+        "respone": "Èo nghe cười mà mắc ghét chưa kìa",
+        "img": ""
+    },
+    {
+        "key": "hehe",
+        "respone": "Èo nghe cười mà mắc ghét chưa kìa",
+        "img": ""
+    },
+    {
+        "key": "buồn quá",
+        "respone": "Sao vậy nè kể ad nghe xem nào :vv",
+        "img": ""
+    },
+    {
+        "key": "hix",
+        "respone": "Sao vậy nè kể ad nghe xem nào :vv",
+        "img": ""
+    },
+    {
+        "key": "hic",
+        "respone": "Sao vậy nè kể ad nghe xem nào :vv",
+        "img": ""
+    },
+    {
+        "key": "hát đi",
+        "respone": "Em on tóp không phải tren đing, không phải du túp không phải trên ding.\nEm on top em ở trên anh, bích tua li vơ tráp người ta gọi tên anh.\nBích xi ty bích xi ty boi.",
+        "img": ""
+    },
+    {
+        "key": "hát nghe",
+        "respone": "Em on tóp không phải tren đing, không phải du túp không phải trên ding.\nEm on top em ở trên anh, bích tua li vơ tráp người ta gọi tên anh.\nBích xi ty bích xi ty boi.",
+        "img": ""
+    },
+    {
+        "key": "bot được ai tạo",
+        "respone": "Tui được Nam siu cấp vjp pro tạo ra nhé :vv",
+        "img": ""
+    },
+    {
+        "key": "bạn do ai tạo",
+        "respone": "Tui được Nam siu cấp vjp pro tạo ra nhé :vv",
+        "img": ""
+    },
+    {
+        "key": "bot do ai tạo",
+        "respone": "Tui được Nam siu cấp vjp pro tạo ra nhé :vv",
+        "img": ""
+    },
+    {
+        "key": "nvnfont",
+        "respone": "Ơ tên tui này có chuyện gì không :v",
+        "img": ""
+    }
+]

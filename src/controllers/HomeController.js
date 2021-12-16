@@ -335,19 +335,21 @@ let getGoogleSheet = async(req, res) => {
         const linkdownload = [];
         const linkimage = [];
         const msg = [];
+        const img = [];
         const respone = [];
         const keylist = [];
         const rows = await sheet.getRows();
         for (const element of rows) {
             name.push(element.Name);
             key.push(element.Key.toLowerCase());
-            linkdownload.push(element.linkDownload);
-            linkimage.push(element.linkImage);
+            linkdownload.push(element.Link);
+            linkimage.push(element.Image);
             msg.push(element.Message);
         }
         for (const element of rows2) {
             keylist.push(element.Key.toLowerCase());
             respone.push(element.Respone);
+            img.push(element.Image);
         }
         var listOfObjects = [];
         for (let i = 0; i < key.length; i++) {
@@ -379,6 +381,11 @@ let getGoogleSheet = async(req, res) => {
                     var singleObj = {}
                     singleObj['key'] = singlekey;
                     singleObj['respone'] = respone[i];
+                    if (img[i] != null && img[i] != '') {
+                        singleObj['img'] = img[i];
+                    } else {
+                        singleObj['img'] = '';
+                    }
                     listOfObjects2.push(singleObj);
                 }
 
