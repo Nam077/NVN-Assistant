@@ -112,8 +112,8 @@ let sendTextMessage = (sender_psid, name) => {
     let config = require('../../data.json');
     var item = config.find(item => item.key === name);
     console.log(item);
-    let respon = item['respone'];
-    let img = item['img'];
+    let respon = item['respone'].trim();
+    let img = item['img'].trim();
     return new Promise(async(reslove, reject) => {
         try {
             let username = await getUserName(sender_psid);
