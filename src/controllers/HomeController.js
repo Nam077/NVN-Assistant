@@ -101,7 +101,6 @@ async function handleMessage(sender_psid, received_message) {
                 name = element;
                 break;
             }
-            a = -1;
         }
         for (const element of arr2) {
             if (message.indexOf(element) > -1) {
@@ -109,7 +108,6 @@ async function handleMessage(sender_psid, received_message) {
                 name = element;
                 break;
             }
-            a = -1;
         }
         console.log(arr);
         console.log(arr2);
