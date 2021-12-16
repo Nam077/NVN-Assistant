@@ -78,7 +78,7 @@ let getWebhook = (req, res) => {
 
 // Handles messages events
 async function handleMessage(sender_psid, received_message) {
-
+    let username = await chatbotService.getUserName(sender_psid);
     let response;
     // Checks if the message contains text
     if (received_message.quick_reply && received_message.quick_reply.payload) {
@@ -115,10 +115,10 @@ async function handleMessage(sender_psid, received_message) {
         } else if (message.indexOf('bắt đầu') != -1 || message.indexOf('start') != -1) {
             await chatbotService.handleGetStarted(sender_psid);
         } else if (message.indexOf('mấy giờ') != -1 || message.indexOf('giờ giấc') != -1) {
-            let username = await chatbotService.getUserName(sender_psid);
             let msg = chatbotService.getTimeVietNam();
             let response = { "text": `Bây giờ là ${msg} ` };
             await chatbotService.callSendAPI(sender_psid, response);
+            msgtime = chatbotService.checkTime(username);
             let response = { "text": msgtime }
             await chatbotService.callSendAPI(sender_psid, response);
         } else if (message == 'list font' || message == 'danh sách font') {
