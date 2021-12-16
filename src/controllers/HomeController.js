@@ -87,12 +87,14 @@ async function handleMessage(sender_psid, received_message) {
         let a;
         console.log(message);
         let config = require('../../font.json');
-        let font = config;
-        let arr = []
+        let config2 = require('../../data.json');
+        let arr = [];
+        let arr2 = [];
         let name;
-        for (let i = 0; i < font.length; i++)
-            arr[i] = font[i].key;
-        console.log(arr);
+        for (let i = 0; i < config.length; i++)
+            arr[i] = config[i].key;
+        for (let i = 0; i < config2.length; i++)
+            arr2[i] = config2[i].key;
         for (const element of arr) {
             if (message.indexOf(element) > -1) {
                 a = 1;
@@ -101,8 +103,20 @@ async function handleMessage(sender_psid, received_message) {
             }
             a = -1;
         }
-        if (a != -1) {
+        for (const element of arr2) {
+            if (message.indexOf(element) > -1) {
+                a = 2;
+                name = element;
+                break;
+            }
+            a = -1;
+        }
+        if (a == 1) {
             await chatbotService.sendMessage(sender_psid, name);
+            callSendAPI(sender_psid, response);
+
+        } else if (a == 2) {
+            await chatbotService.sendTextMessage(sender_psid, name);
             callSendAPI(sender_psid, response);
         } else if (message == 'bắt đầu' || message == 'start') {
             await chatbotService.handleGetStarted(sender_psid);
@@ -162,7 +176,7 @@ async function handlePostback(sender_psid, received_postback) {
             callSendAPI(sender_psid, response);
             break;
         case 'BOT_TUTORIAL':
-            response = { "text": "Vui lòng gửi tên font bạn cần tìm vào đây\n Nếu không có bot sẽ không phản hồi nhé !" }
+            response = { "text": "Vui lòng gửi tên font bạn cần tìm vào đây\nNếu không có bot sẽ không phản hồi nhé !" }
             callSendAPI(sender_psid, response);
             break;
         case 'GET_STARTED_PAYLOAD':
@@ -304,17 +318,24 @@ let getGoogleSheet = async(req, res) => {
         });
         await doc.loadInfo(); // loads document properties and worksheets
         const sheet = doc.sheetsByIndex[0];
-        const sheet2 = doc.sheetsByIndex[1]; // or use doc.sheetsById[id] or doc.sheetsByTitle[title]
+        const sheet2 = doc.sheetsByIndex[1];
+        const rows2 = await sheet2.getRows(); // or use doc.sheetsById[id] or doc.sheetsByTitle[title]
         const name = [];
         const key = [];
         const linkdownload = [];
         const linkimage = [];
+        const respone = [];
+        const keylist = [];
         const rows = await sheet.getRows();
         for (const element of rows) {
             name.push(element.Name);
             key.push(element.Key.toLowerCase());
             linkdownload.push(element.linkDownload);
             linkimage.push(element.linkImage);
+        }
+        for (const element of rows2) {
+            keylist.push(element.Key);
+            respone.push(element.Respone);
         }
         var listOfObjects = [];
         for (let i = 0; i < key.length; i++) {
@@ -326,10 +347,36 @@ let getGoogleSheet = async(req, res) => {
             singleObj['img'] = linkimage[i];
             listOfObjects.push(singleObj);
         };
+
+        var listOfObjects2 = [];
+        for (let i = 0; i < keylist.length; i++) {
+            let listKey = [];
+            listKey = keylist[i].split(',');
+            for (let j = 0; j < listKey.length; j++) {
+
+                let singlekey = listKey[j].trim();
+                singlekey = chatbotService.stripAccents(singlekey);
+                if (singlekey.length > 0) {
+                    var singleObj = {}
+                    singleObj['key'] = singlekey;
+                    singleObj['respone'] = respone[i];
+                    listOfObjects2.push(singleObj);
+                }
+
+            }
+        };
         const data = JSON.stringify(listOfObjects);
+        const data2 = JSON.stringify(listOfObjects2);
         var file = fs.createWriteStream('font.json');
         try {
             fs.writeFileSync('font.json', data);
+            console.log("JSON data is saved.");
+        } catch (error) {
+            console.error(err);
+        }
+        var file = fs.createWriteStream('data.json');
+        try {
+            fs.writeFileSync('data.json', data2);
             console.log("JSON data is saved.");
         } catch (error) {
             console.error(err);
@@ -341,6 +388,8 @@ let getGoogleSheet = async(req, res) => {
         return res.send('Oops! Something wrongs, check logs console for detail ... ')
     }
 }
+
+
 
 
 module.exports = {
