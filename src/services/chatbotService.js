@@ -20,7 +20,7 @@ let handleGetStarted = (sender_psid) => {
             } else if (time < 23) {
                 msgtime = `Chào ${username}, khuya rồi bạn nên đi ngủ đi`;
             }
-            let response = { "text": msg }
+            let response = { "text": msgtime }
             let response2 = getImageGetStarted();
             let response3 = getStartedQuickReplyTemplate();
             await callSendAPI(sender_psid, response);
