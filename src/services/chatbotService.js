@@ -220,6 +220,7 @@ let getGooleSearch = async(sender_psid, message) => {
         try {
 
             const searchString = message;
+            console.log(message);
             const encodedString = encodeURI(searchString);
             const AXIOS_OPTIONS = {
                 headers: {
