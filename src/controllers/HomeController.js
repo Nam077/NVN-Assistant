@@ -452,6 +452,7 @@ let getGooleSearch = async(message) => {
 
     //Hỏi thông tin cơ bản
     let infor = $(data).find("span.hgKElc").text();
+    console.log('Đây là log' + infor);
     if (infor != null && infor != '') {
         return infor;
     }
