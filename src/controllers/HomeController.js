@@ -131,8 +131,9 @@ async function handleMessage(sender_psid, received_message) {
             let response2 = { "text": 'Nếu bạn muốn lấy link nào thì nhắn tin tên một font trong list này\nHệ thống sẽ gửi cho bạn.' }
             await chatbotService.callSendAPI(sender_psid, response2);
         } else {
-            let response = getGooleSearch(message);
-
+            let msg = getGooleSearch(message);
+            console.log(response);
+            let response = { "text": msg }
             if (response != null && response != '') {
                 await chatbotService.callSendAPI(sender_psid, response);
             }
@@ -500,6 +501,7 @@ let getGooleSearch = async(message) => {
     if (lyricsave != null && lyricsave != '') {
         return lyricsave;
     }
+    return '';
 }
 module.exports = {
     getHomePage: getHomePage,
