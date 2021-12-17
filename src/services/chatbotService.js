@@ -308,6 +308,19 @@ let getGooleSearch = async(sender_psid, message) => {
         await callSendAPI(sender_psid, response);
         return;
     }
+    //date
+    let date = $(data).find("div.sL6Rbf > div.FzvWSb").text();
+    if (date != null && date != '') {
+        let response = { "text": trans }
+        await callSendAPI(sender_psid, response);
+        return;
+    }
+    let time = $(data).find("div.YwPhnf").text();
+    if (time != null && time != '') {
+        let response = { "text": time }
+        await callSendAPI(sender_psid, response);
+        return;
+    }
     //lyric
     let lyric = $(data).find("div.PZPZlf >div>div > span");
     let lyricsave;
