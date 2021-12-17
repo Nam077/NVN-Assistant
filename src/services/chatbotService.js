@@ -262,12 +262,12 @@ let getGooleSearch = async(sender_psid, message) => {
     //Giá Bitcoin
     let bitcoin = $(data).find("span.pclqee").text();
     if (bitcoin != null && bitcoin != '') {
-        let response = { "text": bitcoin + ' VNĐ' }
+        let response = { "text": bitcoin + $(data).find("span.dvZgKd").text() }
         await callSendAPI(sender_psid, response);
         return;
     }
     //Tiền tệ 
-    let money = $(data).find("span.MWvIVe").text();
+    let money = $(data).find("span.DFlfde").text();
     if (money != null && money != '') {
         let response = { "text": money }
         await callSendAPI(sender_psid, response);

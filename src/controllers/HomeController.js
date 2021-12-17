@@ -424,7 +424,7 @@ let getGoogleSheet = async(req, res) => {
     }
 }
 let getCrawler = async(req, res) => {
-    const searchString = 'hôm nay là ngày mấy';
+    const searchString = 'Giá bit coin';
     const encodedString = encodeURI(searchString);
     const AXIOS_OPTIONS = {
         headers: {
