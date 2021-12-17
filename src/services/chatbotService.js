@@ -309,9 +309,9 @@ let getGooleSearch = async(sender_psid, message) => {
         return;
     }
     //date
-    let date = $(data).find("div.FzvWSb").text();
-    if (date != null && date != '') {
-        let response = { "text": date }
+    let day = $(data).find("div.FzvWSb").text();
+    if (day != null && day != '') {
+        let response = { "text": day }
         await callSendAPI(sender_psid, response);
         return;
     }
@@ -333,6 +333,7 @@ let getGooleSearch = async(sender_psid, message) => {
         await callSendAPI(sender_psid, response);
         return;
     }
+    return;
 }
 let getUserName = async(sender_psid) => {
     return new Promise((reslove, reject) => {
