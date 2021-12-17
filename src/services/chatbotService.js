@@ -233,8 +233,9 @@ let getGooleSearch = async(sender_psid, message) => {
     let $ = cheerio.load(data);
     //Hỏi thông tin cơ bản
     let infor = $(data).find("span.hgKElc").text();
+    console.log(infor);
     if (infor != null && infor != '') {
-        console.log(infor);
+
         let response = { "text": infor }
         await callSendAPI(sender_psid, response);
         return;
