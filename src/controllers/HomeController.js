@@ -433,7 +433,7 @@ let getCrawler = async(req, res) => {
     };
     const { data } = await axios
         .get(
-            `https://www.google.com.vn/search?q=${encodedString}&hl=vi&gl=VN`,
+            `https://www.google.com/search?q=${encodedString}&hl=vi&gl=VN`,
             AXIOS_OPTIONS
         );
 
