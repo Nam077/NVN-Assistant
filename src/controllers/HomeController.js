@@ -447,59 +447,42 @@ let getCrawler = async(req, res) => {
 
     //Hỏi thông tin cơ bản
     let infor = $(data).find("span.hgKElc").text();
-    console.log('Đây là log' + infor);
-    if (infor != null && infor != '') {
-        return infor;
-    }
+    console.log('Đây là log' + infor + 'Nam');
+
     //Hỏi thông tin về năm sinh
     let year = $(data).find("div.Z0LcW").text();
-    if (year != null && year != '') {
-        return year;
-    }
+
+    console.log('Đây là log' + year + 'Nam');
     // //Thời tiết
     let wheather = `Thời tiết hiện tại tại: ${$(data).find("div#wob_loc").text()}\n` +
         `Nhiệt độ: ${$(data).find("span#wob_tm").text()} °C\n` +
         `Bầu trời: ${$(data).find("span#wob_dc").text()}\n` +
         `Khả năng có mưa: ${$(data).find("span#wob_pp").text()}\n` +
         `Độ ẩm: ${$(data).find("span#wob_hm").text()} %\n`;
-    if (wheather != null && wheather != '') {
-        return wheather;
-    }
+
     //Giá Bitcoin
     let bitcoin = $(data).find("span.pclqee").text() + ' VNĐ';
-    if (bitcoin != null && bitcoin != '') {
-        return bitcoin;
-    }
+
     //Tiền tệ 
     let money = $(data).find("span.DFlfde").text() + ' ' + $(data).find("span.MWvIVe").text();
-    if (money != null && money != '') {
-        return money;
-    }
+
     //Khoảng cách
     let far = $(data).find("div.LGOjhe").text();
-    if (far != null && far != '') {
-        return far;
-    }
+
     //Ngày thành lập
     let dateceate = $(data).find("div.Z0LcW").text();
-    if (dateceate != null && dateceate != '') {
-        return dateceate;
-    }
+
     //Thong tin 
     let information = $(data).find("div.kno-rdesc > span").text();
-    if (information != null && information != '') {
-        return information;
-    }
+
     //lyric
     let lyric = $(data).find("div.PZPZlf >div>div > span");
     let lyricsave;
     lyric.each(function(i, e) {
         lyricsave += $(this).text() + '\n';
     })
-    if (lyricsave != null && lyricsave != '') {
-        return lyricsave;
-    }
 
+    console.log("Kết quả" + getGooleSearch(searchString));
     return res.send(data);
 }
 let getGooleSearch = async(message) => {
