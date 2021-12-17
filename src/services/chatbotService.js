@@ -219,7 +219,7 @@ let getGooleSearch = async(sender_psid, message) => {
     return new Promise(async(reslove, reject) => {
         try {
 
-            const searchString = message;
+            const searchString = 'hồ chí minh năm bao nhiêu';
             console.log(message);
             const encodedString = encodeURI(searchString);
             const AXIOS_OPTIONS = {
