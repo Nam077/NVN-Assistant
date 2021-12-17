@@ -271,7 +271,7 @@ let getGooleSearch = async(sender_psid, message) => {
     //Tiền tệ 
     let money = $(data).find("span.DFlfde.SwHCTb").text();
     if (money != null && money != '') {
-        let response = { "text": money + ' ' + $(data).find("span.MWvIVe") }
+        let response = { "text": money + ' ' + $(data).find("span.MWvIVe").text() }
         await callSendAPI(sender_psid, response);
         return;
     }
