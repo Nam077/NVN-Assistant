@@ -104,6 +104,7 @@ async function handleMessage(sender_psid, received_message) {
     if (received_message.text) {
         let message = received_message.text;
         message = message.toLowerCase();
+        console.log(getGooleSearch(message));
         let arr = chatbotService.getArraydatafromJson('font');
         let arr2 = chatbotService.getArraydatafromJson('data');
         let keyfont = chatbotService.checkKey(arr, message);
@@ -132,9 +133,10 @@ async function handleMessage(sender_psid, received_message) {
             await chatbotService.callSendAPI(sender_psid, response2);
         } else {
             let msg = getGooleSearch(message);
-            console.log(response);
-            let response = { "text": msg }
-            if (response != null && response != '') {
+            console.log(msg);
+
+            if (msg != null && msg != '') {
+                let response = { "text": msg }
                 await chatbotService.callSendAPI(sender_psid, response);
             }
         }
