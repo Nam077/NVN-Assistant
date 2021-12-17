@@ -229,7 +229,6 @@ let getGooleSearch = async(sender_psid, message) => {
             AXIOS_OPTIONS
         );
     let $ = cheerio.load(data);
-
     //Hỏi thông tin cơ bản
     let infor = $(data).find("span.hgKElc").text();
     if (infor != null && infor != '') {
@@ -257,9 +256,9 @@ let getGooleSearch = async(sender_psid, message) => {
         return;
     }
     //Giá Bitcoin
-    let bitcoin = $(data).find("span.pclqee").text() + ' VNĐ';
+    let bitcoin = $(data).find("span.pclqee").text();
     if (bitcoin != null && bitcoin != '') {
-        let response = { "text": bitcoin }
+        let response = { "text": bitcoin + ' VNĐ' }
         await callSendAPI(sender_psid, response);
         return;
     }
