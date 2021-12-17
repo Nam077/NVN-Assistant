@@ -104,7 +104,7 @@ async function handleMessage(sender_psid, received_message) {
     if (received_message.text) {
         let message = received_message.text;
         message = message.toLowerCase();
-        console.log(getGooleSearch(message));
+
         let arr = chatbotService.getArraydatafromJson('font');
         let arr2 = chatbotService.getArraydatafromJson('data');
         let keyfont = chatbotService.checkKey(arr, message);
@@ -132,13 +132,7 @@ async function handleMessage(sender_psid, received_message) {
             let response2 = { "text": 'Nếu bạn muốn lấy link nào thì nhắn tin tên một font trong list này\nHệ thống sẽ gửi cho bạn.' }
             await chatbotService.callSendAPI(sender_psid, response2);
         } else {
-            let msg = getGooleSearch(message);
-            console.log(msg);
-
-            if (msg != null && msg != '') {
-                let response = { "text": msg }
-                await chatbotService.callSendAPI(sender_psid, response);
-            }
+            chatbotService.getGooleSearch(message);
         }
 
     } else if (received_message.attachments) {
@@ -431,131 +425,62 @@ let getGoogleSheet = async(req, res) => {
     }
 }
 let getCrawler = async(req, res) => {
-    const searchString = 'Hồ Chí Minh sinh năm bao nhiêu';
-    const encodedString = encodeURI(searchString);
-    const AXIOS_OPTIONS = {
-        headers: {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.57'
-        },
-    };
-    const { data } = await axios
-        .get(
-            `https://www.google.com.vn/search?q=${encodedString}&hl=vi&gl=VN`,
-            AXIOS_OPTIONS
-        );
-    let $ = cheerio.load(data);
+    // const searchString = 'Hồ Chí Minh sinh năm bao nhiêu';
+    // const encodedString = encodeURI(searchString);
+    // const AXIOS_OPTIONS = {
+    //     headers: {
+    //         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.57'
+    //     },
+    // };
+    // const { data } = await axios
+    //     .get(
+    //         `https://www.google.com.vn/search?q=${encodedString}&hl=vi&gl=VN`,
+    //         AXIOS_OPTIONS
+    //     );
 
-    //Hỏi thông tin cơ bản
-    let infor = $(data).find("span.hgKElc").text();
-    console.log('Đây là log' + infor + 'Nam');
+    // let $ = cheerio.load(data);
 
-    //Hỏi thông tin về năm sinh
-    let year = $(data).find("div.Z0LcW").text();
+    // //Hỏi thông tin cơ bản
+    // let infor = $(data).find("span.hgKElc").text();
 
-    console.log('Đây là log' + year + 'Nam');
-    // //Thời tiết
-    let wheather = `Thời tiết hiện tại tại: ${$(data).find("div#wob_loc").text()}\n` +
-        `Nhiệt độ: ${$(data).find("span#wob_tm").text()} °C\n` +
-        `Bầu trời: ${$(data).find("span#wob_dc").text()}\n` +
-        `Khả năng có mưa: ${$(data).find("span#wob_pp").text()}\n` +
-        `Độ ẩm: ${$(data).find("span#wob_hm").text()} %\n`;
+    // //Hỏi thông tin về năm sinh
+    // let year = $(data).find("div.Z0LcW").text();
 
-    //Giá Bitcoin
-    let bitcoin = $(data).find("span.pclqee").text() + ' VNĐ';
 
-    //Tiền tệ 
-    let money = $(data).find("span.DFlfde").text() + ' ' + $(data).find("span.MWvIVe").text();
+    // // //Thời tiết
+    // let wheather = `Thời tiết hiện tại tại: ${$(data).find("div#wob_loc").text()}\n` +
+    //     `Nhiệt độ: ${$(data).find("span#wob_tm").text()} °C\n` +
+    //     `Bầu trời: ${$(data).find("span#wob_dc").text()}\n` +
+    //     `Khả năng có mưa: ${$(data).find("span#wob_pp").text()}\n` +
+    //     `Độ ẩm: ${$(data).find("span#wob_hm").text()} %\n`;
 
-    //Khoảng cách
-    let far = $(data).find("div.LGOjhe").text();
+    // //Giá Bitcoin
+    // let bitcoin = $(data).find("span.pclqee").text() + ' VNĐ';
 
-    //Ngày thành lập
-    let dateceate = $(data).find("div.Z0LcW").text();
+    // //Tiền tệ 
+    // let money = $(data).find("span.DFlfde").text() + ' ' + $(data).find("span.MWvIVe").text();
 
-    //Thong tin 
-    let information = $(data).find("div.kno-rdesc > span").text();
+    // //Khoảng cách
+    // let far = $(data).find("div.LGOjhe").text();
 
-    //lyric
-    let lyric = $(data).find("div.PZPZlf >div>div > span");
-    let lyricsave;
-    lyric.each(function(i, e) {
-        lyricsave += $(this).text() + '\n';
-    })
+    // //Ngày thành lập
+    // let dateceate = $(data).find("div.Z0LcW").text();
 
-    console.log("Kết quả" + getGooleSearch(searchString));
-    return res.send(data);
+    // //Thong tin 
+    // let information = $(data).find("div.kno-rdesc > span").text();
+
+    // //lyric
+    // let lyric = $(data).find("div.PZPZlf >div>div > span");
+    // let lyricsave;
+    // lyric.each(function(i, e) {
+    //     lyricsave += $(this).text() + '\n';
+    // })
+
+    // let a = getGooleSearch('f');
+    // console.log(a);
+    // return res.send(data);
 }
-let getGooleSearch = async(message) => {
-    const searchString = message;
-    const encodedString = encodeURI(searchString);
-    const AXIOS_OPTIONS = {
-        headers: {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.57'
-        },
-    };
-    const { data } = await axios
-        .get(
-            `https://www.google.com.vn/search?q=${encodedString}&hl=vi&gl=VN`,
-            AXIOS_OPTIONS
-        );
-    let $ = cheerio.load(data);
 
-    //Hỏi thông tin cơ bản
-    let infor = $(data).find("span.hgKElc").text();
-    console.log('Đây là log' + infor);
-    if (infor != null && infor != '') {
-        return infor;
-    }
-    //Hỏi thông tin về năm sinh
-    let year = $(data).find("div.Z0LcW").text();
-    if (year != null && year != '') {
-        return year;
-    }
-    // //Thời tiết
-    let wheather = `Thời tiết hiện tại tại: ${$(data).find("div#wob_loc").text()}\n` +
-        `Nhiệt độ: ${$(data).find("span#wob_tm").text()} °C\n` +
-        `Bầu trời: ${$(data).find("span#wob_dc").text()}\n` +
-        `Khả năng có mưa: ${$(data).find("span#wob_pp").text()}\n` +
-        `Độ ẩm: ${$(data).find("span#wob_hm").text()} %\n`;
-    if (wheather != null && wheather != '') {
-        return wheather;
-    }
-    //Giá Bitcoin
-    let bitcoin = $(data).find("span.pclqee").text() + ' VNĐ';
-    if (bitcoin != null && bitcoin != '') {
-        return bitcoin;
-    }
-    //Tiền tệ 
-    let money = $(data).find("span.DFlfde").text() + ' ' + $(data).find("span.MWvIVe").text();
-    if (money != null && money != '') {
-        return money;
-    }
-    //Khoảng cách
-    let far = $(data).find("div.LGOjhe").text();
-    if (far != null && far != '') {
-        return far;
-    }
-    //Ngày thành lập
-    let dateceate = $(data).find("div.Z0LcW").text();
-    if (dateceate != null && dateceate != '') {
-        return dateceate;
-    }
-    //Thong tin 
-    let information = $(data).find("div.kno-rdesc > span").text();
-    if (information != null && information != '') {
-        return information;
-    }
-    //lyric
-    let lyric = $(data).find("div.PZPZlf >div>div > span");
-    let lyricsave;
-    lyric.each(function(i, e) {
-        lyricsave += $(this).text() + '\n';
-    })
-    if (lyricsave != null && lyricsave != '') {
-        return lyricsave;
-    }
-    return '';
-}
 module.exports = {
     getHomePage: getHomePage,
     postWebhook: postWebhook,
@@ -564,5 +489,4 @@ module.exports = {
     setupPersistentMenu: setupPersistentMenu,
     getGoogleSheet: getGoogleSheet,
     getCrawler: getCrawler,
-    getGooleSearch: getGooleSearch,
 }

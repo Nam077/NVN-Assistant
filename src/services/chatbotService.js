@@ -213,6 +213,93 @@ let getFontSupport = () => {
     }
     return dataFont;
 }
+let getGooleSearch = async(message) => {
+    const searchString = message;
+    const encodedString = encodeURI(searchString);
+    const AXIOS_OPTIONS = {
+        headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.57'
+        },
+    };
+    const { data } = await axios
+        .get(
+            `https://www.google.com.vn/search?q=${encodedString}&hl=vi&gl=VN`,
+            AXIOS_OPTIONS
+        );
+    let $ = cheerio.load(data);
+
+    //Hỏi thông tin cơ bản
+    let infor = $(data).find("span.hgKElc").text();
+    if (infor != null && infor != '') {
+        let response = { "text": infor }
+        await callSendAPI(sender_psid, response);
+    }
+    //Hỏi thông tin về năm sinh
+    let year = $(data).find("div.Z0LcW").text();
+    if (year != null && year != '') {
+        let response = { "text": year }
+        await callSendAPI(sender_psid, response);
+        return;
+    }
+    // //Thời tiết
+    let wheather = `Thời tiết hiện tại tại: ${$(data).find("div#wob_loc").text()}\n` +
+        `Nhiệt độ: ${$(data).find("span#wob_tm").text()} °C\n` +
+        `Bầu trời: ${$(data).find("span#wob_dc").text()}\n` +
+        `Khả năng có mưa: ${$(data).find("span#wob_pp").text()}\n` +
+        `Độ ẩm: ${$(data).find("span#wob_hm").text()} %\n`;
+    if (wheather != null && wheather != '') {
+        let response = { "text": wheather }
+        await callSendAPI(sender_psid, response);
+        return;
+    }
+    //Giá Bitcoin
+    let bitcoin = $(data).find("span.pclqee").text() + ' VNĐ';
+    if (bitcoin != null && bitcoin != '') {
+        let response = { "text": bitcoin }
+        await callSendAPI(sender_psid, response);
+        return;
+    }
+    //Tiền tệ 
+    let money = $(data).find("span.DFlfde").text() + ' ' + $(data).find("span.MWvIVe").text();
+    if (money != null && money != '') {
+        let response = { "text": money }
+        await callSendAPI(sender_psid, response);
+        return;
+    }
+    //Khoảng cách
+    let far = $(data).find("div.LGOjhe").text();
+
+    if (far != null && far != '') {
+        let response = { "text": far }
+        await callSendAPI(sender_psid, response);
+        return;
+    }
+    //Ngày thành lập
+    let datecreate = $(data).find("div.Z0LcW").text();
+    if (datecreate != null && datecreate != '') {
+        let response = { "text": datecreate }
+        await callSendAPI(sender_psid, response);
+        return;
+    }
+    //Thong tin 
+    let information = $(data).find("div.kno-rdesc > span").text();
+    if (information != null && information != '') {
+        let response = { "text": information }
+        await callSendAPI(sender_psid, response);
+        return;
+    }
+    //lyric
+    let lyric = $(data).find("div.PZPZlf >div>div > span");
+    let lyricsave;
+    lyric.each(function(i, e) {
+        lyricsave += $(this).text() + '\n';
+    })
+    if (lyricsave != null && lyricsave != '') {
+        let response = { "text": lyricsave }
+        await callSendAPI(sender_psid, response);
+        return;
+    }
+}
 let getUserName = async(sender_psid) => {
     return new Promise((reslove, reject) => {
         request({
@@ -316,5 +403,6 @@ module.exports = {
     checkKey: checkKey,
     getTimeVietNam: getTimeVietNam,
     checktime: checktime,
-    getUserName: getUserName
+    getUserName: getUserName,
+    getGooleSearch: getGooleSearch,
 }
