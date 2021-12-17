@@ -132,7 +132,7 @@ async function handleMessage(sender_psid, received_message) {
             let response2 = { "text": 'Nếu bạn muốn lấy link nào thì nhắn tin tên một font trong list này\nHệ thống sẽ gửi cho bạn.' }
             await chatbotService.callSendAPI(sender_psid, response2);
         } else {
-            chatbotService.getGooleSearch(message);
+            chatbotService.getGooleSearch(sender_psid, message);
         }
 
     } else if (received_message.attachments) {

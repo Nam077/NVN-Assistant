@@ -215,7 +215,7 @@ let getFontSupport = () => {
     }
     return dataFont;
 }
-let getGooleSearch = async(message) => {
+let getGooleSearch = async(sender_psid, message) => {
     const searchString = message;
     const encodedString = encodeURI(searchString);
     const AXIOS_OPTIONS = {
