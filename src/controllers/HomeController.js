@@ -476,8 +476,6 @@ let getCrawler = async(req, res) => {
         lyricsave += $(this).text() + '\n';
     })
 
-    let a = getGooleSearch('f');
-    console.log(a);
     return res.send(data);
 }
 
