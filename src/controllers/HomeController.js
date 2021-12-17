@@ -424,7 +424,7 @@ let getGoogleSheet = async(req, res) => {
     }
 }
 let getCrawler = async(req, res) => {
-    const searchString = 'Người nào thành lập nước Việt Nam';
+    const searchString = '1000 USD sang VND';
     const encodedString = encodeURI(searchString);
     const AXIOS_OPTIONS = {
         headers: {
@@ -433,7 +433,7 @@ let getCrawler = async(req, res) => {
     };
     const { data } = await axios
         .get(
-            `https://www.google.com/search?q=${encodedString}&hl=vi&gl=VN`,
+            `https://www.google.com.vn/search?q=${encodedString}&hl=vi&gl=VN`,
             AXIOS_OPTIONS
         );
 
@@ -475,7 +475,6 @@ let getCrawler = async(req, res) => {
     lyric.each(function(i, e) {
         lyricsave += $(this).text() + '\n';
     })
-    console.log(lyricsave);
 
     return res.send(data);
 }
