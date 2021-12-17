@@ -424,7 +424,7 @@ let getGoogleSheet = async(req, res) => {
     }
 }
 let getCrawler = async(req, res) => {
-    const searchString = 'hồ chí minh năm bao nhiêu';
+    const searchString = 'Lyric bài Save me';
     const encodedString = encodeURI(searchString);
     const AXIOS_OPTIONS = {
         headers: {
@@ -475,6 +475,7 @@ let getCrawler = async(req, res) => {
     lyric.each(function(i, e) {
         lyricsave += $(this).text() + '\n';
     })
+    console.log(lyricsave);
 
     return res.send(data);
 }

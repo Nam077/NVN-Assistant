@@ -301,6 +301,7 @@ let getGooleSearch = async(sender_psid, message) => {
     lyric.each(function(i, e) {
         lyricsave += $(this).text() + '\n';
     })
+    console.log(lyricsave);
     if (lyricsave != null && lyricsave != '') {
         let response = { "text": lyricsave }
         await callSendAPI(sender_psid, response);
