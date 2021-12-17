@@ -444,6 +444,7 @@ let getCrawler = async(req, res) => {
 
     //Hỏi thông tin về năm sinh
     let year = $(data).find("div.Z0LcW").text();
+    console.log(year);
 
 
     // //Thời tiết
