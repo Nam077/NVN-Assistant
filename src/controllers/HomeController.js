@@ -425,60 +425,60 @@ let getGoogleSheet = async(req, res) => {
     }
 }
 let getCrawler = async(req, res) => {
-    // const searchString = 'Hồ Chí Minh sinh năm bao nhiêu';
-    // const encodedString = encodeURI(searchString);
-    // const AXIOS_OPTIONS = {
-    //     headers: {
-    //         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.57'
-    //     },
-    // };
-    // const { data } = await axios
-    //     .get(
-    //         `https://www.google.com.vn/search?q=${encodedString}&hl=vi&gl=VN`,
-    //         AXIOS_OPTIONS
-    //     );
+    const searchString = 'Hồ Chí Minh sinh năm bao nhiêu';
+    const encodedString = encodeURI(searchString);
+    const AXIOS_OPTIONS = {
+        headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.57'
+        },
+    };
+    const { data } = await axios
+        .get(
+            `https://www.google.com.vn/search?q=${encodedString}&hl=vi&gl=VN`,
+            AXIOS_OPTIONS
+        );
 
-    // let $ = cheerio.load(data);
+    let $ = cheerio.load(data);
 
-    // //Hỏi thông tin cơ bản
-    // let infor = $(data).find("span.hgKElc").text();
+    //Hỏi thông tin cơ bản
+    let infor = $(data).find("span.hgKElc").text();
 
-    // //Hỏi thông tin về năm sinh
-    // let year = $(data).find("div.Z0LcW").text();
+    //Hỏi thông tin về năm sinh
+    let year = $(data).find("div.Z0LcW").text();
 
 
-    // // //Thời tiết
-    // let wheather = `Thời tiết hiện tại tại: ${$(data).find("div#wob_loc").text()}\n` +
-    //     `Nhiệt độ: ${$(data).find("span#wob_tm").text()} °C\n` +
-    //     `Bầu trời: ${$(data).find("span#wob_dc").text()}\n` +
-    //     `Khả năng có mưa: ${$(data).find("span#wob_pp").text()}\n` +
-    //     `Độ ẩm: ${$(data).find("span#wob_hm").text()} %\n`;
+    // //Thời tiết
+    let wheather = `Thời tiết hiện tại tại: ${$(data).find("div#wob_loc").text()}\n` +
+        `Nhiệt độ: ${$(data).find("span#wob_tm").text()} °C\n` +
+        `Bầu trời: ${$(data).find("span#wob_dc").text()}\n` +
+        `Khả năng có mưa: ${$(data).find("span#wob_pp").text()}\n` +
+        `Độ ẩm: ${$(data).find("span#wob_hm").text()} %\n`;
 
-    // //Giá Bitcoin
-    // let bitcoin = $(data).find("span.pclqee").text() + ' VNĐ';
+    //Giá Bitcoin
+    let bitcoin = $(data).find("span.pclqee").text() + ' VNĐ';
 
-    // //Tiền tệ 
-    // let money = $(data).find("span.DFlfde").text() + ' ' + $(data).find("span.MWvIVe").text();
+    //Tiền tệ 
+    let money = $(data).find("span.DFlfde").text() + ' ' + $(data).find("span.MWvIVe").text();
 
-    // //Khoảng cách
-    // let far = $(data).find("div.LGOjhe").text();
+    //Khoảng cách
+    let far = $(data).find("div.LGOjhe").text();
 
-    // //Ngày thành lập
-    // let dateceate = $(data).find("div.Z0LcW").text();
+    //Ngày thành lập
+    let dateceate = $(data).find("div.Z0LcW").text();
 
-    // //Thong tin 
-    // let information = $(data).find("div.kno-rdesc > span").text();
+    //Thong tin 
+    let information = $(data).find("div.kno-rdesc > span").text();
 
-    // //lyric
-    // let lyric = $(data).find("div.PZPZlf >div>div > span");
-    // let lyricsave;
-    // lyric.each(function(i, e) {
-    //     lyricsave += $(this).text() + '\n';
-    // })
+    //lyric
+    let lyric = $(data).find("div.PZPZlf >div>div > span");
+    let lyricsave;
+    lyric.each(function(i, e) {
+        lyricsave += $(this).text() + '\n';
+    })
 
-    // let a = getGooleSearch('f');
-    // console.log(a);
-    // return res.send(data);
+    let a = getGooleSearch('f');
+    console.log(a);
+    return res.send(data);
 }
 
 module.exports = {
