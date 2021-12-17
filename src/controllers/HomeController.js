@@ -132,6 +132,7 @@ async function handleMessage(sender_psid, received_message) {
             await chatbotService.callSendAPI(sender_psid, response2);
         } else {
             let response = getGooleSearch(message);
+
             if (response != null && response != '') {
                 await chatbotService.callSendAPI(sender_psid, response);
             }
@@ -499,7 +500,6 @@ let getGooleSearch = async(message) => {
     if (lyricsave != null && lyricsave != '') {
         return lyricsave;
     }
-    return '';
 }
 module.exports = {
     getHomePage: getHomePage,
