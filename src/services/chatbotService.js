@@ -1,4 +1,6 @@
 import request from "request";
+import cheerio from "cheerio";
+import axios from "axios";
 require('dotenv').config();
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 let handleGetStarted = (sender_psid) => {
