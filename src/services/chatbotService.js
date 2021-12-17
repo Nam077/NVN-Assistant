@@ -242,6 +242,7 @@ let getGooleSearch = async(sender_psid, message) => {
     }
     //Hỏi thông tin về năm sinh
     let year = $(data).find("div.Z0LcW").text();
+    console.log(infor);
     if (year != null && year != '') {
         let response = { "text": year }
         await callSendAPI(sender_psid, response);
