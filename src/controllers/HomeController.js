@@ -366,7 +366,7 @@ let getGoogleSheet = async(req, res) => {
             listkeyfont = key[i].split(',');
             for (let j = 0; j < listkeyfont.length; j++) {
                 let singlekey = listkeyfont[j].trim();
-                if (singlekey.length > 0) {
+                if (singlekey != null && singlekey != '') {
                     var singleObj = {}
                     singleObj['key'] = singlekey;
                     singleObj['name'] = name[i];
@@ -384,9 +384,8 @@ let getGoogleSheet = async(req, res) => {
             let listKey = [];
             listKey = keylist[i].split(',');
             for (let j = 0; j < listKey.length; j++) {
-
                 let singlekey = listKey[j].trim();
-                if (singlekey.length > 0) {
+                if (singlekey != null && singlekey != '') {
                     var singleObj = {}
                     singleObj['key'] = singlekey;
                     singleObj['respone'] = respone[i];
