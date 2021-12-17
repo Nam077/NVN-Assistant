@@ -424,7 +424,7 @@ let getGoogleSheet = async(req, res) => {
     }
 }
 let getCrawler = async(req, res) => {
-    const searchString = 'Lyric bài Save me';
+    const searchString = 'Người nào thành lập nước Việt Nam';
     const encodedString = encodeURI(searchString);
     const AXIOS_OPTIONS = {
         headers: {
