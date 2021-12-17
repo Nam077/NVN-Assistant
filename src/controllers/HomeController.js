@@ -423,7 +423,7 @@ let getGoogleSheet = async(req, res) => {
     }
 }
 let getCrawler = async(req, res) => {
-    const searchString = 'lời bài hát Em của ngày hôm qua';
+    const searchString = 'Hồ Chí Minh là ai';
     const encodedString = encodeURI(searchString);
     const AXIOS_OPTIONS = {
         headers: {
@@ -467,7 +467,7 @@ let getCrawler = async(req, res) => {
     let dateceate = $(data).find("div.Z0LcW").text();
 
     //Thong tin 
-    let information = $(data).find("div.kno-rdesc > span").text();
+    let information = $(data).find("div.kno-rdesc > span").first().text();
 
     //lyric
     let lyric = $(data).find("div.PZPZlf >div>div > span");
@@ -476,7 +476,8 @@ let getCrawler = async(req, res) => {
         lyricsave += $(this).text() + '\n';
     })
     let trans = $(data).find("div.dDoNo.vrBOv.vk_bk").text();
-    console.log(trans)
+    let linkimg = $(data).find("img#wp_thbn_10").attr('src');
+    console.log(linkimg)
 
     return res.send(data);
 }

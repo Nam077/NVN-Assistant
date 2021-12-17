@@ -303,7 +303,7 @@ let getGooleSearch = async(sender_psid, message) => {
         return;
     }
     //Thong tin 
-    let information = $(data).find("div.kno-rdesc > span").text();
+    let information = $(data).find("div.kno-rdesc > span").first().text();
     if (information != null && information != '') {
         let response = { "text": information }
         await callSendAPI(sender_psid, response);
