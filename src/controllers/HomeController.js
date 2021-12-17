@@ -178,11 +178,11 @@ async function handlePostback(sender_psid, received_postback) {
 
     switch (payload) {
         case 'yes':
-            response = { "text": "Thanks!" }
+            response = { "text": "Hỏi vậy chứ không có gì :vv" }
             callSendAPI(sender_psid, response);
             break;
         case 'no':
-            response = { "text": "Oops, try sending another image." }
+            response = { "text": "Kaka Kệ" }
             callSendAPI(sender_psid, response);
             break;
         case 'BOT_TUTORIAL':
