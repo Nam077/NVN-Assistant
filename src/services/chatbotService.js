@@ -232,6 +232,7 @@ let getGooleSearch = async(sender_psid, message) => {
     //Hỏi thông tin cơ bản
     let infor = $(data).find("span.hgKElc").text();
     if (infor != null && infor != '') {
+        console.log(infor);
         let response = { "text": infor }
         await callSendAPI(sender_psid, response);
         return;
@@ -241,6 +242,7 @@ let getGooleSearch = async(sender_psid, message) => {
     if (year != null && year != '') {
         let response = { "text": year }
         await callSendAPI(sender_psid, response);
+        console.log(infor);
         return;
     }
     // //Thời tiết

@@ -104,7 +104,6 @@ async function handleMessage(sender_psid, received_message) {
     if (received_message.text) {
         let message = received_message.text;
         message = message.toLowerCase();
-
         let arr = chatbotService.getArraydatafromJson('font');
         let arr2 = chatbotService.getArraydatafromJson('data');
         let keyfont = chatbotService.checkKey(arr, message);
