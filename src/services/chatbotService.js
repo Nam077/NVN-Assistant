@@ -309,9 +309,9 @@ let getGooleSearch = async(sender_psid, message) => {
         return;
     }
     //date
-    let date = $(data).find("div.sL6Rbf > div.FzvWSb").text();
+    let date = $(data).find("div.FzvWSb").text();
     if (date != null && date != '') {
-        let response = { "text": trans }
+        let response = { "text": date }
         await callSendAPI(sender_psid, response);
         return;
     }

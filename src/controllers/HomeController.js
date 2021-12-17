@@ -424,7 +424,7 @@ let getGoogleSheet = async(req, res) => {
     }
 }
 let getCrawler = async(req, res) => {
-    const searchString = 'việt nam hôm nay là ngày mấ';
+    const searchString = 'mấy giờ rồi tại việt nam';
     const encodedString = encodeURI(searchString);
     const AXIOS_OPTIONS = {
         headers: {
@@ -476,7 +476,7 @@ let getCrawler = async(req, res) => {
     lyric.each(function(i, e) {
         lyricsave += $(this).text() + '\n';
     })
-    let trans = $(data).find("div.sL6Rbf > div.FzvWSb").last().text();
+    let trans = $(data).find("div.FzvWSb").last().text();
     console.log(trans)
 
     return res.send(data);
