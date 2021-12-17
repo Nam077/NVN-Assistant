@@ -235,6 +235,7 @@ let getGooleSearch = async(sender_psid, message) => {
     if (infor != null && infor != '') {
         let response = { "text": infor }
         await callSendAPI(sender_psid, response);
+        return;
     }
     //Hỏi thông tin về năm sinh
     let year = $(data).find("div.Z0LcW").text();
@@ -244,12 +245,13 @@ let getGooleSearch = async(sender_psid, message) => {
         return;
     }
     // //Thời tiết
+    let checkwheather = $(data).find("span#wob_tm").text();
     let wheather = `Thời tiết hiện tại tại: ${$(data).find("div#wob_loc").text()}\n` +
         `Nhiệt độ: ${$(data).find("span#wob_tm").text()} °C\n` +
         `Bầu trời: ${$(data).find("span#wob_dc").text()}\n` +
         `Khả năng có mưa: ${$(data).find("span#wob_pp").text()}\n` +
         `Độ ẩm: ${$(data).find("span#wob_hm").text()} %\n`;
-    if (wheather != null && wheather != '') {
+    if (checkwheather != null && checkwheather != '') {
         let response = { "text": wheather }
         await callSendAPI(sender_psid, response);
         return;
