@@ -424,7 +424,7 @@ let getGoogleSheet = async(req, res) => {
     }
 }
 let getCrawler = async(req, res) => {
-    const searchString = '1000 Kg bằng bao nhiêu tấn';
+    const searchString = 'lời bài hát Em của ngày hôm qua';
     const encodedString = encodeURI(searchString);
     const AXIOS_OPTIONS = {
         headers: {
