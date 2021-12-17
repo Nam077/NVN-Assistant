@@ -424,7 +424,7 @@ let getGoogleSheet = async(req, res) => {
     }
 }
 let getCrawler = async(req, res) => {
-    const searchString = '1000 USD sang VND';
+    const searchString = 'Tính toán 400 cộng 400';
     const encodedString = encodeURI(searchString);
     const AXIOS_OPTIONS = {
         headers: {
@@ -458,7 +458,8 @@ let getCrawler = async(req, res) => {
     let bitcoin = $(data).find("span.pclqee").text() + ' VNĐ';
 
     //Tiền tệ 
-    let money = $(data).find("span.DFlfde").text() + ' ' + $(data).find("span.MWvIVe").text();
+    let money = $(data).find("span.DFlfde").text() + ' '
+    $(data).find("span.vLqKYe").text() + ' bằng' + $(data).find("span.MWvIVe").text();
 
     //Khoảng cách
     let far = $(data).find("div.LGOjhe").text();
