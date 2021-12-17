@@ -267,9 +267,15 @@ let getGooleSearch = async(sender_psid, message) => {
         return;
     }
     //Tiền tệ 
-    let money = $(data).find("span.DFlfde").text() + ' ' + $(data).find("span.MWvIVe").text();
+    let money = $(data).find("span.MWvIVe").text();
     if (money != null && money != '') {
         let response = { "text": money }
+        await callSendAPI(sender_psid, response);
+        return;
+    }
+    let math = $(data).find("span.qv3Wpe").text();
+    if (math != null && math != '') {
+        let response = { "text": math }
         await callSendAPI(sender_psid, response);
         return;
     }
@@ -292,6 +298,13 @@ let getGooleSearch = async(sender_psid, message) => {
     let information = $(data).find("div.kno-rdesc > span").text();
     if (information != null && information != '') {
         let response = { "text": information }
+        await callSendAPI(sender_psid, response);
+        return;
+    }
+    //dịch
+    let trans = $(data).find("pre.tw-data-text > span.Y2IQFc").last().text();
+    if (trans != null && trans != '') {
+        let response = { "text": trans }
         await callSendAPI(sender_psid, response);
         return;
     }
