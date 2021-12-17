@@ -275,6 +275,12 @@ let getGooleSearch = async(sender_psid, message) => {
         await callSendAPI(sender_psid, response);
         return;
     }
+    let change_unit = $(data).find("div.dDoNo.vrBOv.vk_bk").text();
+    if (change_unit != null && change_unit != '') {
+        let response = { "text": change_unit }
+        await callSendAPI(sender_psid, response);
+        return;
+    }
     let math = $(data).find("span.qv3Wpe").text();
     if (math != null && math != '') {
         let response = { "text": math }

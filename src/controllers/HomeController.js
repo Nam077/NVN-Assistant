@@ -424,7 +424,7 @@ let getGoogleSheet = async(req, res) => {
     }
 }
 let getCrawler = async(req, res) => {
-    const searchString = '1000 USD';
+    const searchString = '1000 Kg bằng bao nhiêu tấn';
     const encodedString = encodeURI(searchString);
     const AXIOS_OPTIONS = {
         headers: {
@@ -476,7 +476,7 @@ let getCrawler = async(req, res) => {
     lyric.each(function(i, e) {
         lyricsave += $(this).text() + '\n';
     })
-    let trans = $(data).find("span.DFlfde.SwHCTb").text();
+    let trans = $(data).find("div.dDoNo.vrBOv.vk_bk").text();
     console.log(trans)
 
     return res.send(data);
