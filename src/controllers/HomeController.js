@@ -431,9 +431,76 @@ let getGoogleSheet = async(req, res) => {
     }
 }
 let getCrawler = async(req, res) => {
+    const searchString = 'Hồ Chí Minh sinh năm bao nhiêu';
+    const encodedString = encodeURI(searchString);
+    const AXIOS_OPTIONS = {
+        headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.57'
+        },
+    };
+    const { data } = await axios
+        .get(
+            `https://www.google.com.vn/search?q=${encodedString}&hl=vi&gl=VN`,
+            AXIOS_OPTIONS
+        );
+    let $ = cheerio.load(data);
 
+    //Hỏi thông tin cơ bản
+    let infor = $(data).find("span.hgKElc").text();
+    console.log('Đây là log' + infor);
+    if (infor != null && infor != '') {
+        return infor;
+    }
+    //Hỏi thông tin về năm sinh
+    let year = $(data).find("div.Z0LcW").text();
+    if (year != null && year != '') {
+        return year;
+    }
+    // //Thời tiết
+    let wheather = `Thời tiết hiện tại tại: ${$(data).find("div#wob_loc").text()}\n` +
+        `Nhiệt độ: ${$(data).find("span#wob_tm").text()} °C\n` +
+        `Bầu trời: ${$(data).find("span#wob_dc").text()}\n` +
+        `Khả năng có mưa: ${$(data).find("span#wob_pp").text()}\n` +
+        `Độ ẩm: ${$(data).find("span#wob_hm").text()} %\n`;
+    if (wheather != null && wheather != '') {
+        return wheather;
+    }
+    //Giá Bitcoin
+    let bitcoin = $(data).find("span.pclqee").text() + ' VNĐ';
+    if (bitcoin != null && bitcoin != '') {
+        return bitcoin;
+    }
+    //Tiền tệ 
+    let money = $(data).find("span.DFlfde").text() + ' ' + $(data).find("span.MWvIVe").text();
+    if (money != null && money != '') {
+        return money;
+    }
+    //Khoảng cách
+    let far = $(data).find("div.LGOjhe").text();
+    if (far != null && far != '') {
+        return far;
+    }
+    //Ngày thành lập
+    let dateceate = $(data).find("div.Z0LcW").text();
+    if (dateceate != null && dateceate != '') {
+        return dateceate;
+    }
+    //Thong tin 
+    let information = $(data).find("div.kno-rdesc > span").text();
+    if (information != null && information != '') {
+        return information;
+    }
+    //lyric
+    let lyric = $(data).find("div.PZPZlf >div>div > span");
+    let lyricsave;
+    lyric.each(function(i, e) {
+        lyricsave += $(this).text() + '\n';
+    })
+    if (lyricsave != null && lyricsave != '') {
+        return lyricsave;
+    }
 
-    return res.send('chưa có gì');
+    return res.send(data);
 }
 let getGooleSearch = async(message) => {
     const searchString = message;
