@@ -90,15 +90,18 @@ async function handleMessage(sender_psid, received_message) {
             await chatbotService.callSendAPI(sender_psid, response);
             let response2 = { "text": "Nếu bạn muốn nhận hướng dẫn đầy đủ vui lòng gửi lại tin nhắn 'HDSD'" }
             await chatbotService.callSendAPI(sender_psid, response2);
+            return;
         }
         if (received_message.quick_reply.payload === 'PRICE_SERVICE') {
             response = { "text": "Giá là 50.000 đồng một font nhé." }
             await chatbotService.callSendAPI(sender_psid, response);
+            return;
         }
         if (received_message.quick_reply.payload === 'LIST_FONT') {
             await chatbotService.getFontSupport(sender_psid);
             let response2 = { "text": 'Nếu bạn muốn lấy link nào thì nhắn tin tên một font trong list này\nHệ thống sẽ gửi cho bạn' }
             await chatbotService.callSendAPI(sender_psid, response2);
+            return;
         }
         return;
     }
@@ -112,11 +115,14 @@ async function handleMessage(sender_psid, received_message) {
         if (keyfont != null && keyfont != '') {
             await chatbotService.sendMessage(sender_psid, keyfont);
             callSendAPI(sender_psid, response);
+            return;
         } else if (keydata != null && keydata != '') {
             await chatbotService.sendTextMessage(sender_psid, keydata);
             callSendAPI(sender_psid, response);
+            return;
         } else if (message.indexOf('bắt đầu') != -1 || message.indexOf('start') != -1) {
             await chatbotService.handleGetStarted(sender_psid);
+            return;
         } else if (message.indexOf('mấy giờ') != -1 || message.indexOf('giờ giấc') != -1) {
             let msg = chatbotService.getTimeVietNam();
             let response = { "text": `Bây giờ là ${msg} ` };
@@ -125,12 +131,15 @@ async function handleMessage(sender_psid, received_message) {
             let msgtime = chatbotService.checktime(username);
             let response2 = { "text": msgtime }
             await chatbotService.callSendAPI(sender_psid, response2);
+            return;
         } else if (message.indexOf('danh sách font') != -1 || message.indexOf('list font') != -1) {
             await chatbotService.getFontSupport(sender_psid);
             let response2 = { "text": 'Nếu bạn muốn lấy link nào thì nhắn tin tên một font trong list này\nHệ thống sẽ gửi cho bạn' }
             await chatbotService.callSendAPI(sender_psid, response2);
+            return;
         } else {
             await chatbotService.getGooleSearch(sender_psid, received_message.text);
+            return;
         }
 
     } else if (received_message.attachments) {
@@ -402,16 +411,16 @@ let getGoogleSheet = async(req, res) => {
         };
         const data = JSON.stringify(listOfObjects);
         const data2 = JSON.stringify(listOfObjects2);
-        var file = fs.createWriteStream('data/font.json');
+        var file = fs.createWriteStream('font.json');
         try {
-            fs.writeFileSync('data/font.json', data);
+            fs.writeFileSync('font.json', data);
             console.log("JSON data is saved.");
         } catch (error) {
             console.error(err);
         }
-        var file2 = fs.createWriteStream('data/data.json');
+        var file2 = fs.createWriteStream('data.json');
         try {
-            fs.writeFileSync('data/data.json', data2);
+            fs.writeFileSync('data.json', data2);
             console.log("JSON data is saved.");
         } catch (error) {
             console.error(err);
@@ -461,9 +470,9 @@ let getGoogleSheet = async(req, res) => {
         }
 
         const data3 = JSON.stringify(listFontObject);
-        var file3 = fs.createWriteStream('data/listfont.json');
+        var file3 = fs.createWriteStream('listfont.json');
         try {
-            fs.writeFileSync('data/listfont.json', data3);
+            fs.writeFileSync('listfont.json', data3);
             console.log("JSON data is saved.");
         } catch (error) {
             console.error(err);
