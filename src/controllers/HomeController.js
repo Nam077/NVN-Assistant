@@ -439,13 +439,11 @@ let getGoogleSheet = async(req, res) => {
                 listFontObject.push(singleObj);
                 count = count + 1;
                 arr2 = [];
-                console.log(dataFont);
                 dataFont = '';
                 dem += 1;
             }
             if (arr2.length < 20) {
                 arr2.push(arr[i]);
-                console.log('Lần:' + count + 'thêm ' + arr[i]);
             }
             if (i == arr.length - 1) {
                 if (i > 20 * dem || i < 20 * dem) {
@@ -457,7 +455,6 @@ let getGoogleSheet = async(req, res) => {
                     singleObj['list'] = dataFont;
                     listFontObject.push(singleObj);
                     arr2 = [];
-                    console.log(dataFont);
                     dataFont = '';
                 }
             }
@@ -478,9 +475,7 @@ let getGoogleSheet = async(req, res) => {
         return res.send('Oops! Something wrongs, check logs console for detail ... ')
     }
 }
-let getCrawler = async(req, res) => {
-
-}
+let getCrawler = async(req, res) => {}
 
 
 module.exports = {
