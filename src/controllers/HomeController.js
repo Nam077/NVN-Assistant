@@ -83,10 +83,10 @@ async function handleMessage(sender_psid, received_message) {
     // Checks if the message contains text
     if (received_message.quick_reply && received_message.quick_reply.payload) {
         if (received_message.quick_reply.payload === 'BOT_TUTORIAL') {
-            response = { "text": "Vui lòng gửi tên font bạn cần tìm vào đây\nNếu không có bot sẽ không phản hồi!" }
-            await chatbotService.callSendAPI(sender_psid, response);
             let response3 = chatbotService.getVideoTutorial();
             await chatbotService.callSendAPI(sender_psid, response3);
+            response = { "text": "Vui lòng gửi tên font bạn cần tìm vào đây\nNếu không có bot sẽ không phản hồi!" }
+            await chatbotService.callSendAPI(sender_psid, response);
             let response2 = { "text": "Nếu bạn muốn nhận hướng dẫn đầy đủ vui lòng gửi lại tin nhắn 'HDSD'" }
             await chatbotService.callSendAPI(sender_psid, response2);
         }
@@ -188,10 +188,10 @@ async function handlePostback(sender_psid, received_postback) {
             callSendAPI(sender_psid, response);
             break;
         case 'BOT_TUTORIAL':
-            response = { "text": "Vui lòng gửi tên font bạn cần tìm vào đây\nNếu không có bot sẽ không phản hồi!" }
-            await chatbotService.callSendAPI(sender_psid, response);
             let response3 = chatbotService.getVideoTutorial();
             await chatbotService.callSendAPI(sender_psid, response3);
+            response = { "text": "Vui lòng gửi tên font bạn cần tìm vào đây\nNếu không có bot sẽ không phản hồi!" }
+            await chatbotService.callSendAPI(sender_psid, response);
             let response2 = { "text": "Nếu bạn muốn nhận hướng dẫn đầy đủ vui lòng gửi lại tin nhắn 'HDSD'" }
             await chatbotService.callSendAPI(sender_psid, response2);
             break;
