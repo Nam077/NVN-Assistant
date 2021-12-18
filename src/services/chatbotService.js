@@ -204,11 +204,13 @@ let stripAccents = (str) => {
 let getFontSupport = async(sender_psid) => {
     let config = require('../../listfont.json');
     let configs = config;
+    let a;
     for (let i = 0; i < configs.length; i++) {
         console.log(configs[i].list);
-        let response = { "text": configs[i].list }
-        await callSendAPI(sender_psid, response);
+        a = configs[i].list
     }
+    let response = { "text": a }
+    await callSendAPI(sender_psid, response);
     return;
 
 }
