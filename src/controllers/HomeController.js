@@ -127,7 +127,7 @@ async function handleMessage(sender_psid, received_message) {
             await chatbotService.callSendAPI(sender_psid, response2);
         } else if (message.indexOf('danh sách font') != -1 || message.indexOf('list font') != -1) {
             await chatbotService.getFontSupport(sender_psid);
-            let response2 = { "text": 'Nếu bạn muốn lấy link nào thì nhắn tin tên một font trong list này\nHệ thống sẽ gửi cho bạn.' }
+            let response2 = { "text": 'Nếu bạn muốn lấy link nào thì nhắn tin tên một font trong list này\nHệ thống sẽ gửi cho bạn' }
             await chatbotService.callSendAPI(sender_psid, response2);
         } else {
             await chatbotService.getGooleSearch(sender_psid, received_message.text);
@@ -193,11 +193,9 @@ async function handlePostback(sender_psid, received_postback) {
             await chatbotService.callSendAPI(sender_psid, response2);
             break;
         case 'LIST_FONT':
-            let msg = chatbotService.getFontSupport();
-            response = { "text": msg }
-            await chatbotService.callSendAPI(sender_psid, response);
-            let response1a = { "text": 'Nếu bạn muốn lấy link nào thì nhắn tin tên một font trong list này\nHệ thống sẽ gửi cho bạn' }
-            await chatbotService.callSendAPI(sender_psid, response1a);
+            await chatbotService.getFontSupport(sender_psid);
+            let responseaa = { "text": 'Nếu bạn muốn lấy link nào thì nhắn tin tên một font trong list này\nHệ thống sẽ gửi cho bạn' }
+            await chatbotService.callSendAPI(sender_psid, responseaa);
             break;
         case 'PRICE_SERVICE':
             response = { "text": "Hiện tại bên mình nhận việt hóa với giá 50.000 đồng một font." }
