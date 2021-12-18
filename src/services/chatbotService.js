@@ -6,7 +6,6 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 let handleGetStarted = (sender_psid) => {
     return new Promise(async(reslove, reject) => {
         try {
-
             let username = await getUserName(sender_psid);
             let msgtime = checktime(username);
             let response = { "text": msgtime }
@@ -68,7 +67,8 @@ let sendReadMessage = (sender_psid) => {
 let sendMessage = (sender_psid, name) => {
     let nameFont, linkFont, imageFont, messagebody;
     let config = require('../../font.json');
-    var item = config.find(item => item.key === name);
+    let datafont = config;
+    var item = datafont.find(item => item.key === name);
     messagebody = item['msg'].trim();
     nameFont = item['name'].trim();
     linkFont = item['link'].trim();
