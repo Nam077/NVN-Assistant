@@ -203,10 +203,10 @@ let stripAccents = (str) => {
 }
 let getFontSupport = () => {
     let dataFont = '';
-    let config = require('../../data.json');
+    let config = require('../../font.json');
     let arr = [];
     for (let i = 0; i < config.length; i++) {
-        if (!arr.includes(config[i].key)) {
+        if (!arr.includes(config[i].name)) {
             arr.push(config[i].name);
         }
     }
