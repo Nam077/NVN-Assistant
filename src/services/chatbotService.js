@@ -405,6 +405,22 @@ let getImageGetStarted = () => {
     }
     return respone;
 }
+let getVideoTutorial = () => {
+    let respone = {
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "media",
+                "elements": [{
+                    "media_type": "video",
+                    "url": "https://business.facebook.com/nam077.official/videos/646647483033924/"
+                }]
+            }
+
+        }
+    }
+    return respone;
+}
 let getTimeVietNam = () => {
     let time = new Date().toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' })
     return time
@@ -448,4 +464,5 @@ module.exports = {
     checktime: checktime,
     getUserName: getUserName,
     getGooleSearch: getGooleSearch,
+    getVideoTutorial: getVideoTutorial,
 }

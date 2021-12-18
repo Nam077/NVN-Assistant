@@ -85,6 +85,8 @@ async function handleMessage(sender_psid, received_message) {
         if (received_message.quick_reply.payload === 'BOT_TUTORIAL') {
             response = { "text": "Vui lòng gửi tên font bạn cần tìm vào đây\nNếu không có bot sẽ không phản hồi!" }
             await chatbotService.callSendAPI(sender_psid, response);
+            let response3 = chatbotService.getVideoTutorial();
+            await chatbotService.callSendAPI(sender_psid, response3);
             let response2 = { "text": "Nếu bạn muốn nhận hướng dẫn đầy đủ vui lòng gửi lại tin nhắn 'HDSD'" }
             await chatbotService.callSendAPI(sender_psid, response2);
         }
@@ -408,7 +410,7 @@ let getGoogleSheet = async(req, res) => {
         } catch (error) {
             console.error(err);
         }
-        var file = fs.createWriteStream('data.json');
+        var file2 = fs.createWriteStream('data.json');
         try {
             fs.writeFileSync('data.json', data2);
             console.log("JSON data is saved.");
