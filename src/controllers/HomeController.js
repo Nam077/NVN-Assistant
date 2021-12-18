@@ -201,6 +201,7 @@ async function handlePostback(sender_psid, received_postback) {
             await chatbotService.callSendAPI(sender_psid, response);
             let response2 = { "text": 'Nếu bạn muốn lấy link nào thì nhắn tin tên một font trong list này\nHệ thống sẽ gửi cho bạn' }
             await chatbotService.callSendAPI(sender_psid, response2);
+            break;
         case 'PRICE_SERVICE':
             response = { "text": "Hiện tại bên mình nhận việt hóa với giá 50.000 đồng một font." }
             callSendAPI(sender_psid, response);
