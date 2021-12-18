@@ -415,8 +415,8 @@ let getGoogleSheet = async(req, res) => {
         } catch (error) {
             console.error(err);
         }
-        res.redirect('/');
-        return console.log('ok');
+
+        return res.redirect('/');;
     } catch (e) {
         console.log(e);
         return res.send('Oops! Something wrongs, check logs console for detail ... ')
