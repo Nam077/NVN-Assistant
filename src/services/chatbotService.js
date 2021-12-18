@@ -201,19 +201,15 @@ let stripAccents = (str) => {
     str = str.replace(/Đ/g, "D");
     return str;
 }
-let getFontSupport = () => {
-    let dataFont = '';
-    let config = require('../../font.json');
-    let arr = [];
-    for (let i = 0; i < config.length; i++) {
-        if (!arr.includes(config[i].name)) {
-            arr.push(config[i].name);
-        }
+let getFontSupport = async(sender_psid) => {
+    let config = require('../../listfont.json');
+    let configs = config;
+    for (let i = 0; i < configs.length; i++) {
+        let response = { "text": configs[i].list }
+        await callSendAPI(sender_psid, response);
     }
-    for (const element of arr) {
-        dataFont += element + '\n';
-    }
-    return dataFont;
+    return;
+
 }
 let getGooleSearch = async(sender_psid, message) => {
     console.log(message);
