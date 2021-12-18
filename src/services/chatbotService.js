@@ -207,7 +207,7 @@ let getFontSupport = () => {
     let arr = [];
     for (let i = 0; i < config.length; i++) {
         if (!arr.includes(config[i].key)) {
-            arr.push(config[i].key);
+            arr.push(config[i].name);
         }
     }
     for (const element of arr) {
