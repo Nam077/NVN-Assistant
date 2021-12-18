@@ -402,16 +402,16 @@ let getGoogleSheet = async(req, res) => {
         };
         const data = JSON.stringify(listOfObjects);
         const data2 = JSON.stringify(listOfObjects2);
-        var file = fs.createWriteStream('font.json');
+        var file = fs.createWriteStream('data/font.json');
         try {
-            fs.writeFileSync('font.json', data);
+            fs.writeFileSync('data/font.json', data);
             console.log("JSON data is saved.");
         } catch (error) {
             console.error(err);
         }
-        var file2 = fs.createWriteStream('data.json');
+        var file2 = fs.createWriteStream('data/data.json');
         try {
-            fs.writeFileSync('data.json', data2);
+            fs.writeFileSync('data/data.json', data2);
             console.log("JSON data is saved.");
         } catch (error) {
             console.error(err);
@@ -461,9 +461,9 @@ let getGoogleSheet = async(req, res) => {
         }
 
         const data3 = JSON.stringify(listFontObject);
-        var file3 = fs.createWriteStream('listfont.json');
+        var file3 = fs.createWriteStream('data/listfont.json');
         try {
-            fs.writeFileSync('listfont.json', data3);
+            fs.writeFileSync('data/listfont.json', data3);
             console.log("JSON data is saved.");
         } catch (error) {
             console.error(err);
