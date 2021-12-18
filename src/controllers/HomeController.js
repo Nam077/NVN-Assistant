@@ -447,7 +447,7 @@ let getGoogleSheet = async(req, res) => {
             }
             if (i == config.length - 1) {
                 var item = listFontObject.find(item => item.id === count - 2);
-                if (item != null) {
+                if (item == null) {
                     for (const element of arr) {
                         dataFont += element + '\n';
                     }
