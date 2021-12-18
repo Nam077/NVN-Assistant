@@ -206,8 +206,8 @@ let getFontSupport = () => {
     let config = require('../../data.json');
     let arr = [];
     for (let i = 0; i < config.length; i++) {
-        if (!arr.includes(config[i].name)) {
-            arr.push(config[i].name);
+        if (!arr.includes(config[i].key)) {
+            arr.push(config[i].key);
         }
     }
     for (const element of arr) {
