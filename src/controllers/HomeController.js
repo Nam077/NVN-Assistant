@@ -416,52 +416,53 @@ let getGoogleSheet = async(req, res) => {
         } catch (error) {
             console.error(err);
         }
+        let configs = listOfObjects;
         let dataFont = '';
-        let config = listOfObjects;
-        let arr = [];
-        let arrcheck = [];
-        let count = 1;
-        let dem = 0;
+        let arr = []
+        let arr2 = []
         var listFontObject = [];
-        for (let i = 0; i < config.length; i++) {
-            if (arr.length == 20) {
-                for (const element of arr) {
+        let count = 0;
+        let dem = 1;
+        for (let i = 0; i < configs.length; i++) {
+            if (!arr.includes(configs[i].name)) {
+                arr.push(configs[i].name);
+            }
+        }
+        for (let i = 0; i < arr.length; i++) {
+            if (arr2.length == 20) {
+                for (const element of arr2) {
                     dataFont += element + '\n';
                 }
-                count = count + 1;
-                var singleObj = {}
-                singleObj['id'] = count - 2;
+                let singleObj = {}
+                singleObj['id'] = count;
                 singleObj['list'] = dataFont;
                 listFontObject.push(singleObj);
-                arr = [];
+                count = count + 1;
+                arr2 = [];
+                console.log(dataFont);
                 dataFont = '';
+                dem += 1;
             }
-            if (arr.length < 20) {
-                if (!arrcheck.includes(config[i].name)) {
-                    arrcheck.push(config[i].name);
-                    dem += 1
-                    if (!arr.includes(config[i].name)) {
-                        arr.push(config[i].name);
-                    }
-                }
+            if (arr2.length < 20) {
+                arr2.push(arr[i]);
+                console.log('Lần:' + count + 'thêm ' + arr[i]);
             }
-            if (i == config.length - 1) {
-                var item = listFontObject.find(item => item.id === count - 2);
-                if (item == null) {
-                    for (const element of arr) {
+            if (i == arr.length - 1) {
+                if (i > 20 * dem || i < 20 * dem) {
+                    for (const element of arr2) {
                         dataFont += element + '\n';
                     }
-                    count = count + 1;
-                    var singleObj = {}
-                    singleObj['id'] = count - 2;
+                    let singleObj = {}
+                    singleObj['id'] = count;
                     singleObj['list'] = dataFont;
                     listFontObject.push(singleObj);
-                    arr = [];
+                    arr2 = [];
+                    console.log(dataFont);
                     dataFont = '';
                 }
             }
-
         }
+
         const data3 = JSON.stringify(listFontObject);
         var file3 = fs.createWriteStream('listfont.json');
         try {
@@ -478,15 +479,6 @@ let getGoogleSheet = async(req, res) => {
     }
 }
 let getCrawler = async(req, res) => {
-    let dataFont = '';
-    let config = require('../../listfont.json');
-    let configs = config;
-    let a = []
-    for (let i = 0; i < configs.length; i++) {
-
-    }
-    console.log(a);
-    return res.send(configs);
 
 }
 
