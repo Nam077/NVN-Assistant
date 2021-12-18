@@ -96,7 +96,7 @@ async function handleMessage(sender_psid, received_message) {
             await chatbotService.callSendAPI(sender_psid, response);
         }
         if (received_message.quick_reply.payload === 'LIST_FONT') {
-            await chatbotService.callSendAPI(sender_psid);
+            await chatbotService.getFontSupport(sender_psid);
             let response2 = { "text": 'Nếu bạn muốn lấy link nào thì nhắn tin tên một font trong list này\nHệ thống sẽ gửi cho bạn' }
             await chatbotService.callSendAPI(sender_psid, response2);
         }
@@ -126,7 +126,7 @@ async function handleMessage(sender_psid, received_message) {
             let response2 = { "text": msgtime }
             await chatbotService.callSendAPI(sender_psid, response2);
         } else if (message.indexOf('danh sách font') != -1 || message.indexOf('list font') != -1) {
-            await chatbotService.callSendAPI(sender_psid);
+            await chatbotService.getFontSupport(sender_psid);
             let response2 = { "text": 'Nếu bạn muốn lấy link nào thì nhắn tin tên một font trong list này\nHệ thống sẽ gửi cho bạn.' }
             await chatbotService.callSendAPI(sender_psid, response2);
         } else {
