@@ -343,7 +343,7 @@ let getGooleSearch = async(sender_psid, message) => {
             return;
         }
         //covid
-        // let namelc = $(data).find("span.GV3Hqc").first().text();
+        let namelc = $(data).find("span.GV3Hqc").first().text();
         // if (namelc != null && namelc != "") {
         //     let loc = $(data).find("table.qyEGdc").first();
         //     let all = $(loc)
