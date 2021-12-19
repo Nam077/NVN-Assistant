@@ -266,6 +266,17 @@ let getGooleSearch = async(sender_psid, message) => {
         await callSendAPI(sender_psid, response);
         return;
     }
+    //bong da
+    let team1 = $(data).find("div.kno-fb-ctx > span").first().text();
+    if (team1 != null && team1 != '') {
+        let score1 = $(data).find("div.imso_mh__l-tm-sc.imso_mh__scr-it.imso-light-font").last().text();
+        let team2 = $(data).find("div.kno-fb-ctx > span").last().text();
+        let score2 = $(data).find("div.imso_mh__r-tm-sc.imso_mh__scr-it.imso-light-font").last().text();
+        let response = { "text": `${team1} ${score1} - ${team2} ${score2}` }
+        await callSendAPI(sender_psid, response);
+        return;
+    }
+
     //Tiền tệ 
     let money = $(data).find("span.DFlfde.SwHCTb").text();
     if (money != null && money != '') {
