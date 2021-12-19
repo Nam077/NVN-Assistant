@@ -211,278 +211,277 @@ let getFontSupport = async(sender_psid) => {
     return;
 };
 let getGooleSearch = async(sender_psid, message) => {
-        try {
-            if (message.indexOf('covid') == -1 && (message.indexOf('Covid') == -1) {
-                    message = message.replaceAll("+", "cộng");
-                    console.log(message);
-                    console.log(sender_psid);
-                    const searchString = message;
-                    const encodedString = encodeURI(searchString);
-                    const AXIOS_OPTIONS = {
-                        headers: {
-                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.57",
-                        },
-                    };
-                    const { data } = await axios.get(
-                        `https://www.google.com.vn/search?q=${encodedString}&hl=vi&gl=VN`,
-                        AXIOS_OPTIONS
-                    );
-                    let $ = cheerio.load(data);
-                    //Hỏi thông tin cơ bản
-                    let infor = $(data).find("span.hgKElc").text();
-                    if (infor != null && infor != "") {
-                        let response = { text: infor };
-                        await callSendAPI(sender_psid, response);
-                        return;
-                    }
-                    //Hỏi thông tin về năm sinh
-                    let year = $(data).find("div.Z0LcW").text();
-                    if (year != null && year != "") {
-                        let response = { text: year };
-                        await callSendAPI(sender_psid, response);
-                        console.log(infor);
-                        return;
-                    }
-                    // //Thời tiết
-                    let checkwheather = $(data).find("span#wob_tm").text();
-                    let wheather =
-                        `Thời tiết hiện tại tại: ${$(data).find("div#wob_loc").text()}\n` +
-                        `Nhiệt độ: ${$(data).find("span#wob_tm").text()} °C\n` +
-                        `Bầu trời: ${$(data).find("span#wob_dc").text()}\n` +
-                        `Khả năng có mưa: ${$(data).find("span#wob_pp").text()}\n` +
-                        `Độ ẩm: ${$(data).find("span#wob_hm").text()} %\n`;
-                    if (checkwheather != null && checkwheather != "") {
-                        let response = { text: wheather };
-                        await callSendAPI(sender_psid, response);
-                        return;
-                    }
-                    //Giá Bitcoin
-                    let bitcoin = $(data).find("span.pclqee").text();
-                    if (bitcoin != null && bitcoin != "") {
-                        let response = {
-                            text: bitcoin + " " + $(data).find("span.dvZgKd").text(),
-                        };
-                        await callSendAPI(sender_psid, response);
-                        return;
-                    }
-                    //bong da
-                    let team1 = $(data).find("div.kno-fb-ctx > span").first().text();
-                    if (team1 != null && team1 != "") {
-                        let score1 = $(data)
-                            .find("div.imso_mh__l-tm-sc.imso_mh__scr-it.imso-light-font")
-                            .last()
-                            .text();
-                        let team2 = $(data).find("div.kno-fb-ctx > span").last().text();
-                        let score2 = $(data)
-                            .find("div.imso_mh__r-tm-sc.imso_mh__scr-it.imso-light-font")
-                            .last()
-                            .text();
-                        let response = { text: `${team1} ${score1} - ${team2} ${score2}` };
-                        await callSendAPI(sender_psid, response);
-                        return;
-                    }
-
-                    //Tiền tệ
-                    let money = $(data).find("span.DFlfde.SwHCTb").text();
-                    if (money != null && money != "") {
-                        let response = { text: money + " " + $(data).find("span.MWvIVe").text() };
-                        await callSendAPI(sender_psid, response);
-                        return;
-                    }
-                    let change_unit = $(data).find("div.dDoNo.vrBOv.vk_bk").text();
-                    if (change_unit != null && change_unit != "") {
-                        let response = { text: change_unit };
-                        await callSendAPI(sender_psid, response);
-                        return;
-                    }
-                    let math = $(data).find("span.qv3Wpe").text();
-                    if (math != null && math != "") {
-                        let response = { text: math };
-                        await callSendAPI(sender_psid, response);
-                        return;
-                    }
-                    //Khoảng cách
-                    let far = $(data).find("div.LGOjhe").text();
-
-                    if (far != null && far != "") {
-                        let response = { text: far };
-                        await callSendAPI(sender_psid, response);
-                        return;
-                    }
-                    //Ngày thành lập
-                    let datecreate = $(data).find("div.Z0LcW").text();
-                    if (datecreate != null && datecreate != "") {
-                        let response = { text: datecreate };
-                        await callSendAPI(sender_psid, response);
-                        return;
-                    }
-                    //Thong tin
-                    let information = $(data).find("div.kno-rdesc > span").first().text();
-                    if (information != null && information != "") {
-                        let response = { text: information };
-                        await callSendAPI(sender_psid, response);
-                        return;
-                    }
-                    //dịch
-                    let trans = $(data).find("pre.tw-data-text > span.Y2IQFc").last().text();
-                    if (trans != null && trans != "") {
-                        let response = { text: trans };
-                        await callSendAPI(sender_psid, response);
-                        return;
-                    }
-                    //date
-                    let day = $(data).find("div.FzvWSb").text();
-                    if (day != null && day != "") {
-                        let response = { text: day };
-                        await callSendAPI(sender_psid, response);
-                        return;
-                    }
-                    let time = $(data).find("div.YwPhnf").text();
-                    if (time != null && time != "") {
-                        let response = { text: time };
-                        await callSendAPI(sender_psid, response);
-                        return;
-                    }
-                    //lyric
-                    let lyric = $(data).find("div.PZPZlf >div>div > span");
-                    let lyricsave;
-                    lyric.each(function(i, e) {
-                        lyricsave += $(this).text() + "\n";
-                    });
-                    console.log(lyricsave);
-                    if (lyricsave != null && lyricsave != "") {
-                        let response = { text: lyricsave };
-                        await callSendAPI(sender_psid, response);
-                        return;
-                    }
-                    return;
-                }
-            }
-            catch (e) {
+    try {
+        if (message.indexOf('covid') == -1 && message.indexOf('Covid') == -1) {
+            message = message.replaceAll("+", "cộng");
+            console.log(message);
+            console.log(sender_psid);
+            const searchString = message;
+            const encodedString = encodeURI(searchString);
+            const AXIOS_OPTIONS = {
+                headers: {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.57",
+                },
+            };
+            const { data } = await axios.get(
+                `https://www.google.com.vn/search?q=${encodedString}&hl=vi&gl=VN`,
+                AXIOS_OPTIONS
+            );
+            let $ = cheerio.load(data);
+            //Hỏi thông tin cơ bản
+            let infor = $(data).find("span.hgKElc").text();
+            if (infor != null && infor != "") {
+                let response = { text: infor };
+                await callSendAPI(sender_psid, response);
                 return;
             }
-        };
-
-        let getUserName = async(sender_psid) => {
-            return new Promise((reslove, reject) => {
-                request({
-                        uri: `https://graph.facebook.com/${sender_psid}?fields=first_name,last_name,name,profile_pic&access_token=${PAGE_ACCESS_TOKEN}`,
-                        qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
-                        method: "GET",
-                    },
-                    (err, res, body) => {
-                        if (!err) {
-                            body = JSON.parse(body);
-                            let username = `${body.name}`;
-                            reslove(username);
-                        } else {
-                            console.error("Unable to send message:" + err);
-                            reject(err);
-                        }
-                    }
-                );
-            });
-        };
-        let getStartedQuickReplyTemplate = () => {
-            let respone = {
-                text: "Bạn cần tôi giúp gì không nhỉ?",
-                quick_replies: [{
-                        content_type: "text",
-                        title: "HD Sử dụng",
-                        payload: "BOT_TUTORIAL",
-                    },
-                    {
-                        content_type: "text",
-                        title: "List Font hỗ trợ",
-                        payload: "LIST_FONT",
-                    },
-                    {
-                        content_type: "text",
-                        title: "Giá Việt hóa",
-                        payload: "PRICE_SERVICE",
-                    },
-                ],
-            };
-            return respone;
-        };
-        let getArraydatafromJson = (file) => {
-            let config = require(`../../${file}.json`);
-            let arr = [];
-            for (let i = 0; i < config.length; i++) {
-                arr.push(config[i].key);
+            //Hỏi thông tin về năm sinh
+            let year = $(data).find("div.Z0LcW").text();
+            if (year != null && year != "") {
+                let response = { text: year };
+                await callSendAPI(sender_psid, response);
+                console.log(infor);
+                return;
             }
-            return arr;
-        };
-        let getImageGetStarted = () => {
-            let respone = {
-                attachment: {
-                    type: "image",
-                    payload: {
-                        url: "https://bit.ly/3sakE56",
-                        is_reusable: true,
-                    },
-                },
-            };
-            return respone;
-        };
-        let getVideoTutorial = () => {
-            let respone = {
-                attachment: {
-                    type: "template",
-                    payload: {
-                        template_type: "media",
-                        elements: [{
-                            media_type: "video",
-                            url: "https://business.facebook.com/nam077.official/videos/646647483033924/",
-                        }, ],
-                    },
-                },
-            };
-            return respone;
-        };
-        let getTimeVietNam = () => {
-            let time = new Date().toLocaleString("en-US", {
-                timeZone: "Asia/Ho_Chi_Minh",
+            // //Thời tiết
+            let checkwheather = $(data).find("span#wob_tm").text();
+            let wheather =
+                `Thời tiết hiện tại tại: ${$(data).find("div#wob_loc").text()}\n` +
+                `Nhiệt độ: ${$(data).find("span#wob_tm").text()} °C\n` +
+                `Bầu trời: ${$(data).find("span#wob_dc").text()}\n` +
+                `Khả năng có mưa: ${$(data).find("span#wob_pp").text()}\n` +
+                `Độ ẩm: ${$(data).find("span#wob_hm").text()} %\n`;
+            if (checkwheather != null && checkwheather != "") {
+                let response = { text: wheather };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+            //Giá Bitcoin
+            let bitcoin = $(data).find("span.pclqee").text();
+            if (bitcoin != null && bitcoin != "") {
+                let response = {
+                    text: bitcoin + " " + $(data).find("span.dvZgKd").text(),
+                };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+            //bong da
+            let team1 = $(data).find("div.kno-fb-ctx > span").first().text();
+            if (team1 != null && team1 != "") {
+                let score1 = $(data)
+                    .find("div.imso_mh__l-tm-sc.imso_mh__scr-it.imso-light-font")
+                    .last()
+                    .text();
+                let team2 = $(data).find("div.kno-fb-ctx > span").last().text();
+                let score2 = $(data)
+                    .find("div.imso_mh__r-tm-sc.imso_mh__scr-it.imso-light-font")
+                    .last()
+                    .text();
+                let response = { text: `${team1} ${score1} - ${team2} ${score2}` };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+
+            //Tiền tệ
+            let money = $(data).find("span.DFlfde.SwHCTb").text();
+            if (money != null && money != "") {
+                let response = { text: money + " " + $(data).find("span.MWvIVe").text() };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+            let change_unit = $(data).find("div.dDoNo.vrBOv.vk_bk").text();
+            if (change_unit != null && change_unit != "") {
+                let response = { text: change_unit };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+            let math = $(data).find("span.qv3Wpe").text();
+            if (math != null && math != "") {
+                let response = { text: math };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+            //Khoảng cách
+            let far = $(data).find("div.LGOjhe").text();
+
+            if (far != null && far != "") {
+                let response = { text: far };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+            //Ngày thành lập
+            let datecreate = $(data).find("div.Z0LcW").text();
+            if (datecreate != null && datecreate != "") {
+                let response = { text: datecreate };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+            //Thong tin
+            let information = $(data).find("div.kno-rdesc > span").first().text();
+            if (information != null && information != "") {
+                let response = { text: information };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+            //dịch
+            let trans = $(data).find("pre.tw-data-text > span.Y2IQFc").last().text();
+            if (trans != null && trans != "") {
+                let response = { text: trans };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+            //date
+            let day = $(data).find("div.FzvWSb").text();
+            if (day != null && day != "") {
+                let response = { text: day };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+            let time = $(data).find("div.YwPhnf").text();
+            if (time != null && time != "") {
+                let response = { text: time };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+            //lyric
+            let lyric = $(data).find("div.PZPZlf >div>div > span");
+            let lyricsave;
+            lyric.each(function(i, e) {
+                lyricsave += $(this).text() + "\n";
             });
-            return time;
-        };
-        let checkKey = (arr, message) => {
-            for (const element of arr) {
-                if (message.indexOf(element) > -1) {
-                    return element;
+            console.log(lyricsave);
+            if (lyricsave != null && lyricsave != "") {
+                let response = { text: lyricsave };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+            return;
+        }
+    } catch (e) {
+        return;
+    }
+};
+
+let getUserName = async(sender_psid) => {
+    return new Promise((reslove, reject) => {
+        request({
+                uri: `https://graph.facebook.com/${sender_psid}?fields=first_name,last_name,name,profile_pic&access_token=${PAGE_ACCESS_TOKEN}`,
+                qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+                method: "GET",
+            },
+            (err, res, body) => {
+                if (!err) {
+                    body = JSON.parse(body);
+                    let username = `${body.name}`;
+                    reslove(username);
+                } else {
+                    console.error("Unable to send message:" + err);
+                    reject(err);
                 }
             }
-        };
-        let checktime = (username) => {
-            let time = getTimeVietNam();
-            let msgtime;
-            time = new Date(time);
-            time = time.getHours();
-            if (time >= 5 && time <= 9) {
-                msgtime = `Chào buổi sáng ${username}. Chúc bạn buổi sáng tối lành`;
-            } else if (time >= 10 && time <= 17) {
-                msgtime = `Chào buổi chiều ${username}. Rất vui được gặp bạn`;
-            } else if (time >= 18 && time <= 20) {
-                msgtime = `Chào buổi tối ${username}. Bạn đã ăn tối chưa nhỉ`;
-            } else if (time <= 23) {
-                msgtime = `Chào buổi tối ${username}. khuya rồi bạn nên đi ngủ đi`;
-            } else if (time >= 0 && time <= 4) {
-                msgtime = `Chào ${username}, tương tư ai mà chưa ngủ nữa trời`;
-            }
-            return msgtime;
-        };
-        module.exports = {
-            handleGetStarted: handleGetStarted,
-            callSendAPI: callSendAPI,
-            sendMessage: sendMessage,
-            stripAccents: stripAccents,
-            sendTextMessage: sendTextMessage,
-            getFontSupport: getFontSupport,
-            getArraydatafromJson: getArraydatafromJson,
-            checkKey: checkKey,
-            getTimeVietNam: getTimeVietNam,
-            checktime: checktime,
-            getUserName: getUserName,
-            getGooleSearch: getGooleSearch,
-            getVideoTutorial: getVideoTutorial,
-        };
+        );
+    });
+};
+let getStartedQuickReplyTemplate = () => {
+    let respone = {
+        text: "Bạn cần tôi giúp gì không nhỉ?",
+        quick_replies: [{
+                content_type: "text",
+                title: "HD Sử dụng",
+                payload: "BOT_TUTORIAL",
+            },
+            {
+                content_type: "text",
+                title: "List Font hỗ trợ",
+                payload: "LIST_FONT",
+            },
+            {
+                content_type: "text",
+                title: "Giá Việt hóa",
+                payload: "PRICE_SERVICE",
+            },
+        ],
+    };
+    return respone;
+};
+let getArraydatafromJson = (file) => {
+    let config = require(`../../${file}.json`);
+    let arr = [];
+    for (let i = 0; i < config.length; i++) {
+        arr.push(config[i].key);
+    }
+    return arr;
+};
+let getImageGetStarted = () => {
+    let respone = {
+        attachment: {
+            type: "image",
+            payload: {
+                url: "https://bit.ly/3sakE56",
+                is_reusable: true,
+            },
+        },
+    };
+    return respone;
+};
+let getVideoTutorial = () => {
+    let respone = {
+        attachment: {
+            type: "template",
+            payload: {
+                template_type: "media",
+                elements: [{
+                    media_type: "video",
+                    url: "https://business.facebook.com/nam077.official/videos/646647483033924/",
+                }, ],
+            },
+        },
+    };
+    return respone;
+};
+let getTimeVietNam = () => {
+    let time = new Date().toLocaleString("en-US", {
+        timeZone: "Asia/Ho_Chi_Minh",
+    });
+    return time;
+};
+let checkKey = (arr, message) => {
+    for (const element of arr) {
+        if (message.indexOf(element) > -1) {
+            return element;
+        }
+    }
+};
+let checktime = (username) => {
+    let time = getTimeVietNam();
+    let msgtime;
+    time = new Date(time);
+    time = time.getHours();
+    if (time >= 5 && time <= 9) {
+        msgtime = `Chào buổi sáng ${username}. Chúc bạn buổi sáng tối lành`;
+    } else if (time >= 10 && time <= 17) {
+        msgtime = `Chào buổi chiều ${username}. Rất vui được gặp bạn`;
+    } else if (time >= 18 && time <= 20) {
+        msgtime = `Chào buổi tối ${username}. Bạn đã ăn tối chưa nhỉ`;
+    } else if (time <= 23) {
+        msgtime = `Chào buổi tối ${username}. khuya rồi bạn nên đi ngủ đi`;
+    } else if (time >= 0 && time <= 4) {
+        msgtime = `Chào ${username}, tương tư ai mà chưa ngủ nữa trời`;
+    }
+    return msgtime;
+};
+module.exports = {
+    handleGetStarted: handleGetStarted,
+    callSendAPI: callSendAPI,
+    sendMessage: sendMessage,
+    stripAccents: stripAccents,
+    sendTextMessage: sendTextMessage,
+    getFontSupport: getFontSupport,
+    getArraydatafromJson: getArraydatafromJson,
+    checkKey: checkKey,
+    getTimeVietNam: getTimeVietNam,
+    checktime: checktime,
+    getUserName: getUserName,
+    getGooleSearch: getGooleSearch,
+    getVideoTutorial: getVideoTutorial,
+};
