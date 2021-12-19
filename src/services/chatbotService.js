@@ -345,7 +345,7 @@ let getGooleSearch = async(sender_psid, message) => {
         //covid
         let namelc = $(data).find("span.GV3Hqc").first().text();
         if (namelc != null && namelc != "") {
-            let loc = $(data).find("table.qyEGdc").first();
+            data = $(data).find("table.qyEGdc").first();
             //     let all = $(loc)
             //         .find("div.m7B03 > div > div > div > span")
             //         .first()
