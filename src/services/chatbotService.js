@@ -342,21 +342,6 @@ let getGooleSearch = async(sender_psid, message) => {
             await callSendAPI(sender_psid, response);
             return;
         }
-        //covid
-        let namelc = $(data).find("span.GV3Hqc").first().text();
-        if (namelc != null && namelc != "") {
-            // data = $(data).find("table.qyEGdc").first();
-            //     let all = $(loc)
-            //         .find("div.m7B03 > div > div > div > span")
-            //         .first()
-            //         .text();
-            //     let die = $(loc).find("div.m7B03 > div > div > div > span").last().text();
-            //     let response = {
-            //         text: `Covid ở ${namelc} \nSố ca mắc ${all}\nSố ca tử vong${die}\nĐừng để thành F0 nha bạn\nNếu đang F0 thì cố lên `,
-            //     };
-            //     await callSendAPI(sender_psid, response);
-            //     return;
-        }
         //lyric
         let lyric = $(data).find("div.PZPZlf >div>div > span");
         let lyricsave;
