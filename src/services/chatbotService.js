@@ -212,149 +212,151 @@ let getFontSupport = async(sender_psid) => {
 };
 let getGooleSearch = async(sender_psid, message) => {
     try {
-        message = message.replaceAll("+", "cộng");
-        console.log(message);
-        console.log(sender_psid);
-        const searchString = message;
-        const encodedString = encodeURI(searchString);
-        const AXIOS_OPTIONS = {
-            headers: {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.57",
-            },
-        };
-        const { data } = await axios.get(
-            `https://www.google.com.vn/search?q=${encodedString}&hl=vi&gl=VN`,
-            AXIOS_OPTIONS
-        );
-        let $ = cheerio.load(data);
-        //Hỏi thông tin cơ bản
-        let infor = $(data).find("span.hgKElc").text();
-        if (infor != null && infor != "") {
-            let response = { text: infor };
-            await callSendAPI(sender_psid, response);
-            return;
-        }
-        //Hỏi thông tin về năm sinh
-        let year = $(data).find("div.Z0LcW").text();
-        if (year != null && year != "") {
-            let response = { text: year };
-            await callSendAPI(sender_psid, response);
-            console.log(infor);
-            return;
-        }
-        // //Thời tiết
-        let checkwheather = $(data).find("span#wob_tm").text();
-        let wheather =
-            `Thời tiết hiện tại tại: ${$(data).find("div#wob_loc").text()}\n` +
-            `Nhiệt độ: ${$(data).find("span#wob_tm").text()} °C\n` +
-            `Bầu trời: ${$(data).find("span#wob_dc").text()}\n` +
-            `Khả năng có mưa: ${$(data).find("span#wob_pp").text()}\n` +
-            `Độ ẩm: ${$(data).find("span#wob_hm").text()} %\n`;
-        if (checkwheather != null && checkwheather != "") {
-            let response = { text: wheather };
-            await callSendAPI(sender_psid, response);
-            return;
-        }
-        //Giá Bitcoin
-        let bitcoin = $(data).find("span.pclqee").text();
-        if (bitcoin != null && bitcoin != "") {
-            let response = {
-                text: bitcoin + " " + $(data).find("span.dvZgKd").text(),
+        if (message.indexOf('covid') == -1) {
+            message = message.replaceAll("+", "cộng");
+            console.log(message);
+            console.log(sender_psid);
+            const searchString = message;
+            const encodedString = encodeURI(searchString);
+            const AXIOS_OPTIONS = {
+                headers: {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.57",
+                },
             };
-            await callSendAPI(sender_psid, response);
-            return;
-        }
-        //bong da
-        let team1 = $(data).find("div.kno-fb-ctx > span").first().text();
-        if (team1 != null && team1 != "") {
-            let score1 = $(data)
-                .find("div.imso_mh__l-tm-sc.imso_mh__scr-it.imso-light-font")
-                .last()
-                .text();
-            let team2 = $(data).find("div.kno-fb-ctx > span").last().text();
-            let score2 = $(data)
-                .find("div.imso_mh__r-tm-sc.imso_mh__scr-it.imso-light-font")
-                .last()
-                .text();
-            let response = { text: `${team1} ${score1} - ${team2} ${score2}` };
-            await callSendAPI(sender_psid, response);
-            return;
-        }
+            const { data } = await axios.get(
+                `https://www.google.com.vn/search?q=${encodedString}&hl=vi&gl=VN`,
+                AXIOS_OPTIONS
+            );
+            let $ = cheerio.load(data);
+            //Hỏi thông tin cơ bản
+            let infor = $(data).find("span.hgKElc").text();
+            if (infor != null && infor != "") {
+                let response = { text: infor };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+            //Hỏi thông tin về năm sinh
+            let year = $(data).find("div.Z0LcW").text();
+            if (year != null && year != "") {
+                let response = { text: year };
+                await callSendAPI(sender_psid, response);
+                console.log(infor);
+                return;
+            }
+            // //Thời tiết
+            let checkwheather = $(data).find("span#wob_tm").text();
+            let wheather =
+                `Thời tiết hiện tại tại: ${$(data).find("div#wob_loc").text()}\n` +
+                `Nhiệt độ: ${$(data).find("span#wob_tm").text()} °C\n` +
+                `Bầu trời: ${$(data).find("span#wob_dc").text()}\n` +
+                `Khả năng có mưa: ${$(data).find("span#wob_pp").text()}\n` +
+                `Độ ẩm: ${$(data).find("span#wob_hm").text()} %\n`;
+            if (checkwheather != null && checkwheather != "") {
+                let response = { text: wheather };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+            //Giá Bitcoin
+            let bitcoin = $(data).find("span.pclqee").text();
+            if (bitcoin != null && bitcoin != "") {
+                let response = {
+                    text: bitcoin + " " + $(data).find("span.dvZgKd").text(),
+                };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+            //bong da
+            let team1 = $(data).find("div.kno-fb-ctx > span").first().text();
+            if (team1 != null && team1 != "") {
+                let score1 = $(data)
+                    .find("div.imso_mh__l-tm-sc.imso_mh__scr-it.imso-light-font")
+                    .last()
+                    .text();
+                let team2 = $(data).find("div.kno-fb-ctx > span").last().text();
+                let score2 = $(data)
+                    .find("div.imso_mh__r-tm-sc.imso_mh__scr-it.imso-light-font")
+                    .last()
+                    .text();
+                let response = { text: `${team1} ${score1} - ${team2} ${score2}` };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
 
-        //Tiền tệ
-        let money = $(data).find("span.DFlfde.SwHCTb").text();
-        if (money != null && money != "") {
-            let response = { text: money + " " + $(data).find("span.MWvIVe").text() };
-            await callSendAPI(sender_psid, response);
-            return;
-        }
-        let change_unit = $(data).find("div.dDoNo.vrBOv.vk_bk").text();
-        if (change_unit != null && change_unit != "") {
-            let response = { text: change_unit };
-            await callSendAPI(sender_psid, response);
-            return;
-        }
-        let math = $(data).find("span.qv3Wpe").text();
-        if (math != null && math != "") {
-            let response = { text: math };
-            await callSendAPI(sender_psid, response);
-            return;
-        }
-        //Khoảng cách
-        let far = $(data).find("div.LGOjhe").text();
+            //Tiền tệ
+            let money = $(data).find("span.DFlfde.SwHCTb").text();
+            if (money != null && money != "") {
+                let response = { text: money + " " + $(data).find("span.MWvIVe").text() };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+            let change_unit = $(data).find("div.dDoNo.vrBOv.vk_bk").text();
+            if (change_unit != null && change_unit != "") {
+                let response = { text: change_unit };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+            let math = $(data).find("span.qv3Wpe").text();
+            if (math != null && math != "") {
+                let response = { text: math };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+            //Khoảng cách
+            let far = $(data).find("div.LGOjhe").text();
 
-        if (far != null && far != "") {
-            let response = { text: far };
-            await callSendAPI(sender_psid, response);
+            if (far != null && far != "") {
+                let response = { text: far };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+            //Ngày thành lập
+            let datecreate = $(data).find("div.Z0LcW").text();
+            if (datecreate != null && datecreate != "") {
+                let response = { text: datecreate };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+            //Thong tin
+            let information = $(data).find("div.kno-rdesc > span").first().text();
+            if (information != null && information != "") {
+                let response = { text: information };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+            //dịch
+            let trans = $(data).find("pre.tw-data-text > span.Y2IQFc").last().text();
+            if (trans != null && trans != "") {
+                let response = { text: trans };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+            //date
+            let day = $(data).find("div.FzvWSb").text();
+            if (day != null && day != "") {
+                let response = { text: day };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+            let time = $(data).find("div.YwPhnf").text();
+            if (time != null && time != "") {
+                let response = { text: time };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
+            //lyric
+            let lyric = $(data).find("div.PZPZlf >div>div > span");
+            let lyricsave;
+            lyric.each(function(i, e) {
+                lyricsave += $(this).text() + "\n";
+            });
+            console.log(lyricsave);
+            if (lyricsave != null && lyricsave != "") {
+                let response = { text: lyricsave };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
             return;
         }
-        //Ngày thành lập
-        let datecreate = $(data).find("div.Z0LcW").text();
-        if (datecreate != null && datecreate != "") {
-            let response = { text: datecreate };
-            await callSendAPI(sender_psid, response);
-            return;
-        }
-        //Thong tin
-        let information = $(data).find("div.kno-rdesc > span").first().text();
-        if (information != null && information != "") {
-            let response = { text: information };
-            await callSendAPI(sender_psid, response);
-            return;
-        }
-        //dịch
-        let trans = $(data).find("pre.tw-data-text > span.Y2IQFc").last().text();
-        if (trans != null && trans != "") {
-            let response = { text: trans };
-            await callSendAPI(sender_psid, response);
-            return;
-        }
-        //date
-        let day = $(data).find("div.FzvWSb").text();
-        if (day != null && day != "") {
-            let response = { text: day };
-            await callSendAPI(sender_psid, response);
-            return;
-        }
-        let time = $(data).find("div.YwPhnf").text();
-        if (time != null && time != "") {
-            let response = { text: time };
-            await callSendAPI(sender_psid, response);
-            return;
-        }
-        //lyric
-        let lyric = $(data).find("div.PZPZlf >div>div > span");
-        let lyricsave;
-        lyric.each(function(i, e) {
-            lyricsave += $(this).text() + "\n";
-        });
-        console.log(lyricsave);
-        if (lyricsave != null && lyricsave != "") {
-            let response = { text: lyricsave };
-            await callSendAPI(sender_psid, response);
-            return;
-        }
-        return;
     } catch (e) {
         return;
     }
