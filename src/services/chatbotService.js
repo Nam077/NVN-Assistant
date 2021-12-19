@@ -213,6 +213,7 @@ let getFontSupport = async(sender_psid) => {
 
 }
 let getGooleSearch = async(sender_psid, message) => {
+    message = message.replaceAll('+', 'cộng');
     console.log(message);
     console.log(sender_psid);
     const searchString = message;

@@ -108,7 +108,6 @@ async function handleMessage(sender_psid, received_message) {
     if (received_message.text) {
         let message = received_message.text;
         message = message.toLowerCase();
-        message = message.replace('+', 'cộng')
         let arr = chatbotService.getArraydatafromJson('font');
         let arr2 = chatbotService.getArraydatafromJson('data');
         let keyfont = chatbotService.checkKey(arr, message);
@@ -485,7 +484,9 @@ let getGoogleSheet = async(req, res) => {
         return res.send('Oops! Something wrongs, check logs console for detail ... ')
     }
 }
-let getCrawler = async(req, res) => {}
+let getCrawler = async(req, res) => {
+
+}
 
 
 module.exports = {
