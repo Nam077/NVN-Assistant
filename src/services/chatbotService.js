@@ -360,7 +360,7 @@ let getGooleSearch = async(sender_psid, message) => {
                 return;
             }
             //dịch
-            let trans = $(data).find("pre.tw-data-text > span.Y2IQFc").last().text();
+            let trans = $(data).find("div.oSioSc>div>div>div>pre>span").first().text();
             if (trans != null && trans != "") {
                 let response = { text: trans };
                 await callSendAPI(sender_psid, response);

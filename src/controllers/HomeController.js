@@ -486,7 +486,7 @@ let getGoogleSheet = async(req, res) => {
     }
 }
 let getCrawler = async(req, res) => {
-    let message = '2X^2 +x = 0';
+    let message = 'Dịch con mèo sang tiếng trung';
 
     const searchString = message;
     let encodedString = encodeURI(searchString);
@@ -501,23 +501,23 @@ let getCrawler = async(req, res) => {
         AXIOS_OPTIONS
     );
     let $ = cheerio.load(data);
-    let mathfun = $(data).find("div.TRhz4").last().text();
+    let mathfun = $(data).find("div.oSioSc>div>div>div>pre>span.Y2IQFc").text();
     console.log(mathfun);
-    if (mathfun.indexOf('Đáp án') != -1) {
-        mathfun = mathfun.replaceAll('𝑥', 'x').trim();
-        mathfun = mathfun.replaceAll('Đáp án', '');
-        mathfun = mathfun.replaceAll(' ', '')
-        mathfun = mathfun.split('x');
-        for (let value of mathfun) {
-            if (value != '') {
-                console.log('x = ' + value.replaceAll('=', '').trim() + '\n');
-            }
+    // if (mathfun.indexOf('Đáp án') != -1) {
+    //     mathfun = mathfun.replaceAll('𝑥', 'x').trim();
+    //     mathfun = mathfun.replaceAll('Đáp án', '');
+    //     mathfun = mathfun.replaceAll(' ', '')
+    //     mathfun = mathfun.split('x');
+    //     for (let value of mathfun) {
+    //         if (value != '') {
+    //             console.log('x = ' + value.replaceAll('=', '').trim() + '\n');
+    //         }
 
-        }
-    }
-    if (mathfun.indexOf('Vô nghiệm') != -1) {
-        console.log('Vô nghiệm');
-    }
+    //     }
+    // }
+    // if (mathfun.indexOf('Vô nghiệm') != -1) {
+    //     console.log('Vô nghiệm');
+    // }
     //Hỏi thông tin cơ bản
     return res.send(data);
 
