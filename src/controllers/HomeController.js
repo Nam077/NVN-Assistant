@@ -492,7 +492,7 @@ let getCrawler = async(req, res) => {
     for (let i = 0; i < 4; i++) {
         console.log('Giải 4: ' + $(data).find(`span#mb_prize4_item${i}`).text().trim());
     }
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 6; i++) {
         console.log('Giải 5: ' + $(data).find(`span#mb_prize5_item${i}`).text().trim());
     }
     for (let i = 0; i < 3; i++) {

@@ -425,7 +425,7 @@ let getLuckyNumber = async(sender_psid) => {
             msg += $(data).find(`span#mb_prize4_item${i}`).text().trim() + '  ';
         }
         msg += '\nGiải 5: ';
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 6; i++) {
             msg += $(data).find(`span#mb_prize5_item${i}`).text().trim() + '  ';
         }
         msg += '\nGiải 6: ';
