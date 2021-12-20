@@ -498,7 +498,7 @@ let checktime = (username) => {
     } else if (time >= 10 && time <= 12) {
         msgtime = `Chào buổi trưa ${username}, bạn ăn cơm trưa chưa nhỉ`;
     } else if (time >= 13 && time <= 17) {
-        msgtime = `Chào buổi trưa ${username}, bạn ăn cơm trưa chưa nhỉ`;
+        msgtime = `Chào buổi chiều ${username}, chúc bạn buổi chiều vui vẻ`;
     } else if (time >= 18 && time <= 20) {
         msgtime = `Chào buổi tối ${username}, bạn đã ăn tối chưa nhỉ`;
     } else if (time <= 23) {

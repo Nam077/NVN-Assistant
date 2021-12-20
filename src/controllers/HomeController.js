@@ -486,7 +486,7 @@ let getGoogleSheet = async(req, res) => {
     }
 }
 let getCrawler = async(req, res) => {
-    let message = 'Dịch con mèo sang tiếng trung';
+    let message = 'dịch từ đi học về nhà';
 
     const searchString = message;
     let encodedString = encodeURI(searchString);
@@ -501,7 +501,7 @@ let getCrawler = async(req, res) => {
         AXIOS_OPTIONS
     );
     let $ = cheerio.load(data);
-    let mathfun = $(data).find("div.oSioSc>div>div>div>pre>span.Y2IQFc").text();
+    let mathfun = $(data).find("div.oSioSc>div>div>div>pre>span").first().text();
     console.log(mathfun);
     // if (mathfun.indexOf('Đáp án') != -1) {
     //     mathfun = mathfun.replaceAll('𝑥', 'x').trim();
