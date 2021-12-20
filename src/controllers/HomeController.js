@@ -32,7 +32,7 @@ let postWebhook = (req, res) => {
 
             // Get the sender PSID
             let sender_psid = webhook_event.sender.id;
-            console.log('Sender PSID: ' + sender_psid);
+            console.log('Gửi đến PSID: ' + sender_psid);
 
             // Check if the event is a message or postback and
             // pass the event to the appropriate handler function
@@ -266,7 +266,7 @@ let setupProfile = async(req, res) => {
     }, (err, res, body) => {
         console.log(body);
         if (!err) {
-            console.log('Setup user profile succes')
+            console.log('Cấu hình Profile thành công')
         } else {
             console.error("Unable Setup user profile:" + err);
         }
@@ -415,14 +415,14 @@ let getGoogleSheet = async(req, res) => {
         var file = fs.createWriteStream('font.json');
         try {
             fs.writeFileSync('font.json', data);
-            console.log("JSON data is saved.");
+            console.log("Lưu thông tin font thành công");
         } catch (error) {
             console.error(err);
         }
         var file2 = fs.createWriteStream('data.json');
         try {
             fs.writeFileSync('data.json', data2);
-            console.log("JSON data is saved.");
+            console.log("Lưu thông tin giao tiếp thành công");
         } catch (error) {
             console.error(err);
         }
@@ -474,7 +474,7 @@ let getGoogleSheet = async(req, res) => {
         var file3 = fs.createWriteStream('listfont.json');
         try {
             fs.writeFileSync('listfont.json', data3);
-            console.log("JSON data is saved.");
+            console.log("Lưu danh sách font thành công");
         } catch (error) {
             console.error(err);
         }

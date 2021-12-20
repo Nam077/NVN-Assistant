@@ -36,9 +36,9 @@ let sendTyping = (sender_psid) => {
         },
         (err, res, body) => {
             if (!err) {
-                console.log("sendTyping Ok");
+                console.log("Gửi type thành công!");
             } else {
-                console.error("Unable to send message:" + err);
+                console.error("Lỗi gửi type!" + err);
             }
         }
     );
@@ -60,9 +60,9 @@ let sendReadMessage = (sender_psid) => {
         },
         (err, res, body) => {
             if (!err) {
-                console.log("sendTyping Ok");
+                console.log("Đọc tin nhắn thành công");
             } else {
-                console.error("Unable to send message:" + err);
+                console.error("Lỗi đọc tin nhắn thành công" + err);
             }
         }
     );
@@ -170,9 +170,9 @@ let callSendAPI = async(sender_psid, response) => {
                 },
                 (err, res, body) => {
                     if (!err) {
-                        reslove("message sent!");
+                        reslove("Gửi tin nhắn thành công");
                     } else {
-                        console.error("Unable to send message:" + err);
+                        console.error("Lỗi gửi tin nhắn" + err);
                     }
                 }
             );
@@ -203,7 +203,6 @@ let getFontSupport = async(sender_psid) => {
     let config = require("../../listfont.json");
     let configs = config;
     for (let i = 0; i < configs.length; i++) {
-        console.log(configs[i].list);
         let response = { text: configs[i].list };
         await callSendAPI(sender_psid, response);
     }
@@ -237,7 +236,6 @@ let getGooleSearch = async(sender_psid, message) => {
             if (year != null && year != "") {
                 let response = { text: year };
                 await callSendAPI(sender_psid, response);
-                console.log(infor);
                 return;
             }
             // //Thời tiết
@@ -410,7 +408,6 @@ let getUserName = async(sender_psid) => {
                     let username = `${body.name}`;
                     reslove(username);
                 } else {
-                    console.error("Unable to send message:" + err);
                     reject(err);
                 }
             }
