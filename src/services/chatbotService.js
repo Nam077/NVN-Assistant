@@ -306,14 +306,14 @@ let getGooleSearch = async(sender_psid, message) => {
             // tinh bieu thuc
             let mathfun = $(data).find("div.TRhz4").last().text();
             if (mathfun != null && mathfun != "") {
-                let result;
+                let result = '';
                 if (mathfun.indexOf("Đáp án") != -1) {
                     mathfun = mathfun.replaceAll("𝑥", "x").trim();
                     mathfun = mathfun.replaceAll("Đáp án", "");
                     mathfun = mathfun.replaceAll(" ", "");
                     mathfun = mathfun.split("x");
                     for (let value of mathfun) {
-                        if (value != "") {
+                        if (value != "" && value != null) {
                             result += "x = " + value.replaceAll("=", "").trim() + "\n"
                         }
                     }
