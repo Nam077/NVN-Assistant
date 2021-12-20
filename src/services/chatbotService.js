@@ -172,7 +172,7 @@ let callSendAPI = async(sender_psid, response) => {
                     if (!err) {
                         reslove("Gửi tin nhắn thành công");
                     } else {
-                        console.error("Lỗi gửi tin nhắn" + err);
+                        console.error("Lỗi gửi tin nhắn: " + err);
                     }
                 }
             );
@@ -394,7 +394,54 @@ let getGooleSearch = async(sender_psid, message) => {
         return;
     }
 };
+let getLuckyNumber = async(sender_psid) => {
+    try {
+        const AXIOS_OPTIONS = {
+            headers: {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.57",
+            },
+        };
+        const { data } = await axios.get(
+            `https://xoso.com.vn/xo-so-mien-bac/xsmb-p1.html`,
+            AXIOS_OPTIONS
+        );
+        let $ = cheerio.load(data);
+        let msg = '';
+        let gdb = $(data).find("span.special-prize").first().text();
+        msg += 'Giải đặc biêt: ' + gdb + '\n';
+        let gn = $(data).find("span.prize1").first().text();
+        msg += 'Giải nhất: ' + gn + '\n';
+        msg += 'Giải 2: ';
+        for (let i = 0; i < 2; i++) {
+            msg += $(data).find(`span#mb_prize2_item${i}`).text().trim() + '  ';
+        }
+        msg += '\nGiải 3: ';
+        for (let i = 0; i < 6; i++) {
+            msg += $(data).find(`span#mb_prize3_item${i}`).text().trim() + '  ';
+        }
+        msg += '\nGiải 4: ';
+        for (let i = 0; i < 4; i++) {
+            msg += $(data).find(`span#mb_prize4_item${i}`).text().trim() + '  ';
+        }
+        msg += '\nGiải 5: ';
+        for (let i = 0; i < 5; i++) {
+            msg += $(data).find(`span#mb_prize5_item${i}`).text().trim() + '  ';
+        }
+        msg += '\nGiải 6: ';
+        for (let i = 0; i < 3; i++) {
+            msg += $(data).find(`span#mb_prize6_item${i}`).text().trim() + '  ';
+        }
+        msg += '\nGiải 7: ';
+        for (let i = 0; i < 4; i++) {
+            msg += $(data).find(`span#mb_prize7_item${i}`).text().trim() + '  ';
+        }
+        let response = { text: msg };
+        await callSendAPI(sender_psid, response);
 
+    } catch (e) {
+        return;
+    }
+}
 let getUserName = async(sender_psid) => {
     return new Promise((reslove, reject) => {
         request({
@@ -518,4 +565,5 @@ module.exports = {
     getUserName: getUserName,
     getGooleSearch: getGooleSearch,
     getVideoTutorial: getVideoTutorial,
+    getLuckyNumber: getLuckyNumber,
 };

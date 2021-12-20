@@ -115,14 +115,18 @@ async function handleMessage(sender_psid, received_message) {
         let keydata = chatbotService.checkKey(arr2, message);
         if (keyfont != null && keyfont != '') {
             await chatbotService.sendMessage(sender_psid, keyfont);
-            callSendAPI(sender_psid, response);
+            await chatbotService.callSendAPI(sender_psid, response);
             return;
         } else if (keydata != null && keydata != '') {
             await chatbotService.sendTextMessage(sender_psid, keydata);
-            callSendAPI(sender_psid, response);
+            await chatbotService.callSendAPI(sender_psid, response);
             return;
         } else if (message.indexOf('bắt đầu') != -1 || message.indexOf('start') != -1) {
             await chatbotService.handleGetStarted(sender_psid);
+            return;
+
+        } else if (message.toLowerCase().indexOf('xổ số') != -1 || message.toLowerCase().indexOf('xo so') != -1) {
+            await chatbotService.getLuckyNumber(sender_psid);
             return;
         } else if (message.indexOf('mấy giờ') != -1 || message.indexOf('giờ giấc') != -1) {
             let msg = chatbotService.getTimeVietNam();
@@ -170,7 +174,7 @@ async function handleMessage(sender_psid, received_message) {
                 }
             }
         }
-        callSendAPI(sender_psid, response);
+        await chatbotService.callSendAPI(sender_psid, response);
     }
 
     // Send the response message
@@ -188,11 +192,11 @@ async function handlePostback(sender_psid, received_postback) {
     switch (payload) {
         case 'yes':
             response = { "text": "Hỏi vậy chứ không có gì :vv" }
-            callSendAPI(sender_psid, response);
+            await chatbotService.callSendAPI(sender_psid, response);
             break;
         case 'no':
             response = { "text": "Kaka Kệ" }
-            callSendAPI(sender_psid, response);
+            await chatbotService.callSendAPI(sender_psid, response);
             break;
         case 'BOT_TUTORIAL':
             let response3 = chatbotService.getVideoTutorial();
@@ -209,7 +213,7 @@ async function handlePostback(sender_psid, received_postback) {
             break;
         case 'PRICE_SERVICE':
             response = { "text": "Hiện tại bên mình nhận việt hóa với giá 50.000 đồng một font." }
-            callSendAPI(sender_psid, response);
+            await chatbotService.callSendAPI(sender_psid, response);
             break;
         case 'GET_STARTED_PAYLOAD':
         case 'RESTART_BOT':
@@ -217,36 +221,14 @@ async function handlePostback(sender_psid, received_postback) {
             break;
         default:
             response = { "text": 'Xin lỗi tôi không hiểu' }
-            callSendAPI(sender_psid, response);
+            await chatbotService.callSendAPI(sender_psid, response);
     }
     // Send the message to acknowledge the postback
 
 }
 
 // Sends response messages via the Send API
-function callSendAPI(sender_psid, response) {
-    // Construct the message body
-    let request_body = {
-        "recipient": {
-            "id": sender_psid
-        },
-        "message": response
-    }
 
-    // Send the HTTP request to the Messenger Platform
-    request({
-        "uri": "https://graph.facebook.com/v2.6/me/messages",
-        "qs": { "access_token": process.env.PAGE_ACCESS_TOKEN },
-        "method": "POST",
-        "json": request_body
-    }, (err, res, body) => {
-        if (!err) {
-            console.log('message sent!')
-        } else {
-            console.error("Unable to send message:" + err);
-        }
-    });
-}
 let setupProfile = async(req, res) => {
     //call profile facebook api
     // Construct the message body
@@ -486,42 +468,45 @@ let getGoogleSheet = async(req, res) => {
     }
 }
 let getCrawler = async(req, res) => {
-    let message = 'huỳnh công pháp là ai';
 
-    const searchString = message;
-    let encodedString = encodeURI(searchString);
-    encodedString = encodedString.replaceAll('+', '%2B');
     const AXIOS_OPTIONS = {
         headers: {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.57",
         },
     };
     const { data } = await axios.get(
-        `https://www.google.com.vn/search?q=${encodedString}&hl=vi&gl=VN`,
+        `https://xoso.com.vn/xo-so-mien-bac/xsmb-p1.html`,
         AXIOS_OPTIONS
     );
     let $ = cheerio.load(data);
-    let mathfun = $(data).find("div.oSioSc>div>div>div>pre>span").first().text();
-    console.log(mathfun);
-    // if (mathfun.indexOf('Đáp án') != -1) {
-    //     mathfun = mathfun.replaceAll('𝑥', 'x').trim();
-    //     mathfun = mathfun.replaceAll('Đáp án', '');
-    //     mathfun = mathfun.replaceAll(' ', '')
-    //     mathfun = mathfun.split('x');
-    //     for (let value of mathfun) {
-    //         if (value != '') {
-    //             console.log('x = ' + value.replaceAll('=', '').trim() + '\n');
-    //         }
+    let gdb = $(data).find("span.special-prize").first().text();
+    console.log('Giải đặc biêt: ' + gdb);
+    let gn = $(data).find("span.prize1").first().text();
+    console.log('Giải nhấtt: ' + gn);
+    for (let i = 0; i < 2; i++) {
+        console.log('Giải 2: ' + $(data).find(`span#mb_prize2_item${i}`).text().trim());
+    }
+    for (let i = 0; i < 6; i++) {
+        console.log('Giải 3: ' + $(data).find(`span#mb_prize3_item${i}`).text().trim());
+    }
+    for (let i = 0; i < 4; i++) {
+        console.log('Giải 4: ' + $(data).find(`span#mb_prize4_item${i}`).text().trim());
+    }
+    for (let i = 0; i < 5; i++) {
+        console.log('Giải 5: ' + $(data).find(`span#mb_prize5_item${i}`).text().trim());
+    }
+    for (let i = 0; i < 3; i++) {
+        console.log('Giải 6: ' + $(data).find(`span#mb_prize6_item${i}`).text().trim());
+    }
+    for (let i = 0; i < 4; i++) {
+        console.log('Giải 7: ' + $(data).find(`span#mb_prize7_item${i}`).text().trim());
+    }
 
-    //     }
-    // }
-    // if (mathfun.indexOf('Vô nghiệm') != -1) {
-    //     console.log('Vô nghiệm');
-    // }
-    //Hỏi thông tin cơ bản
+
     return res.send(data);
 
 }
+
 
 
 module.exports = {
