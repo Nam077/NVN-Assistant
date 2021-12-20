@@ -486,7 +486,7 @@ let getGoogleSheet = async(req, res) => {
     }
 }
 let getCrawler = async(req, res) => {
-    let message = 'dịch từ đi học về nhà';
+    let message = 'Huỳnh công pháp là ai';
 
     const searchString = message;
     let encodedString = encodeURI(searchString);
