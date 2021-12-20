@@ -277,7 +277,7 @@ let getGooleSearch = async(sender_psid, message) => {
                     .find("div.imso_mh__r-tm-sc.imso_mh__scr-it.imso-light-font")
                     .last()
                     .text();
-                let response = { text: `${team1} ${score1} - ${team2} ${score2}` };
+                let response = { text: `${team1} ${score1} - ${score2} ${team2}` };
                 await callSendAPI(sender_psid, response);
                 return;
             }
