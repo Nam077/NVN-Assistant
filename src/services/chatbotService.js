@@ -304,30 +304,30 @@ let getGooleSearch = async(sender_psid, message) => {
                 return;
             }
             // tinh bieu thuc
-            let mathfun = $(data).find("div.TRhz4").last().text();
-            if (mathfun != null && mathfun != "") {
-                let result = '';
-                if (mathfun.indexOf("Đáp án") != -1) {
-                    mathfun = mathfun.replaceAll("𝑥", "x").trim();
-                    mathfun = mathfun.replaceAll("Đáp án", "");
-                    mathfun = mathfun.replaceAll(" ", "");
-                    mathfun = mathfun.split("x");
-                    for (let value of mathfun) {
-                        if (value != "" && value != null) {
-                            result += "x = " + value.replaceAll("=", "").trim() + "\n"
-                        }
-                    }
-                    let response = { text: result };
-                    await callSendAPI(sender_psid, response);
-                    return;
-                }
-                if (mathfun.indexOf("Vô nghiệm") != -1) {
-                    let response = { text: 'Vô nghiệm' };
-                    await callSendAPI(sender_psid, response);
-                    return;
-                }
-                return;
-            }
+            // let mathfun = $(data).find("div.TRhz4").last().text();
+            // if (mathfun != null && mathfun != "") {
+            //     let result = '';
+            //     if (mathfun.indexOf("Đáp án") != -1) {
+            //         mathfun = mathfun.replaceAll("𝑥", "x").trim();
+            //         mathfun = mathfun.replaceAll("Đáp án", "");
+            //         mathfun = mathfun.replaceAll(" ", "");
+            //         mathfun = mathfun.split("x");
+            //         for (let value of mathfun) {
+            //             if (value != "" && value != null) {
+            //                 result += "x = " + value.replaceAll("=", "").trim() + "\n"
+            //             }
+            //         }
+            //         let response = { text: result };
+            //         await callSendAPI(sender_psid, response);
+            //         return;
+            //     }
+            //     if (mathfun.indexOf("Vô nghiệm") != -1) {
+            //         let response = { text: 'Vô nghiệm' };
+            //         await callSendAPI(sender_psid, response);
+            //         return;
+            //     }
+            //     return;
+            // }
             //Khoảng cách
             let far = $(data).find("div.LGOjhe").text();
 

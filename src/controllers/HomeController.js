@@ -486,7 +486,7 @@ let getGoogleSheet = async(req, res) => {
     }
 }
 let getCrawler = async(req, res) => {
-    let message = '2X^2 + 2x  + 3 = 0';
+    let message = '2X^2 +x = 0';
 
     const searchString = message;
     let encodedString = encodeURI(searchString);
@@ -502,6 +502,7 @@ let getCrawler = async(req, res) => {
     );
     let $ = cheerio.load(data);
     let mathfun = $(data).find("div.TRhz4").last().text();
+    console.log(mathfun);
     if (mathfun.indexOf('Đáp án') != -1) {
         mathfun = mathfun.replaceAll('𝑥', 'x').trim();
         mathfun = mathfun.replaceAll('Đáp án', '');
