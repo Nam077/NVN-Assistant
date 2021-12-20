@@ -494,13 +494,15 @@ let checktime = (username) => {
     time = new Date(time);
     time = time.getHours();
     if (time >= 5 && time <= 9) {
-        msgtime = `Chào buổi sáng ${username}. Chúc bạn buổi sáng tối lành`;
-    } else if (time >= 10 && time <= 17) {
-        msgtime = `Chào buổi chiều ${username}. Rất vui được gặp bạn`;
+        msgtime = `Chào buổi sáng ${username},chúc bạn buổi sáng tối lành`;
+    } else if (time >= 10 && time <= 12) {
+        msgtime = `Chào buổi trưa ${username}, bạn ăn cơm trưa chưa nhỉ`;
+    } else if (time >= 13 && time <= 17) {
+        msgtime = `Chào buổi trưa ${username}, bạn ăn cơm trưa chưa nhỉ`;
     } else if (time >= 18 && time <= 20) {
-        msgtime = `Chào buổi tối ${username}. Bạn đã ăn tối chưa nhỉ`;
+        msgtime = `Chào buổi tối ${username}, bạn đã ăn tối chưa nhỉ`;
     } else if (time <= 23) {
-        msgtime = `Chào buổi tối ${username}. khuya rồi bạn nên đi ngủ đi`;
+        msgtime = `Chào buổi tối ${username}, khuya rồi bạn nên đi ngủ đi`;
     } else if (time >= 0 && time <= 4) {
         msgtime = `Chào ${username}, tương tư ai mà chưa ngủ nữa trời`;
     }
