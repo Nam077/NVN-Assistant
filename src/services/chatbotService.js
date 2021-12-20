@@ -122,7 +122,6 @@ let sendMessage = (sender_psid, name) => {
 let sendTextMessage = (sender_psid, name) => {
     let config = require("../../data.json");
     var item = config.find((item) => item.key === name);
-    console.log(item);
     let respon = item["respone"].trim();
     let img = item["img"].trim();
     return new Promise(async(reslove, reject) => {
@@ -216,7 +215,6 @@ let getGooleSearch = async(sender_psid, message) => {
             let searchString = message;
             let encodedString = encodeURI(searchString);
             encodedString = encodedString.replaceAll("+", "%2B");
-            console.log(message);
             const AXIOS_OPTIONS = {
                 headers: {
                     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.57",
