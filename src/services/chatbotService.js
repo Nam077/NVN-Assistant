@@ -254,6 +254,14 @@ let getGooleSearch = async(sender_psid, message) => {
                 await callSendAPI(sender_psid, response);
                 return;
             }
+            let msg = message.toLowerCase();
+            if (message.indexOf('thời tiết') && checkwheather.length > 0) {
+                let response = { text: 'Nếu bạn muốn xem thời tiết\nThì nhắn tin phải có địa điểm\nVí dụ' };
+                await callSendAPI(sender_psid, response);
+                let response2 = { text: 'Thời tiết tại Đà Nẵng' };
+                await callSendAPI(sender_psid, response2);
+                return;
+            }
             //Giá Bitcoin
             let bitcoin = $(data).find("span.pclqee").text();
             if (bitcoin != null && bitcoin != "") {
