@@ -438,6 +438,7 @@ let getLuckyNumber = async(sender_psid) => {
         }
         let response = { text: msg };
         await callSendAPI(sender_psid, response);
+        return;
 
     } catch (e) {
         return;
