@@ -212,12 +212,10 @@ let getFontSupport = async(sender_psid) => {
 };
 let getGooleSearch = async(sender_psid, message) => {
     try {
-        if (message.indexOf('covid') == -1 && message.indexOf('Covid') == -1) {
-            message = message.replaceAll("+", "cộng");
-            console.log(message);
-            console.log(sender_psid);
-            const searchString = message;
-            const encodedString = encodeURI(searchString);
+        if (message.indexOf("covid") == -1 && message.indexOf("Covid") == -1) {
+            let searchString = message;
+            let encodedString = encodeURI(searchString);
+            encodedString = encodedString.replaceAll("+", "%2B");
             const AXIOS_OPTIONS = {
                 headers: {
                     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.57",
@@ -285,20 +283,49 @@ let getGooleSearch = async(sender_psid, message) => {
             //Tiền tệ
             let money = $(data).find("span.DFlfde.SwHCTb").text();
             if (money != null && money != "") {
-                let response = { text: money + " " + $(data).find("span.MWvIVe").text() };
+                let response = {
+                    text: money + " " + $(data).find("span.MWvIVe").text(),
+                };
                 await callSendAPI(sender_psid, response);
                 return;
             }
+            //chuyen doi
             let change_unit = $(data).find("div.dDoNo.vrBOv.vk_bk").text();
             if (change_unit != null && change_unit != "") {
                 let response = { text: change_unit };
                 await callSendAPI(sender_psid, response);
                 return;
             }
+            // tinh toan
             let math = $(data).find("span.qv3Wpe").text();
             if (math != null && math != "") {
                 let response = { text: math };
                 await callSendAPI(sender_psid, response);
+                return;
+            }
+            // tinh bieu thuc
+            let mathfun = $(data).find("div.TRhz4").last().text();
+            if (mathfun != null && mathfun != "") {
+                let result;
+                if (mathfun.indexOf("Đáp án") != -1) {
+                    mathfun = mathfun.replaceAll("𝑥", "x").trim();
+                    mathfun = mathfun.replaceAll("Đáp án", "");
+                    mathfun = mathfun.replaceAll(" ", "");
+                    mathfun = mathfun.split("x");
+                    for (let value of mathfun) {
+                        if (value != "") {
+                            result += "x = " + value.replaceAll("=", "").trim() + "\n"
+                        }
+                    }
+                    let response = { text: result };
+                    await callSendAPI(sender_psid, response);
+                    return;
+                }
+                if (mathfun.indexOf("Vô nghiệm") != -1) {
+                    let response = { text: 'Vô nghiệm' };
+                    await callSendAPI(sender_psid, response);
+                    return;
+                }
                 return;
             }
             //Khoảng cách
@@ -344,18 +371,18 @@ let getGooleSearch = async(sender_psid, message) => {
                 return;
             }
             //lyric
-            let lyric = $(data).find("div.PZPZlf >div>div > span");
-            let lyricsave;
-            lyric.each(function(i, e) {
-                lyricsave += $(this).text() + "\n";
-            });
-            console.log(lyricsave);
-            if (lyricsave != null && lyricsave != "") {
-                let response = { text: lyricsave };
-                await callSendAPI(sender_psid, response);
-                return;
-            }
-            return;
+            // let lyric = $(data).find("div.PZPZlf >div>div > span");
+            // let lyricsave;
+            // lyric.each(function(i, e) {
+            //     lyricsave += $(this).text() + "\n";
+            // });
+            // console.log(lyricsave);
+            // if (lyricsave != null && lyricsave != "") {
+            //     let response = { text: lyricsave };
+            //     await callSendAPI(sender_psid, response);
+            //     return;
+            // }
+            // return;
         }
     } catch (e) {
         return;
