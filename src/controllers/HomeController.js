@@ -439,7 +439,7 @@ let getGoogleSheet = async(req, res) => {
             }
         }
         for (let i = 0; i < arr.length; i++) {
-            if (arr2.length == 20) {
+            if (arr2.length == 40) {
                 for (const element of arr2) {
                     dataFont += element + '\n';
                 }
@@ -452,11 +452,11 @@ let getGoogleSheet = async(req, res) => {
                 dataFont = '';
                 dem += 1;
             }
-            if (arr2.length < 20) {
+            if (arr2.length < 40) {
                 arr2.push(arr[i]);
             }
             if (i == arr.length - 1) {
-                if (i > 20 * dem || i < 20 * dem) {
+                if (i > 40 * dem || i < 40 * dem) {
                     for (const element of arr2) {
                         dataFont += element + '\n';
                     }
