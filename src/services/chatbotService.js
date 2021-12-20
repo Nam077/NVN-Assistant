@@ -176,6 +176,7 @@ let callSendAPI = async(sender_psid, response) => {
                     }
                 }
             );
+            reslove('done');
         } catch (e) {
             reject(e);
         }
