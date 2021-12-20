@@ -256,7 +256,7 @@ let getGooleSearch = async(sender_psid, message) => {
             }
             let msg = message.toLowerCase();
             msg = stripAccents(msg);
-            if (msg.indexOf('thoi tiet') != -1 && !checkwheather.length > 0) {
+            if (msg.indexOf('thoi tiet') != -1 && !checkwheather.length > 0 && msg.indexOf('dich') != -1) {
                 let response = { text: 'Nếu bạn muốn xem thời tiết\nThì nhắn tin phải có địa điểm\nVí dụ như thế này nè:' };
                 await callSendAPI(sender_psid, response);
                 let response2 = { text: 'Thời tiết tại Đà Nẵng' };
