@@ -415,10 +415,12 @@ let getCovidApi = async(sender_psid, message) => {
     }).catch(err => {
         console.error(err)
     })
+    console.log(result)
     let config = require("../../listlocation.json");
     let datalocation = config;
     var item = datalocation.find((item) => item.key === result);
-    let href = item.href;
+    let href = '';
+    href = item.href;
     let sendCheck;
 
     const AXIOS_OPTIONS = {
