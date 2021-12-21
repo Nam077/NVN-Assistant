@@ -404,7 +404,7 @@ let getCovidApi = async(sender_psid, message) => {
     if (message.indexOf('tại')) {
         getlocation = location.split('tại');
     }
-    if (s.indexOf('ở')) {
+    if (message.indexOf('ở')) {
         getlocation = location.split('ở');
     }
     let locationsearch = getlocation[1].trim();
