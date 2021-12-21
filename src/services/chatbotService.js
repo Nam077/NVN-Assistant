@@ -401,20 +401,27 @@ let getCovidApi = async(sender_psid, message) => {
     let result;
     let link;
     let getlocation = [];
+    let locationsearch;
     let arr = [];
     let location = message.toLowerCase();
     if (message.indexOf('tại') != -1) {
         getlocation = location.split('tại');
+        locationsearch = getlocation[1].trim();
+        await translate('nước ' + locationsearch, { to: 'en' }).then(res => {
+            result = res.toLowerCase();
+        }).catch(err => {
+            console.error(err)
+        })
     }
     if (message.indexOf('ở') != -1) {
         getlocation = location.split('ở');
+        locationsearch = getlocation[1].trim();
+        await translate('nước ' + locationsearch, { to: 'en' }).then(res => {
+            result = res.toLowerCase();
+        }).catch(err => {
+            console.error(err)
+        })
     }
-    let locationsearch = getlocation[1].trim();
-    await translate('nước ' + locationsearch, { to: 'en' }).then(res => {
-        result = res.toLowerCase();
-    }).catch(err => {
-        console.error(err)
-    })
     console.log(result)
     let config = require("../../listlocation.json");
     let datalocation = config;
