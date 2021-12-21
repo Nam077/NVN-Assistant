@@ -339,11 +339,12 @@ let getGooleSearch = async(sender_psid, message) => {
             //     return;
             // }
             //zipcode
-            let zipcode = $(data).find("div.bVj5Zb.FozYP").text();
+            let zipcode = $(data).find("div.bVj5Zb.FozYP");
             if (zipcode != null && zipcode != undefined) {
                 let msgzipcode = ''
                 zipcode.each(function(e, i) {
-                    msgzipcode = +$(this).text() + '\n';
+                    msgzipcode += $(this).text() + '\n';
+
                 })
                 let response = { text: msgzipcode };
                 await callSendAPI(sender_psid, response);
