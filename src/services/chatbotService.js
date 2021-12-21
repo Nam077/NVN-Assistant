@@ -178,7 +178,6 @@ let callSendAPI = async(sender_psid, response) => {
                     }
                 }
             );
-            reslove('done');
         } catch (e) {
             reject(e);
         }
@@ -465,7 +464,7 @@ let getCovidApi = async(sender_psid, message) => {
             await callSendAPI(sender_psid, response);
             let response2 = { text: 'Chưa có thông tin quốc gia hoặc quóc gia không chính xác\nĐây là thông tin Covid trên thế giới\nĐể xem ở một quốc gia\nVui lòng nhắn tin theo ví dụ' }
             await callSendAPI(sender_psid, response2);
-            let response3 = { text: 'Covid tại Việt Nam' }
+            let response3 = { text: 'Covid tại Việt Nam' };
             await callSendAPI(sender_psid, response3);
             return;
         }
