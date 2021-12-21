@@ -116,11 +116,9 @@ async function handleMessage(sender_psid, received_message) {
         let keydata = chatbotService.checkKey(arr2, message);
         if (keyfont != null && keyfont != '') {
             await chatbotService.sendMessage(sender_psid, keyfont);
-            await chatbotService.callSendAPI(sender_psid, response);
             return;
         } else if (keydata != null && keydata != '') {
             await chatbotService.sendTextMessage(sender_psid, keydata);
-            await chatbotService.callSendAPI(sender_psid, response);
             return;
         } else if (message.indexOf('bắt đầu') != -1 || message.indexOf('start') != -1) {
             await chatbotService.handleGetStarted(sender_psid);

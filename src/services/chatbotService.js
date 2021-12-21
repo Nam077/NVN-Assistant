@@ -420,7 +420,9 @@ let getCovidApi = async(sender_psid, message) => {
     let datalocation = config;
     var item = datalocation.find((item) => item.key === result);
     let href = '';
-    href = item.href;
+    if (item != undefined) {
+        href = item.href;
+    }
     let sendCheck;
 
     const AXIOS_OPTIONS = {
