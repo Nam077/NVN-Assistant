@@ -17,7 +17,8 @@
         "ejs": "^3.1.5",
         "express": "^4.17.1",
         "google-spreadsheet": "^3.1.15",
-        "request": "^2.88.2"
+        "request": "^2.88.2",
+        "translate-google": "^1.5.0"
     },
     "devDependencies": {
         "@babel/core": "^7.12.10",

@@ -7,6 +7,7 @@ import { config } from 'dotenv';
 import { each, first } from 'cheerio/lib/api/traversing';
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 const fs = require("fs")
+const translate = require('translate-google')
 const PRIVATE_KEY = '-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC5HoFZFah8impx\nX2s4LmCImHQarqevuxy6L1hQcvtuVyNizNgSCpvyb59gnplIvMuBoEzgAJppjq5d\nEVNrdfJjRCWj6PL0hDN/Y+ONMJXvnmhfeeZpiFdnW7+hz1jkyK8w0ZK3/nLGz2fE\nz015F8dIuCWWvBXq0BQUm+5Z3qPLemylXJb//Wu3eZkCQpAAZUgInSHOUNBwqzek\nxS44BHQ6uCt5QPIgUMXZ1aiioCo/3tGYcURDdqk1yVJVFvUY/J1GGB7t0Cho8Q/y\nIiX5CWQnnApqtU71vE7GDtffN/ZXzP5CiSiia/+0xkJ3XsigYO9PVd5Bky4XfenK\nb+oHcS0bAgMBAAECggEABlAnAx28+DpUNPeXFXxnaGEinIJWT6Tm7uaMcXnqXzHz\nj/wCZmMcPGFYIxhli9h8bDhGRuFeYrkt8xiTKrgEAySgz/0yw+n6Q57pdLgydNCH\nKLJkjDbNHEZBu8fxdSPu7ZBIG6Q+z87k8A5NyxJnhnBZP9G8QZzFAorqzv/LwDWm\nwrbmujbG6NjddMoNcOIZdYhVVuPCrmrkk4b3GYi282dtBbcEjf190yin9HrfK8qB\nHgAdudUa7ZG2YVw27OlJX7ljWaKB6boHgVa1hsCrOxeRC/aiXazngXphgF7ZE2wj\nkX9GkjrqqGZUvW+m3+pUCJpbdj5j5ivwgZzV/JPkEQKBgQDe0fLgC9ZD4kT+0J+v\nxVaeMnRquOMRa+CDqa6izBZutCHimO+qXR6Go+vMYqaYbB3otVwILTBxW87WIrNp\nVZ9d4izSNDMCUSnldyZXY1y5Iegd6e+1X4zTLkpQJKvmw8LF/DlxfeXq+cCf2gDA\nUts+RSptDiTClbAelpY+AUc+2QKBgQDUr18C/voDG6ybYP+DdaP8dopvAvnhIbR7\nlA2nMq4qn6DjYF7D7KesS0cVgUiHU/ZpOujS8aPwwjHt0EX2KF2O/s5tQI9XUaDE\nnGe4bOAZWl9DCRzXv0ZezJWSEN8NXvuPQNTN/jYHhaWiLuePoDKnp7vfF4AK/7QP\nD/WqfNe7EwKBgAXgA0dlCIFBthAB8DPyQBZrviYSOep7ra/LCY/BUdYZactPvQIA\n8o0aRV1ePIZIU4GPRp3wkxZqFUoQICrm1wziqcvhFHc7LJ+gRKKJPCilfDlNscRW\ngKAQ2GTEksPC5Z/SxrD3YNiRPUL5vItVo/JAYJ3/gXif+cTUs6Fu5zIBAoGBAJzs\nxFqujQNsEOAYIo75ZsRpJl0gQgSlXMhtheFemHkkjI4X1fQTkeejJ1Crsjr/bWlZ\nKN4zonWKo1JHgMdOIzHVubOMlfakaM2IZVMDKhoqvuz0NU7Od3qM0rMSNbFk6pFZ\nEWrn7S+BoaNXnk0vsxBWx1yktznmTxFqAiYHtRj3AoGAHpKWPmng3itZ3Xsr2UXP\nTVYdulHGCCYpr9TecYsGb0MHsotbmHyQl9sn74relRTxJtkqz5PlmdCqZNDHDLko\nEl1VUM5kyLdhv0V3pADIpDmOAVkvjwg5YVCG7hodtbC7zdM8HULhtyt/sTJ5XbEK\nWJSed/k0HM+fZueJbFS0uZk=\n-----END PRIVATE KEY-----\n'
 const CLIENT_EMAIL = process.env.CLIENT_EMAIL
 const SHEET_ID = process.env.SHEET_ID;
@@ -468,6 +469,19 @@ let getGoogleSheet = async(req, res) => {
     }
 }
 let getCrawler = async(req, res) => {
+    let result;
+    let location = 'Covid tại Mỹ';
+    let getlocation = location.split('tại');
+    let locationsearch = getlocation[1].trim();
+    await translate(locationsearch, { to: 'en' }).then(res => {
+        result = res.toLowerCase();
+    }).catch(err => {
+        console.error(err)
+    })
+    let config = require("../../listlocation.json");
+    let datalocation = config;
+    var item = datalocation.find((item) => item.key === result);
+    let href = item.href;
 
     const AXIOS_OPTIONS = {
         headers: {
@@ -475,50 +489,26 @@ let getCrawler = async(req, res) => {
         },
     };
     const { data } = await axios.get(
-        `https://xsmn.me/xsmb-sxmb-kqxsmb-xstd-xshn-ket-qua-xo-so-mien-bac.html`,
+        `https://www.worldometers.info/coronavirus/${href}`,
         AXIOS_OPTIONS
     );
-
     let $ = cheerio.load(data);
-    let xsmb = $(data).find("table.extendable.kqmb.colgiai").first();
-    let msg = '';
-    let gdb = $(xsmb).find("span.v-gdb").first().text();
-    msg += 'Giải đặc biệt: | ' + gdb + ' | ' + '\n';
-    let gn = $(xsmb).find("span.v-g1").first().text();
-    msg += 'Giải nhất: | ' + gn + ' | ' + '\n';
-    msg += 'Giải 2: | ';
-    for (let i = 0; i < 2; i++) {
-        msg += $(xsmb).find(`span.v-g2-${i}`).text().trim() + ' | ';
-    }
-    msg += '\nGiải 3: | ';
-    for (let i = 0; i < 6; i++) {
-        msg += $(xsmb).find(`span.v-g3-${i}`).text().trim() + ' | ';
-    }
-    msg += '\nGiải 4: | ';
-    for (let i = 0; i < 4; i++) {
-        msg += $(xsmb).find(`span.v-g4-${i}`).text().trim() + ' | ';
-    }
-    msg += '\nGiải 5: | ';
-    for (let i = 0; i < 6; i++) {
-        msg += $(xsmb).find(`span.v-g5-${i}`).text().trim() + ' | ';
-    }
-    msg += '\nGiải 6: | ';
-    for (let i = 0; i < 3; i++) {
-        msg += $(xsmb).find(`span.v-g6-${i}`).text().trim() + ' | ';
-    }
-    msg += '\nGiải 7: | ';
-    for (let i = 0; i < 4; i++) {
-        msg += $(xsmb).find(`span.v-g7-${i}`).text().trim() + ' | ';
-    }
-    console.log(msg);
-
-
     return res.send(data);
 
 }
+let googleTranslate = (text) => {
+    let result = '';
+
+    translate('Cambodia', { to: 'en' }).then(res => {
+        result = res;
+    }).catch(err => {
+        console.error(err)
+    });
+    console.log(result);
+    return result;
 
 
-
+}
 module.exports = {
     getHomePage: getHomePage,
     postWebhook: postWebhook,
