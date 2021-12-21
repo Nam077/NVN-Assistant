@@ -127,7 +127,7 @@ async function handleMessage(sender_psid, received_message) {
         } else if (message.toLowerCase().indexOf('xổ số') != -1 || message.toLowerCase().indexOf('xo so') != -1) {
             await chatbotService.getLuckyNumber(sender_psid);
             return;
-        } else if (message.toLowerCase().indexOf('covid') != -1 || message.toLowerCase().indexOf('corona') != -1) {
+        } else if (message.toLowerCase().indexOf('covid') != -1 || message.toLowerCase().indexOf('corona') != -1 || message.toLowerCase().indexOf('cov') != -1) {
             await chatbotService.getCovidApi(sender_psid, message);
             return;
         } else if (message.indexOf('mấy giờ') != -1 || message.indexOf('giờ giấc') != -1) {
