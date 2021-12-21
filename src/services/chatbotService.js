@@ -339,10 +339,10 @@ let getGooleSearch = async(sender_psid, message) => {
             //     return;
             // }
             //zipcode
-            let zipcode = $(data).find("div.bVj5Zb.FozYP");
-            if (zipcode != null && zipcode != "") {
+            let zipcode = $(data).find("div.bVj5Zb.FozYP").text();
+            if (zipcode != null && zipcode != undefined) {
                 let msgzipcode = ''
-                infor.each(function(e, i) {
+                zipcode.each(function(e, i) {
                     msgzipcode = +$(this).text() + '\n';
                 })
                 let response = { text: msgzipcode };
