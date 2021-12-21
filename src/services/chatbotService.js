@@ -212,7 +212,9 @@ let getFontSupport = async(sender_psid) => {
 };
 let getGooleSearch = async(sender_psid, message) => {
     try {
-        if (message.indexOf("covid") == -1 && message.indexOf("Covid") == -1) {
+        let checkmsg = message.replaceAll(' ', '').toLowerCase();
+        checkmsg = stripAccents(checkmsg);
+        if (checkmsg.indexOf("cov") == -1 && checkmsg.indexOf("corona") == -1) {
             let searchString = message;
             let encodedString = encodeURI(searchString);
             encodedString = encodedString.replaceAll("+", "%2B");
@@ -404,6 +406,7 @@ let getCovidApi = async(sender_psid, message) => {
         let locationsearch;
         let arr = [];
         let location = message.toLowerCase();
+        location = location.replaceAll('nước', '');
         if (message.indexOf('tại') != -1) {
             getlocation = location.split('tại');
             locationsearch = getlocation[1].trim();
