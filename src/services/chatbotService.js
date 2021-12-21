@@ -403,38 +403,39 @@ let getLuckyNumber = async(sender_psid) => {
             },
         };
         const { data } = await axios.get(
-            `https://xoso.com.vn/xo-so-mien-bac/xsmb-p1.html`,
+            `https://xsmn.me/xsmb-sxmb-kqxsmb-xstd-xshn-ket-qua-xo-so-mien-bac.html`,
             AXIOS_OPTIONS
         );
         let $ = cheerio.load(data);
+        let xsmb = $(data).find("table.extendable.kqmb.colgiai").first();
         let msg = '';
-        let gdb = $(data).find("span.special-prize").first().text();
-        msg += 'Giải đặc biêt: ' + gdb + '\n';
-        let gn = $(data).find("span.prize1").first().text();
-        msg += 'Giải nhất: ' + gn + '\n';
-        msg += 'Giải 2: ';
+        let gdb = $(xsmb).find("span.v-gdb").first().text();
+        msg += 'Giải đặc biệt: | ' + gdb + ' | ' + '\n';
+        let gn = $(xsmb).find("span.v-g1").first().text();
+        msg += 'Giải nhất: | ' + gn + ' | ' + '\n';
+        msg += 'Giải 2: | ';
         for (let i = 0; i < 2; i++) {
-            msg += $(data).find(`span#mb_prize2_item${i}`).text().trim() + '  ';
+            msg += $(xsmb).find(`span.v-g2-${i}`).text().trim() + ' | ';
         }
-        msg += '\nGiải 3: ';
+        msg += '\nGiải 3: | ';
         for (let i = 0; i < 6; i++) {
-            msg += $(data).find(`span#mb_prize3_item${i}`).text().trim() + '  ';
+            msg += $(xsmb).find(`span.v-g3-${i}`).text().trim() + ' | ';
         }
-        msg += '\nGiải 4: ';
+        msg += '\nGiải 4: | ';
         for (let i = 0; i < 4; i++) {
-            msg += $(data).find(`span#mb_prize4_item${i}`).text().trim() + '  ';
+            msg += $(xsmb).find(`span.v-g4-${i}`).text().trim() + ' | ';
         }
-        msg += '\nGiải 5: ';
+        msg += '\nGiải 5: | ';
         for (let i = 0; i < 6; i++) {
-            msg += $(data).find(`span#mb_prize5_item${i}`).text().trim() + '  ';
+            msg += $(xsmb).find(`span.v-g5-${i}`).text().trim() + ' | ';
         }
-        msg += '\nGiải 6: ';
+        msg += '\nGiải 6: | ';
         for (let i = 0; i < 3; i++) {
-            msg += $(data).find(`span#mb_prize6_item${i}`).text().trim() + '  ';
+            msg += $(xsmb).find(`span.v-g6-${i}`).text().trim() + ' | ';
         }
-        msg += '\nGiải 7: ';
+        msg += '\nGiải 7: | ';
         for (let i = 0; i < 4; i++) {
-            msg += $(data).find(`span#mb_prize7_item${i}`).text().trim() + '  ';
+            msg += $(xsmb).find(`span.v-g7-${i}`).text().trim() + ' | ';
         }
         let response = { text: msg };
         await callSendAPI(sender_psid, response);
