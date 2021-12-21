@@ -454,8 +454,21 @@ let getCovidApi = async(sender_psid, message) => {
         arr.push($(this).text());
     })
     let msg = `Số ca mắc: ${arr[0]} \nSố ca tử vong: ${arr[1]}\nSố ca khỏi bệnh: ${arr[2]}`
+    msg = msg.replaceAll(',', '.');
     let response = { text: msg };
-    await callSendAPI(sender_psid, response);
+    if (sendCheck == 0) {
+        await callSendAPI(sender_psid, response);
+        return;
+    }
+    if (sendCheck == 1) {
+        await callSendAPI(sender_psid, response);
+        let response2 = { text: 'Chưa có thông tin quốc gia hoặc quóc gia không chính xác\nĐây là thông tin Covid trên thế giới\nĐể xem ở một quốc gia\nVui lòng nhắn tin theo ví dụ' }
+        await callSendAPI(sender_psid, response2);
+        let response3 = { text: 'Covid tại Việt Nam' }
+        await callSendAPI(sender_psid, response3);
+        return;
+    }
+
 }
 let getLuckyNumber = async(sender_psid) => {
     try {
