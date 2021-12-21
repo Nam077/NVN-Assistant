@@ -471,7 +471,7 @@ let getGoogleSheet = async(req, res) => {
 }
 let getCrawler = async(req, res) => {
     let result;
-    let location = 'Covid tại Đức';
+    let location = 'Covid tại Israel';
     let getlocation = location.split('tại');
     let locationsearch = getlocation[1].trim();
     await translate('nước ' + locationsearch, { to: 'en' }).then(res => {
@@ -479,6 +479,7 @@ let getCrawler = async(req, res) => {
     }).catch(err => {
         console.error(err)
     })
+    console.log(result)
     let config = require("../../listlocation.json");
     let datalocation = config;
     var item = datalocation.find((item) => item.key === result);
@@ -490,7 +491,7 @@ let getCrawler = async(req, res) => {
         },
     };
     const { data } = await axios.get(
-        `https://www.worldometers.info/coronavirus/`,
+        `https://www.worldometers.info/coronavirus/${href}`,
         AXIOS_OPTIONS
     );
     let arr = [];
