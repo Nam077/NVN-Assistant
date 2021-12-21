@@ -398,76 +398,83 @@ let getGooleSearch = async(sender_psid, message) => {
     }
 };
 let getCovidApi = async(sender_psid, message) => {
-    let result;
-    let link;
-    let getlocation = [];
-    let locationsearch;
-    let arr = [];
-    let location = message.toLowerCase();
-    if (message.indexOf('tại') != -1) {
-        getlocation = location.split('tại');
-        locationsearch = getlocation[1].trim();
-        await translate('nước ' + locationsearch, { to: 'en' }).then(res => {
-            result = res.toLowerCase();
-        }).catch(err => {
-            console.error(err)
-        })
-    }
-    if (message.indexOf('ở') != -1) {
-        getlocation = location.split('ở');
-        locationsearch = getlocation[1].trim();
-        await translate('nước ' + locationsearch, { to: 'en' }).then(res => {
-            result = res.toLowerCase();
-        }).catch(err => {
-            console.error(err)
-        })
-    }
-    console.log(result)
-    let config = require("../../listlocation.json");
-    let datalocation = config;
-    var item = datalocation.find((item) => item.key === result);
-    let href = '';
-    if (item != undefined) {
-        href = item.href;
-    }
-    let sendCheck;
+    try {
+        let result;
+        let link;
+        let getlocation = [];
+        let locationsearch;
+        let arr = [];
+        let location = message.toLowerCase();
+        if (message.indexOf('tại') != -1) {
+            getlocation = location.split('tại');
+            locationsearch = getlocation[1].trim();
+            await translate('nước ' + locationsearch, { to: 'en' }).then(res => {
+                result = res.toLowerCase();
+            }).catch(err => {
+                console.error(err)
+            })
+        }
+        if (message.indexOf('ở') != -1) {
+            getlocation = location.split('ở');
+            locationsearch = getlocation[1].trim();
+            await translate('nước ' + locationsearch, { to: 'en' }).then(res => {
+                result = res.toLowerCase();
+            }).catch(err => {
+                console.error(err)
+            })
+        }
+        console.log(result)
+        let config = require("../../listlocation.json");
+        let datalocation = config;
+        var item = datalocation.find((item) => item.key === result);
+        let href = '';
+        if (item != undefined) {
+            href = item.href;
+        }
+        let sendCheck;
 
-    const AXIOS_OPTIONS = {
-        headers: {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.57",
-        },
-    };
-    if (href != '' && href != null) {
-        link = `https://www.worldometers.info/coronavirus/${href}`;
-        sendCheck = 0;
-    } else {
-        link = `https://www.worldometers.info/coronavirus/`;
-        sendCheck = 1;
-    }
-    const { data } = await axios.get(
-        `${link}`,
-        AXIOS_OPTIONS
-    );
-    let $ = cheerio.load(data);
-    let allcase = $(data).find("div.maincounter-number>span");
-    allcase.each(function(i, e) {
-        arr.push($(this).text());
-    })
-    let msg = `Số ca mắc: ${arr[0]} \nSố ca tử vong: ${arr[1]}\nSố ca khỏi bệnh: ${arr[2]}`
-    msg = msg.replaceAll(',', '.');
-    let response = { text: msg };
-    if (sendCheck == 0) {
-        await callSendAPI(sender_psid, response);
+        const AXIOS_OPTIONS = {
+            headers: {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.57",
+            },
+        };
+        if (href != '' && href != null) {
+            link = `https://www.worldometers.info/coronavirus/${href}`;
+            sendCheck = 0;
+        } else {
+            link = `https://www.worldometers.info/coronavirus/`;
+            sendCheck = 1;
+        }
+        const { data } = await axios.get(
+            `${link}`,
+            AXIOS_OPTIONS
+        );
+        let $ = cheerio.load(data);
+        let allcase = $(data).find("div.maincounter-number>span");
+        allcase.each(function(i, e) {
+            arr.push($(this).text());
+        })
+        let msg = `Số ca mắc: ${arr[0]} \nSố ca tử vong: ${arr[1]}\nSố ca khỏi bệnh: ${arr[2]}`
+        msg = msg.replaceAll(',', '.');
+        let response = { text: msg };
+        if (sendCheck == 0) {
+            await callSendAPI(sender_psid, response);
+            return;
+        }
+        if (sendCheck == 1) {
+            await callSendAPI(sender_psid, response);
+            let response2 = { text: 'Chưa có thông tin quốc gia hoặc quóc gia không chính xác\nĐây là thông tin Covid trên thế giới\nĐể xem ở một quốc gia\nVui lòng nhắn tin theo ví dụ' }
+            await callSendAPI(sender_psid, response2);
+            let response3 = { text: 'Covid tại Việt Nam' }
+            await callSendAPI(sender_psid, response3);
+            return;
+        }
+        return;
+    } catch (e) {
         return;
     }
-    if (sendCheck == 1) {
-        await callSendAPI(sender_psid, response);
-        let response2 = { text: 'Chưa có thông tin quốc gia hoặc quóc gia không chính xác\nĐây là thông tin Covid trên thế giới\nĐể xem ở một quốc gia\nVui lòng nhắn tin theo ví dụ' }
-        await callSendAPI(sender_psid, response2);
-        let response3 = { text: 'Covid tại Việt Nam' }
-        await callSendAPI(sender_psid, response3);
-        return;
-    }
+    return;
+
 
 }
 let getLuckyNumber = async(sender_psid) => {
