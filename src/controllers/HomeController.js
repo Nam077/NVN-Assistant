@@ -129,6 +129,9 @@ async function handleMessage(sender_psid, received_message) {
         } else if (message.toLowerCase().indexOf('xổ số') != -1 || message.toLowerCase().indexOf('xo so') != -1) {
             await chatbotService.getLuckyNumber(sender_psid);
             return;
+        } else if (message.toLowerCase().indexOf('covid') != -1 || message.toLowerCase().indexOf('corona') != -1) {
+            await chatbotService.getCovidApi(sender_psid, message);
+            return;
         } else if (message.indexOf('mấy giờ') != -1 || message.indexOf('giờ giấc') != -1) {
             let msg = chatbotService.getTimeVietNam();
             let response = { "text": `Bây giờ là ${msg} ` };
@@ -470,10 +473,10 @@ let getGoogleSheet = async(req, res) => {
 }
 let getCrawler = async(req, res) => {
     let result;
-    let location = 'Covid tại Mỹ';
+    let location = 'Covid tại Đức';
     let getlocation = location.split('tại');
     let locationsearch = getlocation[1].trim();
-    await translate(locationsearch, { to: 'en' }).then(res => {
+    await translate('nước ' + locationsearch, { to: 'en' }).then(res => {
         result = res.toLowerCase();
     }).catch(err => {
         console.error(err)
@@ -489,11 +492,18 @@ let getCrawler = async(req, res) => {
         },
     };
     const { data } = await axios.get(
-        `https://www.worldometers.info/coronavirus/${href}`,
+        `https://www.worldometers.info/coronavirus/`,
         AXIOS_OPTIONS
     );
+    let arr = [];
+    console.log(`https://www.worldometers.info/coronavirus/${href}`);
     let $ = cheerio.load(data);
-    return res.send(data);
+    let allcase = $(data).find("div.maincounter-number>span");
+    allcase.each(function(i, e) {
+        arr.push($(this).text());
+    })
+    let msg = `Số ca mắc: ${arr[0]} \nSố ca tử vong: ${arr[1]}\nSố ca khỏi bệnh: ${arr[2]}`
+    return res.send(msg);
 
 }
 let googleTranslate = (text) => {

@@ -395,6 +395,55 @@ let getGooleSearch = async(sender_psid, message) => {
         return;
     }
 };
+let getCovidApi = async(sender_psid, message) => {
+    let result;
+    let link;
+    let getlocation = [];
+    let arr = [];
+    let location = message.toLowerCase();
+    if (message.indexOf('tại')) {
+        getlocation = location.split('tại');
+    }
+    if (s.indexOf('ở')) {
+        getlocation = location.split('ở');
+    }
+    let locationsearch = getlocation[1].trim();
+    await translate('nước ' + locationsearch, { to: 'en' }).then(res => {
+        result = res.toLowerCase();
+    }).catch(err => {
+        console.error(err)
+    })
+    let config = require("../../listlocation.json");
+    let datalocation = config;
+    var item = datalocation.find((item) => item.key === result);
+    let href = item.href;
+    let sendCheck;
+
+    const AXIOS_OPTIONS = {
+        headers: {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.57",
+        },
+    };
+    if (href != '' && href != null) {
+        link = `https://www.worldometers.info/coronavirus/${href}`;
+        sendCheck = 0;
+    } else {
+        link = `https://www.worldometers.info/coronavirus/`;
+        sendCheck = 1;
+    }
+    const { data } = await axios.get(
+        `${link}`,
+        AXIOS_OPTIONS
+    );
+    let $ = cheerio.load(data);
+    let allcase = $(data).find("div.maincounter-number>span");
+    allcase.each(function(i, e) {
+        arr.push($(this).text());
+    })
+    let msg = `Số ca mắc: ${arr[0]} \nSố ca tử vong: ${arr[1]}\nSố ca khỏi bệnh: ${arr[2]}`
+    let response = { text: msg };
+    await callSendAPI(sender_psid, response);
+}
 let getLuckyNumber = async(sender_psid) => {
     try {
         const AXIOS_OPTIONS = {
@@ -569,4 +618,5 @@ module.exports = {
     getGooleSearch: getGooleSearch,
     getVideoTutorial: getVideoTutorial,
     getLuckyNumber: getLuckyNumber,
+    getCovidApi: getCovidApi,
 };
