@@ -435,7 +435,7 @@ let getLuckyNumber = async(sender_psid) => {
         }
         msg += '\nGiải 7: ';
         for (let i = 0; i < 4; i++) {
-            msg += $(xsmb).find(`span.v-g7-${i}`).text().trim();
+            msg += $(xsmb).find(`span.v-g7-${i}`).text().trim() + ' ';
         }
         let response = { text: msg };
         await callSendAPI(sender_psid, response);
