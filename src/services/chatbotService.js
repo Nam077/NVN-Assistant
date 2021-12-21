@@ -401,10 +401,10 @@ let getCovidApi = async(sender_psid, message) => {
     let getlocation = [];
     let arr = [];
     let location = message.toLowerCase();
-    if (message.indexOf('tại')) {
+    if (message.indexOf('tại') != -1) {
         getlocation = location.split('tại');
     }
-    if (message.indexOf('ở')) {
+    if (message.indexOf('ở') != -1) {
         getlocation = location.split('ở');
     }
     let locationsearch = getlocation[1].trim();
