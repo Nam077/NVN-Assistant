@@ -338,6 +338,17 @@ let getGooleSearch = async(sender_psid, message) => {
             //     }
             //     return;
             // }
+            //zipcode
+            let zipcode = $(data).find("div.bVj5Zb.FozYP");
+            if (zipcode != null && zipcode != "") {
+                let msgzipcode = ''
+                infor.each(function(e, i) {
+                    msgzipcode = +$(this).text() + '\n';
+                })
+                let response = { text: msgzipcode };
+                await callSendAPI(sender_psid, response);
+                return;
+            }
             //Khoảng cách
             let far = $(data).find("div.LGOjhe").text();
 

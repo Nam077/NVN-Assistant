@@ -470,40 +470,31 @@ let getGoogleSheet = async(req, res) => {
     }
 }
 let getCrawler = async(req, res) => {
-    let result;
-    let location = 'Covid tại Israel';
-    let getlocation = location.split('tại');
-    let locationsearch = getlocation[1].trim();
-    await translate('nước ' + locationsearch, { to: 'en' }).then(res => {
-        result = res.toLowerCase();
-    }).catch(err => {
-        console.error(err)
-    })
-    console.log(result)
-    let config = require("../../listlocation.json");
-    let datalocation = config;
-    var item = datalocation.find((item) => item.key === result);
-    let href = item.href;
 
-    const AXIOS_OPTIONS = {
-        headers: {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.57",
-        },
-    };
-    const { data } = await axios.get(
-        `https://www.worldometers.info/coronavirus/${href}`,
-        AXIOS_OPTIONS
-    );
-    let arr = [];
-    console.log(`https://www.worldometers.info/coronavirus/${href}`);
-    let $ = cheerio.load(data);
-    let allcase = $(data).find("div.maincounter-number>span");
-    allcase.each(function(i, e) {
-        arr.push($(this).text());
-    })
-    let msg = `Số ca mắc: ${arr[0]} \nSố ca tử vong: ${arr[1]}\nSố ca khỏi bệnh: ${arr[2]}`
-    return res.send(msg);
+    let message = 'zipcode hà nội'
+    let checkmsg = 'zipcode Đà Nẵng';
+    if (checkmsg.indexOf("cov") == -1 && checkmsg.indexOf("corona") == -1) {
+        let searchString = message;
+        let encodedString = encodeURI(searchString);
+        encodedString = encodedString.replaceAll("+", "%2B");
+        const AXIOS_OPTIONS = {
+            headers: {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.57",
+            },
+        };
+        const { data } = await axios.get(
+            `https://www.google.com.vn/search?q=${encodedString}&hl=vi&gl=VN`,
+            AXIOS_OPTIONS
+        );
+        let $ = cheerio.load(data);
+        //Hỏi thông tin cơ bản
+        let infor = $(data).find("div.bVj5Zb.FozYP");
+        infor.each(function(e, i) {
+            console.log($(this).text() + '\n');
 
+        })
+        return res.send(data);
+    }
 }
 let googleTranslate = (text) => {
     let result = '';
