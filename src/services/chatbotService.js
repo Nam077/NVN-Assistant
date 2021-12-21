@@ -415,23 +415,23 @@ let getLuckyNumber = async(sender_psid) => {
         msg += 'Giải nhất:' + gn + '\n';
         msg += 'Giải 2:';
         for (let i = 0; i < 2; i++) {
-            msg += $(xsmb).find(`span.v-g2-${i}`).text().trim() + ' - ';
+            msg += $(xsmb).find(`span.v-g2-${i}`).text().trim() + ' ';
         }
         msg += '\nGiải 3:';
         for (let i = 0; i < 6; i++) {
-            msg += $(xsmb).find(`span.v-g3-${i}`).text().trim() + ' - ';
+            msg += $(xsmb).find(`span.v-g3-${i}`).text().trim() + ' ';
         }
         msg += '\nGiải 4:';
         for (let i = 0; i < 4; i++) {
-            msg += $(xsmb).find(`span.v-g4-${i}`).text().trim() + ' - ';
+            msg += $(xsmb).find(`span.v-g4-${i}`).text().trim() + ' ';
         }
         msg += '\nGiải 5:';
         for (let i = 0; i < 6; i++) {
-            msg += $(xsmb).find(`span.v-g5-${i}`).text().trim() + ' - ';
+            msg += $(xsmb).find(`span.v-g5-${i}`).text().trim() + ' ';
         }
         msg += '\nGiải 6:';
         for (let i = 0; i < 3; i++) {
-            msg += $(xsmb).find(`span.v-g6-${i}`).text().trim() + ' - ';
+            msg += $(xsmb).find(`span.v-g6-${i}`).text().trim() + ' ';
         }
         msg += '\nGiải 7: | ';
         for (let i = 0; i < 4; i++) {
