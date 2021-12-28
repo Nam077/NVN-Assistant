@@ -216,6 +216,8 @@ async function handlePostback(sender_psid, received_postback) {
         case 'PRICE_SERVICE':
             response = { "text": "Hiện tại bên mình nhận việt hóa với giá 50.000 đồng một font." }
             await chatbotService.callSendAPI(sender_psid, response);
+            let response2a = { "text": "Nếu bạn muốn sử dụng thì vui lòng liên hệ qua m.me/nam077.me" }
+            await chatbotService.callSendAPI(sender_psid, response2a);
             break;
         case 'GET_STARTED_PAYLOAD':
         case 'RESTART_BOT':
