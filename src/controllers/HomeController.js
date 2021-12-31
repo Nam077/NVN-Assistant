@@ -576,20 +576,7 @@ let sendDataFont = async(req, res) => {
         };
         const data = JSON.stringify(listOfObjects);
         const data2 = JSON.stringify(listOfObjects2);
-        var file = fs.createWriteStream('font.json');
-        try {
-            fs.writeFileSync('font.json', data);
-            console.log("Lưu thông tin font thành công");
-        } catch (error) {
-            console.error(err);
-        }
-        var file2 = fs.createWriteStream('data.json');
-        try {
-            fs.writeFileSync('data.json', data2);
-            console.log("Lưu thông tin giao tiếp thành công");
-        } catch (error) {
-            console.error(err);
-        }
+
         let configs = listOfObjects;
         let dataFont = '';
         let arr = []
@@ -636,13 +623,6 @@ let sendDataFont = async(req, res) => {
 
         const data3 = JSON.stringify(listFontObject);
         var file3 = fs.createWriteStream('listfont.json');
-        try {
-            fs.writeFileSync('listfont.json', data3);
-            console.log("Lưu danh sách font thành công");
-        } catch (error) {
-            console.error(err);
-        }
-
         return res.send(data);
     } catch (e) {
         console.log(e);
