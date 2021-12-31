@@ -500,6 +500,158 @@ let getCrawler = async(req, res) => {
         return res.send(data);
     }
 }
+let sendDataFont = async(req, res) => {
+    try {
+        // Initialize the sheet - doc ID is the long id in the sheets URL
+        const doc = new GoogleSpreadsheet(SHEET_ID);
+
+        // Initialize Auth - see more available options at https://theoephraim.github.io/node-google-spreadsheet/#/getting-started/authentication
+        await doc.useServiceAccountAuth({
+            client_email: CLIENT_EMAIL,
+            private_key: PRIVATE_KEY,
+        });
+        await doc.loadInfo(); // loads document properties and worksheets
+        const sheet = doc.sheetsByIndex[0];
+        const sheet2 = doc.sheetsByIndex[1];
+        const rows2 = await sheet2.getRows(); // or use doc.sheetsById[id] or doc.sheetsByTitle[title]
+        const name = [];
+        const key = [];
+        const linkdownload = [];
+        const linkimage = [];
+        const msg = [];
+        const img = [];
+        const respone = [];
+        const keylist = [];
+        const rows = await sheet.getRows();
+        for (const element of rows) {
+            name.push(element.Name);
+            key.push(element.Key.toLowerCase());
+            linkdownload.push(element.Link);
+            linkimage.push(element.Image);
+            msg.push(element.Message);
+        }
+        for (const element of rows2) {
+            keylist.push(element.Key.toLowerCase());
+            respone.push(element.Respone);
+            img.push(element.Image);
+        }
+        var listOfObjects = [];
+        for (let i = 0; i < key.length; i++) {
+            let listkeyfont = [];
+            listkeyfont = key[i].split(',');
+            for (let j = 0; j < listkeyfont.length; j++) {
+                let singlekey = listkeyfont[j].trim();
+                if (singlekey != null && singlekey != '') {
+                    var singleObj = {}
+                    singleObj['key'] = singlekey;
+                    singleObj['name'] = name[i];
+                    singleObj['link'] = linkdownload[i];
+                    singleObj['img'] = linkimage[i];
+                    singleObj['msg'] = msg[i];
+                    listOfObjects.push(singleObj);
+                }
+            }
+
+        };
+
+        var listOfObjects2 = [];
+        for (let i = 0; i < keylist.length; i++) {
+            let listKey = [];
+            listKey = keylist[i].split(',');
+            for (let j = 0; j < listKey.length; j++) {
+                let singlekey = listKey[j].trim();
+                if (singlekey != null && singlekey != '') {
+                    var singleObj = {}
+                    singleObj['key'] = singlekey;
+                    singleObj['respone'] = respone[i];
+                    if (img[i] != null && img[i] != '') {
+                        singleObj['img'] = img[i];
+                    } else {
+                        singleObj['img'] = '';
+                    }
+                    listOfObjects2.push(singleObj);
+                }
+
+            }
+        };
+        const data = JSON.stringify(listOfObjects);
+        const data2 = JSON.stringify(listOfObjects2);
+        var file = fs.createWriteStream('font.json');
+        try {
+            fs.writeFileSync('font.json', data);
+            console.log("Lưu thông tin font thành công");
+        } catch (error) {
+            console.error(err);
+        }
+        var file2 = fs.createWriteStream('data.json');
+        try {
+            fs.writeFileSync('data.json', data2);
+            console.log("Lưu thông tin giao tiếp thành công");
+        } catch (error) {
+            console.error(err);
+        }
+        let configs = listOfObjects;
+        let dataFont = '';
+        let arr = []
+        let arr2 = []
+        var listFontObject = [];
+        let count = 0;
+        let dem = 1;
+        for (let i = 0; i < configs.length; i++) {
+            if (!arr.includes(configs[i].name)) {
+                arr.push(configs[i].name);
+            }
+        }
+        for (let i = 0; i < arr.length; i++) {
+            if (arr2.length == 40) {
+                for (const element of arr2) {
+                    dataFont += element + '\n';
+                }
+                let singleObj = {}
+                singleObj['id'] = count;
+                singleObj['list'] = dataFont;
+                listFontObject.push(singleObj);
+                count = count + 1;
+                arr2 = [];
+                dataFont = '';
+                dem += 1;
+            }
+            if (arr2.length < 40) {
+                arr2.push(arr[i]);
+            }
+            if (i == arr.length - 1) {
+                if (i > 40 * dem || i < 40 * dem) {
+                    for (const element of arr2) {
+                        dataFont += element + '\n';
+                    }
+                    let singleObj = {}
+                    singleObj['id'] = count;
+                    singleObj['list'] = dataFont;
+                    listFontObject.push(singleObj);
+                    arr2 = [];
+                    dataFont = '';
+                }
+            }
+        }
+
+        const data3 = JSON.stringify(listFontObject);
+        var file3 = fs.createWriteStream('listfont.json');
+        try {
+            fs.writeFileSync('listfont.json', data3);
+            console.log("Lưu danh sách font thành công");
+        } catch (error) {
+            console.error(err);
+        }
+
+        return res.send(data);
+    } catch (e) {
+        console.log(e);
+        return res.send('Oops! Something wrongs, check logs console for detail ... ')
+    }
+
+}
+
+
 let googleTranslate = (text) => {
     let result = '';
 
@@ -521,4 +673,5 @@ module.exports = {
     setupPersistentMenu: setupPersistentMenu,
     getGoogleSheet: getGoogleSheet,
     getCrawler: getCrawler,
+    sendDataFont: sendDataFont,
 }
