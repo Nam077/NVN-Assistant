@@ -151,7 +151,6 @@ async function handleMessage(sender_psid, received_message) {
         ) {
             let msg = chatbotService.getTimeVietNam();
             let response = { text: `Bây giờ là ${msg} ` };
-            console.log(username);
             await chatbotService.callSendAPI(sender_psid, response);
             let msgtime = chatbotService.checktime(username);
             let response2 = { text: msgtime };
@@ -280,7 +279,6 @@ let setupProfile = async(req, res) => {
             json: request_body,
         },
         (err, res, body) => {
-            console.log(body);
             if (!err) {
                 console.log("Cấu hình Profile thành công");
             } else {
@@ -342,7 +340,6 @@ let setupPersistentMenu = async(req, res) => {
             json: request_body,
         },
         (err, res, body) => {
-            console.log(body);
             if (!err) {
                 console.log("Setup user profile succes");
             } else {
@@ -402,8 +399,8 @@ let getGoogleSheet = async(req, res) => {
                 let singlekey = listkeyfont[j].trim();
                 if (singlekey != null && singlekey != "") {
                     var singleObj = {};
-                    singleObj["key"] = singlekey;
                     singleObj["name"] = name[i];
+                    singleObj["key"] = singlekey;
                     singleObj["link"] = linkdownload[i];
                     singleObj["img"] = linkimage[i];
                     singleObj["msg"] = msg[i];
@@ -542,7 +539,6 @@ let updateMySQL = (req, res) => {
     }
     con.connect(function(err) {
         if (err) throw err;
-        console.log("Connected!");
         //Make SQL statement:
         var sql = "INSERT INTO nvnfont (`name`, `key`, `link`,`image`,`message`) VALUES ?";
         var sql2 = "INSERT INTO data (`key`, `respone`,`image`) VALUES ?";
