@@ -2,7 +2,8 @@ import express from "express";
 import bodyParser from "body-parser";
 import viewEngine from "./configs/viewEngine";
 import webRoutes from "./routes/web";
-
+import initApiRoute from './routes/api';
+import connection from './configs/connectDB';
 let app = express();
 
 app.use(bodyParser.json());
@@ -13,6 +14,7 @@ viewEngine(app);
 
 //config web routes
 webRoutes(app);
+initApiRoute(app);
 
 let port = process.env.PORT || 8080;
 

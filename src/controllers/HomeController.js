@@ -1,8 +1,10 @@
 require('dotenv').config();
 import chatbotService from '../services/chatbotService';
+
 import request from "request";
 import cheerio from "cheerio";
 import axios from "axios";
+import pool from '../configs/connectDB';
 import { config } from 'dotenv';
 import { each, first } from 'cheerio/lib/api/traversing';
 const { GoogleSpreadsheet } = require('google-spreadsheet');
@@ -51,7 +53,17 @@ let postWebhook = (req, res) => {
         res.sendStatus(404);
     }
 }
+let getData = () => {
+    let dataFont = [];
+    const url = 'https://chatbot-nvn.herokuapp.com/api/v1/fonts';
+    request({ url: url }, (err, response) => {
+        dataFont = JSON.parse(response.body);
+        dataFont = dataFont.data;
+        return dataFont;
+    })
 
+
+}
 let getWebhook = (req, res) => {
 
     // Your verify token. Should be a random string.
@@ -83,6 +95,16 @@ let getWebhook = (req, res) => {
 async function handleMessage(sender_psid, received_message) {
     let username = await chatbotService.getUserName(sender_psid);
     let response;
+    let checkUpdate;
+    try {
+        var readData = fs.readFileSync('checkUpdate.txt', 'utf8');
+        checkUpdate = readData.toString();
+    } catch (e) {
+        console.log('Error:', e.stack);
+    }
+    if (checkUpdate == 'False') {
+        await updateData();
+    }
     // Checks if the message contains text
     if (received_message.quick_reply && received_message.quick_reply.payload) {
         if (received_message.quick_reply.payload === 'BOT_TUTORIAL') {
@@ -326,6 +348,13 @@ let setupPersistentMenu = async(req, res) => {
 }
 let getGoogleSheet = async(req, res) => {
     try {
+
+        await pool.execute('DELETE FROM `nvnfont`');
+        await pool.execute('DELETE FROM `data`');
+        await pool.execute('DELETE FROM `listfont`');
+        await pool.execute('ALTER TABLE `nvnfont` AUTO_INCREMENT = 1;');
+        await pool.execute('ALTER TABLE `data` AUTO_INCREMENT = 1;');
+        await pool.execute('ALTER TABLE `listfont` AUTO_INCREMENT = 1;');
         // Initialize the sheet - doc ID is the long id in the sheets URL
         const doc = new GoogleSpreadsheet(SHEET_ID);
 
@@ -373,12 +402,13 @@ let getGoogleSheet = async(req, res) => {
                     singleObj['img'] = linkimage[i];
                     singleObj['msg'] = msg[i];
                     listOfObjects.push(singleObj);
+                    await pool.execute('INSERT INTO nvnfont(`name`, `key`, `link`, `image`, `message`) values (?, ?, ?, ?, ?)', [singleObj['name'], singleObj['key'], singleObj['link'], singleObj['img'], singleObj['msg']]);
+
                 }
             }
 
         };
 
-        var listOfObjects2 = [];
         for (let i = 0; i < keylist.length; i++) {
             let listKey = [];
             listKey = keylist[i].split(',');
@@ -393,27 +423,11 @@ let getGoogleSheet = async(req, res) => {
                     } else {
                         singleObj['img'] = '';
                     }
-                    listOfObjects2.push(singleObj);
+                    await pool.execute('INSERT INTO data(`key`, `respone`, `image`) values (?, ?, ?)', [singleObj['key'], singleObj['respone'], singleObj['img']]);
                 }
 
             }
         };
-        const data = JSON.stringify(listOfObjects);
-        const data2 = JSON.stringify(listOfObjects2);
-        var file = fs.createWriteStream('font.json');
-        try {
-            fs.writeFileSync('font.json', data);
-            console.log("Lưu thông tin font thành công");
-        } catch (error) {
-            console.error(err);
-        }
-        var file2 = fs.createWriteStream('data.json');
-        try {
-            fs.writeFileSync('data.json', data2);
-            console.log("Lưu thông tin giao tiếp thành công");
-        } catch (error) {
-            console.error(err);
-        }
         let configs = listOfObjects;
         let dataFont = '';
         let arr = []
@@ -434,7 +448,7 @@ let getGoogleSheet = async(req, res) => {
                 let singleObj = {}
                 singleObj['id'] = count;
                 singleObj['list'] = dataFont;
-                listFontObject.push(singleObj);
+                await pool.execute('INSERT INTO listfont(`list`) values (?)', [singleObj['list']]);
                 count = count + 1;
                 arr2 = [];
                 dataFont = '';
@@ -451,21 +465,13 @@ let getGoogleSheet = async(req, res) => {
                     let singleObj = {}
                     singleObj['id'] = count;
                     singleObj['list'] = dataFont;
-                    listFontObject.push(singleObj);
+                    await pool.execute('INSERT INTO listfont(`list`) values (?)', [singleObj['list']]);
                     arr2 = [];
                     dataFont = '';
                 }
             }
         }
 
-        const data3 = JSON.stringify(listFontObject);
-        var file3 = fs.createWriteStream('listfont.json');
-        try {
-            fs.writeFileSync('listfont.json', data3);
-            console.log("Lưu danh sách font thành công");
-        } catch (error) {
-            console.error(err);
-        }
 
         return res.redirect('/');;
     } catch (e) {
@@ -551,9 +557,7 @@ let sendDataFont = async(req, res) => {
                     listOfObjects.push(singleObj);
                 }
             }
-
         };
-
         var listOfObjects2 = [];
         for (let i = 0; i < keylist.length; i++) {
             let listKey = [];
@@ -621,8 +625,6 @@ let sendDataFont = async(req, res) => {
             }
         }
 
-        const data3 = JSON.stringify(listFontObject);
-        var file3 = fs.createWriteStream('listfont.json');
         return res.send(data);
     } catch (e) {
         console.log(e);
@@ -645,6 +647,69 @@ let googleTranslate = (text) => {
 
 
 }
+let updateData = async() => {
+    let fonts = 'http://localhost:8080/api/v1/fonts';
+    return new Promise((reslove, reject) => {
+        request.get(fonts, function(error, response, body) {
+            var fontObject = JSON.parse(body).font;
+            var dataObject = JSON.parse(body).data;
+            var listfontObject = JSON.parse(body).listfont;
+            var fontFile = fs.createWriteStream('font.json');
+            var dataFile = fs.createWriteStream('data.json');
+            var dataFile = fs.createWriteStream('listfont.json');
+            try {
+                fs.writeFileSync('font.json', JSON.stringify(fontObject));
+                console.log("Lưu danh sách font thành công.");
+                fs.writeFileSync('data.json', JSON.stringify(dataObject));
+                console.log("Lưu danh sách font thành công.");
+                fs.writeFileSync('listfont.json', JSON.stringify(listfontObject));
+                console.log("Lưu danh sách font thành công.");
+                fs.writeFileSync("checkUpdate.txt", 'True');
+            } catch (error) {
+                console.error(err);
+            }
+            reslove('sdf');
+
+        });
+
+
+    })
+}
+let test = async(req, res) => {
+    let fonts = 'http://localhost:8080/api/v1/fonts';
+    try {
+        var readData = fs.readFileSync('checkUpdate.txt', 'utf8');
+        console.log(readData.toString());
+    } catch (e) {
+        console.log('Error:', e.stack);
+    }
+    return new Promise((reslove, reject) => {
+        request.get(fonts, function(error, response, body) {
+            var fontObject = JSON.parse(body).font;
+            var dataObject = JSON.parse(body).data;
+            var listfontObject = JSON.parse(body).listfont;
+            var fontFile = fs.createWriteStream('font.json');
+            var dataFile = fs.createWriteStream('data.json');
+            var listFontFile = fs.createWriteStream('listfont.json');
+            try {
+                fs.writeFileSync('font.json', JSON.stringify(fontObject));
+                console.log("Lưu danh sách font thành công.");
+                fs.writeFileSync('data.json', JSON.stringify(dataObject));
+                console.log("Lưu danh sách font thành công.");
+                fs.writeFileSync('listfont.json', JSON.stringify(listfontObject));
+                console.log("Lưu danh sách font thành công.");
+                fs.writeFileSync("checkUpdate.txt", 'True');
+            } catch (error) {
+                console.error(err);
+            }
+            reslove('sdf');
+            return res.send(fontObject)
+
+        });
+
+
+    })
+}
 module.exports = {
     getHomePage: getHomePage,
     postWebhook: postWebhook,
@@ -654,4 +719,5 @@ module.exports = {
     getGoogleSheet: getGoogleSheet,
     getCrawler: getCrawler,
     sendDataFont: sendDataFont,
+    test: test,
 }

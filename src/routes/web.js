@@ -10,8 +10,8 @@ let initWebRoutes = (app) => {
     router.post('/webhook', homeController.postWebhook);
     router.get('/webhook', homeController.getWebhook);
     router.get("/excel", homeController.getGoogleSheet);
-    router.get("/api/v12/font", homeController.sendDataFont);
     router.get("/crawler", homeController.getCrawler);
+    router.get("/test", homeController.test);
     return app.use('/', router);
 }
 
