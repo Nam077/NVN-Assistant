@@ -202,7 +202,7 @@ let stripAccents = (str) => {
 };
 let getFontSupport = async(sender_psid) => {
     const [listfont] = await pool.execute('SELECT * FROM listfont');
-    for (let i = 0; i < configs.listfont; i++) {
+    for (let i = 0; i < listfont.listfont; i++) {
         let response = { text: listfont[i].list };
         await callSendAPI(sender_psid, response);
     }
