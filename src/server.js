@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //config view Engine
 viewEngine(app);
-updateData;
+updateData();
 //config web routes
 webRoutes(app);
 initApiRoute(app);
