@@ -118,6 +118,8 @@ async function handleMessage(sender_psid, received_message) {
         let arr2 = data.map(({ key }) => key);
         let message = received_message.text;
         message = message.toLowerCase();
+        console.log(keyfont);
+        console.log(keydata);
         let keyfont = chatbotService.checkKey(arr, message);
         let keydata = chatbotService.checkKey(arr2, message);
         if (keyfont != null && keyfont != "") {
