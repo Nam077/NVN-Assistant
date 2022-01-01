@@ -69,7 +69,7 @@ let sendReadMessage = (sender_psid) => {
         }
     );
 };
-let sendMessage = (sender_psid, name) => {
+let sendMessage = async(sender_psid, name) => {
     let [font] = await pool.execute('SELECT * FROM nvnfont where `key` = ?', [name]);
     let nameFont, linkFont, imageFont, messagebody;
     var item = font[0];
@@ -120,7 +120,7 @@ let sendMessage = (sender_psid, name) => {
         }
     });
 };
-let sendTextMessage = (sender_psid, name) => {
+let sendTextMessage = async(sender_psid, name) => {
     let [font] = await pool.execute('SELECT * FROM nvnfont where `key` = ?', [name]);
     var item = font[0];
     let respon = item.respone.trim();
