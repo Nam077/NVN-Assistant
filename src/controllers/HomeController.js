@@ -118,14 +118,12 @@ async function handleMessage(sender_psid, received_message) {
         let arr2 = data.map(({ key }) => key);
         let message = received_message.text;
         message = message.toLowerCase();
-        console.log(keyfont);
-        console.log(keydata);
         let keyfont = chatbotService.checkKey(arr, message);
         let keydata = chatbotService.checkKey(arr2, message);
-        if (keyfont != null && keyfont != "") {
+        if (keyfont != null && keyfont != undefined) {
             await chatbotService.sendMessage(sender_psid, keyfont);
             return;
-        } else if (keydata != null && keydata != "") {
+        } else if (keydata != null && keydata != undefined) {
             await chatbotService.sendTextMessage(sender_psid, keydata);
             return;
         } else if (
