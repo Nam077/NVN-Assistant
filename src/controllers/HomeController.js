@@ -19,8 +19,8 @@ let getHomePage = (req, res) => {
     return res.render('homepage.ejs');
 };
 
-let postWebhook = (req, res) => {
-
+let postWebhook = async(req, res) => {
+    await updateData();
     let body = req.body;
 
     // Checks this is an event from a page subscription
@@ -55,15 +55,7 @@ let postWebhook = (req, res) => {
     }
 }
 let updateData = async() => {
-    let checkUpdate;
-    try {
-        var readData = fs.readFileSync('checkUpdate.txt', 'utf8');
-        checkUpdate = readData.toString();
 
-    } catch (e) {
-        console.log('Error:', e.stack);
-    }
-    console.log(checkUpdate);
     if (checkUpdate == 'False') {
         let fonts = 'https://chatbot-nvn.herokuapp.com/api/v1/fonts';
         return new Promise((reslove, reject) => {
@@ -123,7 +115,7 @@ let getWebhook = (req, res) => {
 
 // Handles messages events
 async function handleMessage(sender_psid, received_message) {
-    await updateData();
+
     let username = await chatbotService.getUserName(sender_psid);
     let response;
 
