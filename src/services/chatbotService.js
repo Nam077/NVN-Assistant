@@ -121,7 +121,7 @@ let sendMessage = async(sender_psid, name) => {
     });
 };
 let sendTextMessage = async(sender_psid, name) => {
-    let [font] = await pool.execute('SELECT * FROM nvnfont where `key` = ?', [name]);
+    let [font] = await pool.execute('SELECT * FROM `data` where `key` = ?', [name]);
     var item = font[0];
     let respon = item.respone.trim();
     let img = item.image.trim();
