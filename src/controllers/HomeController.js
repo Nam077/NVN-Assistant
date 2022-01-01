@@ -20,6 +20,16 @@ let getHomePage = (req, res) => {
 };
 
 let postWebhook = (req, res) => {
+    let checkUpdate;
+    try {
+        var readData = fs.readFileSync('checkUpdate.txt', 'utf8');
+        checkUpdate = readData.toString();
+    } catch (e) {
+        console.log('Error:', e.stack);
+    }
+    if (checkUpdate == 'False') {
+        await updateData();
+    }
     let body = req.body;
 
     // Checks this is an event from a page subscription
