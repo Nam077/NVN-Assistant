@@ -122,24 +122,20 @@ async function handleMessage(sender_psid, received_message) {
         let keydata = chatbotService.checkKey(arr2, message);
         if (keyfont != null && keyfont != undefined) {
             await chatbotService.sendMessage(sender_psid, keyfont);
-            console.log('Lỗi ở font');
             return;
         } else if (keydata != null && keydata != undefined) {
             await chatbotService.sendTextMessage(sender_psid, keydata);
-            console.log('Lỗi ở data');
             return;
         } else if (
             message.indexOf("bắt đầu") != -1 ||
             message.indexOf("start") != -1
         ) {
-            console.log('Lỗi ở bắt đầu');
             await chatbotService.handleGetStarted(sender_psid);
             return;
         } else if (
             message.toLowerCase().indexOf("xổ số") != -1 ||
             message.toLowerCase().indexOf("xo so") != -1
         ) {
-            console.log('Lỗi ở xổ số');
             await chatbotService.getLuckyNumber(sender_psid);
             return;
         } else if (
@@ -154,7 +150,6 @@ async function handleMessage(sender_psid, received_message) {
             message.indexOf("mấy giờ") != -1 ||
             message.indexOf("giờ giấc") != -1
         ) {
-            console.log('Lỗi ở giờ');
             let msg = chatbotService.getTimeVietNam();
             let response = { text: `Bây giờ là ${msg} ` };
             await chatbotService.callSendAPI(sender_psid, response);
@@ -173,7 +168,6 @@ async function handleMessage(sender_psid, received_message) {
             await chatbotService.callSendAPI(sender_psid, response2);
             return;
         } else {
-            console.log('Lỗi ở search');
             await chatbotService.getGooleSearch(sender_psid, received_message.text);
             return;
         }
