@@ -59,9 +59,11 @@ let updateData = async() => {
     try {
         var readData = fs.readFileSync('checkUpdate.txt', 'utf8');
         checkUpdate = readData.toString();
+
     } catch (e) {
         console.log('Error:', e.stack);
     }
+    console.log(checkUpdate);
     if (checkUpdate == 'False') {
         let fonts = 'http://localhost:8080/api/v1/fonts';
         return new Promise((reslove, reject) => {
