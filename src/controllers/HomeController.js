@@ -19,7 +19,6 @@ let getHomePage = (req, res) => {
 };
 
 let postWebhook = async(req, res) => {
-    let k = await updateData();
     let body = req.body;
 
     // Checks this is an event from a page subscription

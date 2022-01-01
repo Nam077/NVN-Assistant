@@ -3,7 +3,7 @@ import cheerio from "cheerio";
 import axios from "axios";
 require("dotenv").config();
 const translate = require('translate-google')
-
+import pool from '../configs/connectDB';
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 let handleGetStarted = (sender_psid) => {
     return new Promise(async(reslove, reject) => {
@@ -70,14 +70,13 @@ let sendReadMessage = (sender_psid) => {
     );
 };
 let sendMessage = (sender_psid, name) => {
+    let [font] = await pool.execute('SELECT * FROM nvnfont where `key` = ?', [name]);
     let nameFont, linkFont, imageFont, messagebody;
-    let config = require("../../font.json");
-    let datafont = config;
-    var item = datafont.find((item) => item.key === name);
-    messagebody = item["message"].trim();
-    nameFont = item["name"].trim();
-    linkFont = item["link"].trim();
-    imageFont = item["image"].trim();
+    var item = font[0];
+    messagebody = item.message.trim();
+    nameFont = item.name.trim();
+    linkFont = item.link.trim();
+    imageFont = item.image.trim();
     return new Promise(async(reslove, reject) => {
         try {
             let username = await getUserName(sender_psid);
@@ -122,10 +121,10 @@ let sendMessage = (sender_psid, name) => {
     });
 };
 let sendTextMessage = (sender_psid, name) => {
-    let config = require("../../data.json");
-    var item = config.find((item) => item.key === name);
-    let respon = item["respone"].trim();
-    let img = item["image"].trim();
+    let [font] = await pool.execute('SELECT * FROM nvnfont where `key` = ?', [name]);
+    var item = font[0];
+    let respon = item.respone.trim();
+    let img = item.image.trim();
     return new Promise(async(reslove, reject) => {
         try {
             let username = await getUserName(sender_psid);
@@ -202,10 +201,9 @@ let stripAccents = (str) => {
     return str;
 };
 let getFontSupport = async(sender_psid) => {
-    let config = require("../../listfont.json");
-    let configs = config;
-    for (let i = 0; i < configs.length; i++) {
-        let response = { text: configs[i].list };
+    const [listfont] = await pool.execute('SELECT * FROM listfont');
+    for (let i = 0; i < configs.listfont; i++) {
+        let response = { text: listfont[i].list };
         await callSendAPI(sender_psid, response);
     }
     return;
