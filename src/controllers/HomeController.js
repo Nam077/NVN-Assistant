@@ -20,7 +20,7 @@ let getHomePage = (req, res) => {
 };
 
 let postWebhook = async(req, res) => {
-    await updateData();
+    let k = await updateData();
     let body = req.body;
 
     // Checks this is an event from a page subscription
@@ -36,7 +36,7 @@ let postWebhook = async(req, res) => {
 
             // Get the sender PSID
             let sender_psid = webhook_event.sender.id;
-            console.log('Gửi đến PSID: ' + sender_psid);
+            console.log('Gửi từ PSID: ' + sender_psid);
 
             // Check if the event is a message or postback and
             // pass the event to the appropriate handler function
