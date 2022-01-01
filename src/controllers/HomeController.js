@@ -150,7 +150,7 @@ async function handleMessage(sender_psid, received_message) {
     if (received_message.text) {
         let [font] = await pool.execute('SELECT `key` FROM `nvnfont` ');
         let arr = font.map(({ key }) => key)
-        let [data] = await pool.execute('SELECT `key` FROM `nvnfont` ');
+        let [data] = await pool.execute('SELECT `key` FROM `data` ');
         let arr2 = data.map(({ key }) => key)
         let message = received_message.text;
         message = message.toLowerCase();
