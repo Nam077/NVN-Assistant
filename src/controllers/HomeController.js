@@ -54,17 +54,44 @@ let postWebhook = (req, res) => {
         res.sendStatus(404);
     }
 }
-let getData = () => {
-    let dataFont = [];
-    const url = 'https://chatbot-nvn.herokuapp.com/api/v1/fonts';
-    request({ url: url }, (err, response) => {
-        dataFont = JSON.parse(response.body);
-        dataFont = dataFont.data;
-        return dataFont;
-    })
-
+let updateData = async() => {
+    let checkUpdate;
+    try {
+        var readData = fs.readFileSync('checkUpdate.txt', 'utf8');
+        checkUpdate = readData.toString();
+    } catch (e) {
+        console.log('Error:', e.stack);
+    }
+    if (checkUpdate == 'False') {
+        let fonts = 'http://localhost:8080/api/v1/fonts';
+        return new Promise((reslove, reject) => {
+            request.get(fonts, function(error, response, body) {
+                var fontObject = JSON.parse(body).font;
+                var dataObject = JSON.parse(body).data;
+                var listfontObject = JSON.parse(body).listfont;
+                var fontFile = fs.createWriteStream('font.json');
+                var dataFile = fs.createWriteStream('data.json');
+                var dataFile = fs.createWriteStream('listfont.json');
+                try {
+                    fs.writeFileSync('font.json', JSON.stringify(fontObject));
+                    console.log("Lưu danh sách font thành công.");
+                    fs.writeFileSync('data.json', JSON.stringify(dataObject));
+                    console.log("Lưu danh sách font thành công.");
+                    fs.writeFileSync('listfont.json', JSON.stringify(listfontObject));
+                    console.log("Lưu danh sách font thành công.");
+                    fs.writeFileSync("checkUpdate.txt", 'True');
+                } catch (error) {
+                    console.error(err);
+                }
+                reslove('sdf');
+            });
+        })
+    } else {
+        return;
+    }
 
 }
+
 let getWebhook = (req, res) => {
 
     // Your verify token. Should be a random string.
@@ -94,6 +121,7 @@ let getWebhook = (req, res) => {
 
 // Handles messages events
 async function handleMessage(sender_psid, received_message) {
+    await updateData();
     let username = await chatbotService.getUserName(sender_psid);
     let response;
 

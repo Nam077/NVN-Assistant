@@ -3,7 +3,6 @@ import bodyParser from "body-parser";
 import viewEngine from "./configs/viewEngine";
 import webRoutes from "./routes/web";
 import initApiRoute from './routes/api';
-import updateData from "./configs/updateData";
 import request from 'request';
 import connection from './configs/connectDB';
 let app = express();
@@ -13,13 +12,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //config view Engine
 viewEngine(app);
-updateData();
+
 //config web routes
 webRoutes(app);
 initApiRoute(app);
 
 let port = process.env.PORT || 8080;
-
 
 
 app.listen(port, () => {
