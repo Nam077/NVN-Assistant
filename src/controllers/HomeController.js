@@ -65,7 +65,7 @@ let updateData = async() => {
     }
     console.log(checkUpdate);
     if (checkUpdate == 'False') {
-        let fonts = 'http://localhost:8080/api/v1/fonts';
+        let fonts = 'https://chatbot-nvn.herokuapp.com/';
         return new Promise((reslove, reject) => {
             request.get(fonts, function(error, response, body) {
                 var fontObject = JSON.parse(body).font;
