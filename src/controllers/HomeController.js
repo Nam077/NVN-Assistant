@@ -1,6 +1,6 @@
 require('dotenv').config();
 import chatbotService from '../services/chatbotService';
-
+import pool from '../configs/connectDB';
 import request from "request";
 import cheerio from "cheerio";
 import axios from "axios";
@@ -149,11 +149,12 @@ async function handleMessage(sender_psid, received_message) {
         return;
     }
     if (received_message.text) {
+        let [font] = await pool.execute('SELECT `key` FROM `nvnfont` ');
+        let arr = font.map(({ key }) => key)
+        let [data] = await pool.execute('SELECT `key` FROM `nvnfont` ');
+        let arr2 = data.map(({ key }) => key)
         let message = received_message.text;
         message = message.toLowerCase();
-        let arr = chatbotService.getArraydatafromJson('font');
-
-        let arr2 = chatbotService.getArraydatafromJson('data');
         let keyfont = chatbotService.checkKey(arr, message);
         let keydata = chatbotService.checkKey(arr2, message);
         if (keyfont != null && keyfont != '') {
