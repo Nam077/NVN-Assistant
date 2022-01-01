@@ -74,10 +74,10 @@ let sendMessage = (sender_psid, name) => {
     let config = require("../../font.json");
     let datafont = config;
     var item = datafont.find((item) => item.key === name);
-    messagebody = item["msg"].trim();
+    messagebody = item["message"].trim();
     nameFont = item["name"].trim();
     linkFont = item["link"].trim();
-    imageFont = item["img"].trim();
+    imageFont = item["image"].trim();
     return new Promise(async(reslove, reject) => {
         try {
             let username = await getUserName(sender_psid);
@@ -125,7 +125,7 @@ let sendTextMessage = (sender_psid, name) => {
     let config = require("../../data.json");
     var item = config.find((item) => item.key === name);
     let respon = item["respone"].trim();
-    let img = item["img"].trim();
+    let img = item["image"].trim();
     return new Promise(async(reslove, reject) => {
         try {
             let username = await getUserName(sender_psid);
