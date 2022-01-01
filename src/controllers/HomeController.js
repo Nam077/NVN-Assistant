@@ -55,7 +55,15 @@ let postWebhook = async(req, res) => {
     }
 }
 let updateData = async() => {
+    let checkUpdate;
+    try {
+        var readData = fs.readFileSync('checkUpdate.txt', 'utf8');
+        checkUpdate = readData.toString();
 
+    } catch (e) {
+        console.log('Error:', e.stack);
+    }
+    console.log(checkUpdate);
     if (checkUpdate == 'False') {
         let fonts = 'https://chatbot-nvn.herokuapp.com/api/v1/fonts';
         return new Promise((reslove, reject) => {
