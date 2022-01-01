@@ -229,7 +229,6 @@ let getGooleSearch = async(sender_psid, message) => {
             //Hỏi thông tin cơ bản
             let infor = $(data).find("span.hgKElc").text();
             if (infor != null && infor != "") {
-                console.log('1');
                 let response = { text: infor };
                 await callSendAPI(sender_psid, response);
                 return;
@@ -237,7 +236,6 @@ let getGooleSearch = async(sender_psid, message) => {
             //Hỏi thông tin về năm sinh
             let year = $(data).find("div.Z0LcW").text();
             if (year != null && year != "") {
-                console.log('2');
                 let response = { text: year };
                 await callSendAPI(sender_psid, response);
                 return;
@@ -253,14 +251,12 @@ let getGooleSearch = async(sender_psid, message) => {
                     `Khả năng có mưa: ${$(data).find("span#wob_pp").text()}\n` +
                     `Độ ẩm: ${$(data).find("span#wob_hm").text()} %\n`;
                 let response = { text: wheather };
-                console.log('3');
                 await callSendAPI(sender_psid, response);
                 return;
             }
             let msg = message.toLowerCase();
             msg = stripAccents(msg);
             if (msg.indexOf('thoi tiet') != -1 && !checkwheather.length > 0 && msg.indexOf('dich') == -1) {
-                console.log('5');
                 let response = { text: 'Nếu bạn muốn xem thời tiết\nThì nhắn tin phải có địa điểm\nVí dụ như thế này nè:' };
                 await callSendAPI(sender_psid, response);
                 let response2 = { text: 'Thời tiết tại Đà Nẵng' };
@@ -270,7 +266,6 @@ let getGooleSearch = async(sender_psid, message) => {
             //Giá Bitcoin
             let bitcoin = $(data).find("span.pclqee").text();
             if (bitcoin != null && bitcoin != "") {
-                console.log('6');
                 let response = {
                     text: bitcoin + " " + $(data).find("span.dvZgKd").text(),
                 };
@@ -280,7 +275,6 @@ let getGooleSearch = async(sender_psid, message) => {
             //bong da
             let team1 = $(data).find("div.kno-fb-ctx > span").first().text();
             if (team1 != null && team1 != "") {
-                console.log('7');
                 let score1 = $(data)
                     .find("div.imso_mh__l-tm-sc.imso_mh__scr-it.imso-light-font")
                     .last()
@@ -298,7 +292,6 @@ let getGooleSearch = async(sender_psid, message) => {
             //Tiền tệ
             let money = $(data).find("span.DFlfde.SwHCTb").text();
             if (money != null && money != "") {
-                console.log('8');
                 let response = {
                     text: money + " " + $(data).find("span.MWvIVe").text(),
                 };
@@ -308,7 +301,6 @@ let getGooleSearch = async(sender_psid, message) => {
             //chuyen doi
             let change_unit = $(data).find("div.dDoNo.vrBOv.vk_bk").text();
             if (change_unit != null && change_unit != "") {
-                console.log('9');
                 let response = { text: change_unit };
                 await callSendAPI(sender_psid, response);
                 return;
@@ -316,7 +308,6 @@ let getGooleSearch = async(sender_psid, message) => {
             // tinh toan
             let math = $(data).find("span.qv3Wpe").text();
             if (math != null && math != "") {
-                console.log('10');
                 let response = { text: math };
                 await callSendAPI(sender_psid, response);
                 return;
@@ -348,9 +339,9 @@ let getGooleSearch = async(sender_psid, message) => {
             // }
             //zipcode
             let zipcode = $(data).find("div.bVj5Zb.FozYP");
-            if (zipcode != null && zipcode != undefined) {
-                console.log('11');
-                let msgzipcode = ''
+            if (zipcode != null && zipcode != "") {
+                console.log(zipcode.text());
+                let msgzipcode
                 zipcode.each(function(e, i) {
                     msgzipcode += $(this).text() + '\n';
 
@@ -363,7 +354,6 @@ let getGooleSearch = async(sender_psid, message) => {
             let far = $(data).find("div.LGOjhe").text();
 
             if (far != null && far != "") {
-                console.log('12');
                 let response = { text: far };
                 await callSendAPI(sender_psid, response);
                 return;
@@ -371,7 +361,6 @@ let getGooleSearch = async(sender_psid, message) => {
             //Ngày thành lập
             let datecreate = $(data).find("div.Z0LcW").text();
             if (datecreate != null && datecreate != "") {
-                console.log('13');
                 let response = { text: datecreate };
                 await callSendAPI(sender_psid, response);
                 return;
@@ -379,7 +368,6 @@ let getGooleSearch = async(sender_psid, message) => {
             //Thong tin
             let information = $(data).find("div.kno-rdesc > span").first().text();
             if (information != null && information != "") {
-                console.log('14');
                 let response = { text: information };
                 await callSendAPI(sender_psid, response);
                 return;
@@ -387,7 +375,6 @@ let getGooleSearch = async(sender_psid, message) => {
             //dịch
             let trans = $(data).find("div.oSioSc>div>div>div>pre>span").first().text();
             if (trans != null && trans != "") {
-                console.log('15');
                 let response = { text: trans };
                 await callSendAPI(sender_psid, response);
                 return;
@@ -395,14 +382,12 @@ let getGooleSearch = async(sender_psid, message) => {
             //date
             let day = $(data).find("div.FzvWSb").text();
             if (day != null && day != "") {
-                console.log('16');
                 let response = { text: day };
                 await callSendAPI(sender_psid, response);
                 return;
             }
             let time = $(data).find("div.YwPhnf").text();
             if (time != null && time != "") {
-                console.log('17');
                 let response = { text: time };
                 await callSendAPI(sender_psid, response);
                 return;
