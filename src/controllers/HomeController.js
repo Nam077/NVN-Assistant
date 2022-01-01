@@ -1,40 +1,38 @@
-require('dotenv').config();
-import chatbotService from '../services/chatbotService';
-import pool from '../configs/connectDB';
+require("dotenv").config();
+import chatbotService from "../services/chatbotService";
+import pool from "../configs/connectDB";
 import request from "request";
 import cheerio from "cheerio";
 import axios from "axios";
-import { config } from 'dotenv';
-import { each, first } from 'cheerio/lib/api/traversing';
-const { GoogleSpreadsheet } = require('google-spreadsheet');
-const fs = require("fs")
-const translate = require('translate-google')
-const PRIVATE_KEY = '-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC5HoFZFah8impx\nX2s4LmCImHQarqevuxy6L1hQcvtuVyNizNgSCpvyb59gnplIvMuBoEzgAJppjq5d\nEVNrdfJjRCWj6PL0hDN/Y+ONMJXvnmhfeeZpiFdnW7+hz1jkyK8w0ZK3/nLGz2fE\nz015F8dIuCWWvBXq0BQUm+5Z3qPLemylXJb//Wu3eZkCQpAAZUgInSHOUNBwqzek\nxS44BHQ6uCt5QPIgUMXZ1aiioCo/3tGYcURDdqk1yVJVFvUY/J1GGB7t0Cho8Q/y\nIiX5CWQnnApqtU71vE7GDtffN/ZXzP5CiSiia/+0xkJ3XsigYO9PVd5Bky4XfenK\nb+oHcS0bAgMBAAECggEABlAnAx28+DpUNPeXFXxnaGEinIJWT6Tm7uaMcXnqXzHz\nj/wCZmMcPGFYIxhli9h8bDhGRuFeYrkt8xiTKrgEAySgz/0yw+n6Q57pdLgydNCH\nKLJkjDbNHEZBu8fxdSPu7ZBIG6Q+z87k8A5NyxJnhnBZP9G8QZzFAorqzv/LwDWm\nwrbmujbG6NjddMoNcOIZdYhVVuPCrmrkk4b3GYi282dtBbcEjf190yin9HrfK8qB\nHgAdudUa7ZG2YVw27OlJX7ljWaKB6boHgVa1hsCrOxeRC/aiXazngXphgF7ZE2wj\nkX9GkjrqqGZUvW+m3+pUCJpbdj5j5ivwgZzV/JPkEQKBgQDe0fLgC9ZD4kT+0J+v\nxVaeMnRquOMRa+CDqa6izBZutCHimO+qXR6Go+vMYqaYbB3otVwILTBxW87WIrNp\nVZ9d4izSNDMCUSnldyZXY1y5Iegd6e+1X4zTLkpQJKvmw8LF/DlxfeXq+cCf2gDA\nUts+RSptDiTClbAelpY+AUc+2QKBgQDUr18C/voDG6ybYP+DdaP8dopvAvnhIbR7\nlA2nMq4qn6DjYF7D7KesS0cVgUiHU/ZpOujS8aPwwjHt0EX2KF2O/s5tQI9XUaDE\nnGe4bOAZWl9DCRzXv0ZezJWSEN8NXvuPQNTN/jYHhaWiLuePoDKnp7vfF4AK/7QP\nD/WqfNe7EwKBgAXgA0dlCIFBthAB8DPyQBZrviYSOep7ra/LCY/BUdYZactPvQIA\n8o0aRV1ePIZIU4GPRp3wkxZqFUoQICrm1wziqcvhFHc7LJ+gRKKJPCilfDlNscRW\ngKAQ2GTEksPC5Z/SxrD3YNiRPUL5vItVo/JAYJ3/gXif+cTUs6Fu5zIBAoGBAJzs\nxFqujQNsEOAYIo75ZsRpJl0gQgSlXMhtheFemHkkjI4X1fQTkeejJ1Crsjr/bWlZ\nKN4zonWKo1JHgMdOIzHVubOMlfakaM2IZVMDKhoqvuz0NU7Od3qM0rMSNbFk6pFZ\nEWrn7S+BoaNXnk0vsxBWx1yktznmTxFqAiYHtRj3AoGAHpKWPmng3itZ3Xsr2UXP\nTVYdulHGCCYpr9TecYsGb0MHsotbmHyQl9sn74relRTxJtkqz5PlmdCqZNDHDLko\nEl1VUM5kyLdhv0V3pADIpDmOAVkvjwg5YVCG7hodtbC7zdM8HULhtyt/sTJ5XbEK\nWJSed/k0HM+fZueJbFS0uZk=\n-----END PRIVATE KEY-----\n'
-const CLIENT_EMAIL = process.env.CLIENT_EMAIL
+import { config } from "dotenv";
+import { each, first } from "cheerio/lib/api/traversing";
+const { GoogleSpreadsheet } = require("google-spreadsheet");
+const fs = require("fs");
+const translate = require("translate-google");
+const PRIVATE_KEY =
+    "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC5HoFZFah8impx\nX2s4LmCImHQarqevuxy6L1hQcvtuVyNizNgSCpvyb59gnplIvMuBoEzgAJppjq5d\nEVNrdfJjRCWj6PL0hDN/Y+ONMJXvnmhfeeZpiFdnW7+hz1jkyK8w0ZK3/nLGz2fE\nz015F8dIuCWWvBXq0BQUm+5Z3qPLemylXJb//Wu3eZkCQpAAZUgInSHOUNBwqzek\nxS44BHQ6uCt5QPIgUMXZ1aiioCo/3tGYcURDdqk1yVJVFvUY/J1GGB7t0Cho8Q/y\nIiX5CWQnnApqtU71vE7GDtffN/ZXzP5CiSiia/+0xkJ3XsigYO9PVd5Bky4XfenK\nb+oHcS0bAgMBAAECggEABlAnAx28+DpUNPeXFXxnaGEinIJWT6Tm7uaMcXnqXzHz\nj/wCZmMcPGFYIxhli9h8bDhGRuFeYrkt8xiTKrgEAySgz/0yw+n6Q57pdLgydNCH\nKLJkjDbNHEZBu8fxdSPu7ZBIG6Q+z87k8A5NyxJnhnBZP9G8QZzFAorqzv/LwDWm\nwrbmujbG6NjddMoNcOIZdYhVVuPCrmrkk4b3GYi282dtBbcEjf190yin9HrfK8qB\nHgAdudUa7ZG2YVw27OlJX7ljWaKB6boHgVa1hsCrOxeRC/aiXazngXphgF7ZE2wj\nkX9GkjrqqGZUvW+m3+pUCJpbdj5j5ivwgZzV/JPkEQKBgQDe0fLgC9ZD4kT+0J+v\nxVaeMnRquOMRa+CDqa6izBZutCHimO+qXR6Go+vMYqaYbB3otVwILTBxW87WIrNp\nVZ9d4izSNDMCUSnldyZXY1y5Iegd6e+1X4zTLkpQJKvmw8LF/DlxfeXq+cCf2gDA\nUts+RSptDiTClbAelpY+AUc+2QKBgQDUr18C/voDG6ybYP+DdaP8dopvAvnhIbR7\nlA2nMq4qn6DjYF7D7KesS0cVgUiHU/ZpOujS8aPwwjHt0EX2KF2O/s5tQI9XUaDE\nnGe4bOAZWl9DCRzXv0ZezJWSEN8NXvuPQNTN/jYHhaWiLuePoDKnp7vfF4AK/7QP\nD/WqfNe7EwKBgAXgA0dlCIFBthAB8DPyQBZrviYSOep7ra/LCY/BUdYZactPvQIA\n8o0aRV1ePIZIU4GPRp3wkxZqFUoQICrm1wziqcvhFHc7LJ+gRKKJPCilfDlNscRW\ngKAQ2GTEksPC5Z/SxrD3YNiRPUL5vItVo/JAYJ3/gXif+cTUs6Fu5zIBAoGBAJzs\nxFqujQNsEOAYIo75ZsRpJl0gQgSlXMhtheFemHkkjI4X1fQTkeejJ1Crsjr/bWlZ\nKN4zonWKo1JHgMdOIzHVubOMlfakaM2IZVMDKhoqvuz0NU7Od3qM0rMSNbFk6pFZ\nEWrn7S+BoaNXnk0vsxBWx1yktznmTxFqAiYHtRj3AoGAHpKWPmng3itZ3Xsr2UXP\nTVYdulHGCCYpr9TecYsGb0MHsotbmHyQl9sn74relRTxJtkqz5PlmdCqZNDHDLko\nEl1VUM5kyLdhv0V3pADIpDmOAVkvjwg5YVCG7hodtbC7zdM8HULhtyt/sTJ5XbEK\nWJSed/k0HM+fZueJbFS0uZk=\n-----END PRIVATE KEY-----\n";
+const CLIENT_EMAIL = process.env.CLIENT_EMAIL;
 const SHEET_ID = process.env.SHEET_ID;
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 //process.env.NAME_VARIABLES
 let getHomePage = (req, res) => {
-    return res.render('homepage.ejs');
+    return res.render("homepage.ejs");
 };
 
 let postWebhook = async(req, res) => {
     let body = req.body;
 
     // Checks this is an event from a page subscription
-    if (body.object === 'page') {
-
+    if (body.object === "page") {
         // Iterates over each entry - there may be multiple if batched
         body.entry.forEach(function(entry) {
-
             // Gets the body of the webhook event
             let webhook_event = entry.messaging[0];
             console.log(webhook_event);
 
-
             // Get the sender PSID
             let sender_psid = webhook_event.sender.id;
-            console.log('Gửi từ PSID: ' + sender_psid);
+            console.log("Gửi từ PSID: " + sender_psid);
 
             // Check if the event is a message or postback and
             // pass the event to the appropriate handler function
@@ -46,182 +44,166 @@ let postWebhook = async(req, res) => {
         });
 
         // Returns a '200 OK' response to all requests
-        res.status(200).send('EVENT_RECEIVED');
+        res.status(200).send("EVENT_RECEIVED");
     } else {
         // Returns a '404 Not Found' if event is not from a page subscription
         res.sendStatus(404);
     }
-}
-let updateData = async() => {
-    let checkUpdate;
-    var readData = fs.readFileSync('checkUpdate.txt', 'utf8');
-    checkUpdate = readData.toString();
-    console.log('Có cập nhật hay không ' + checkUpdate);
-    if (checkUpdate == 'False') {
-        let fonts = 'https://chatbot-nvn.herokuapp.com/api/v1/fonts';
-        return new Promise((reslove, reject) => {
-            request.get(fonts, function(error, response, body) {
-                var fontObject = JSON.parse(body).font;
-                var dataObject = JSON.parse(body).data;
-                var listfontObject = JSON.parse(body).listfont;
-                var fontFile = fs.createWriteStream('font.json');
-                var dataFile = fs.createWriteStream('data.json');
-                var dataFile = fs.createWriteStream('listfont.json');
-                try {
-                    fs.writeFileSync('font.json', JSON.stringify(fontObject));
-                    console.log("Lưu danh sách font thành công.");
-                    fs.writeFileSync('data.json', JSON.stringify(dataObject));
-                    console.log("Lưu danh sách font thành công.");
-                    fs.writeFileSync('listfont.json', JSON.stringify(listfontObject));
-                    console.log("Lưu danh sách font thành công.");
-                    fs.writeFileSync("checkUpdate.txt", 'True');
-                } catch (error) {
-                    console.error(err);
-                }
-                reslove('sdf');
-            });
-        })
-    } else {
-        return;
-    }
-
-}
+};
 
 let getWebhook = (req, res) => {
-
     // Your verify token. Should be a random string.
     let VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
     // Parse the query params
-    let mode = req.query['hub.mode'];
-    let token = req.query['hub.verify_token'];
-    let challenge = req.query['hub.challenge'];
+    let mode = req.query["hub.mode"];
+    let token = req.query["hub.verify_token"];
+    let challenge = req.query["hub.challenge"];
 
     // Checks if a token and mode is in the query string of the request
     if (mode && token) {
-
         // Checks the mode and token sent is correct
-        if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-
+        if (mode === "subscribe" && token === VERIFY_TOKEN) {
             // Responds with the challenge token from the request
-            console.log('WEBHOOK_VERIFIED');
+            console.log("WEBHOOK_VERIFIED");
             res.status(200).send(challenge);
-
         } else {
             // Responds with '403 Forbidden' if verify tokens do not match
             res.sendStatus(403);
         }
     }
-}
+};
 
 // Handles messages events
 async function handleMessage(sender_psid, received_message) {
-
     let username = await chatbotService.getUserName(sender_psid);
     let response;
 
     // Checks if the message contains text
     if (received_message.quick_reply && received_message.quick_reply.payload) {
-        if (received_message.quick_reply.payload === 'BOT_TUTORIAL') {
+        if (received_message.quick_reply.payload === "BOT_TUTORIAL") {
             let response3 = chatbotService.getVideoTutorial();
             await chatbotService.callSendAPI(sender_psid, response3);
-            response = { "text": "Vui lòng gửi tên font bạn cần tìm vào đây\nNếu không có bot sẽ không phản hồi!" }
+            response = {
+                text: "Vui lòng gửi tên font bạn cần tìm vào đây\nNếu không có bot sẽ không phản hồi!",
+            };
             await chatbotService.callSendAPI(sender_psid, response);
-            let response2 = { "text": "Nếu bạn muốn nhận hướng dẫn đầy đủ vui lòng gửi lại tin nhắn 'HDSD'" }
+            let response2 = {
+                text: "Nếu bạn muốn nhận hướng dẫn đầy đủ vui lòng gửi lại tin nhắn 'HDSD'",
+            };
             await chatbotService.callSendAPI(sender_psid, response2);
             return;
         }
-        if (received_message.quick_reply.payload === 'PRICE_SERVICE') {
-            response = { "text": "Giá là 50.000 đồng một font nhé." }
+        if (received_message.quick_reply.payload === "PRICE_SERVICE") {
+            response = { text: "Giá là 50.000 đồng một font nhé." };
             await chatbotService.callSendAPI(sender_psid, response);
-            let response2a = { "text": "Nếu bạn muốn sử dụng thì vui lòng liên hệ qua m.me/nam077.me" }
+            let response2a = {
+                text: "Nếu bạn muốn sử dụng thì vui lòng liên hệ qua m.me/nam077.me",
+            };
             await chatbotService.callSendAPI(sender_psid, response2a);
             return;
         }
-        if (received_message.quick_reply.payload === 'LIST_FONT') {
+        if (received_message.quick_reply.payload === "LIST_FONT") {
             await chatbotService.getFontSupport(sender_psid);
-            let response2 = { "text": 'Nếu bạn muốn lấy link nào thì nhắn tin tên một font trong list này\nHệ thống sẽ gửi cho bạn' }
+            let response2 = {
+                text: "Nếu bạn muốn lấy link nào thì nhắn tin tên một font trong list này\nHệ thống sẽ gửi cho bạn",
+            };
             await chatbotService.callSendAPI(sender_psid, response2);
             return;
         }
         return;
     }
     if (received_message.text) {
-        let [font] = await pool.execute('SELECT `key` FROM `nvnfont` ');
-        let arr = font.map(({ key }) => key)
-        let [data] = await pool.execute('SELECT `key` FROM `data` ');
-        let arr2 = data.map(({ key }) => key)
+        let [font] = await pool.execute("SELECT `key` FROM `nvnfont` ");
+        let arr = font.map(({ key }) => key);
+        let [data] = await pool.execute("SELECT `key` FROM `data` ");
+        let arr2 = data.map(({ key }) => key);
         let message = received_message.text;
         message = message.toLowerCase();
         let keyfont = chatbotService.checkKey(arr, message);
         let keydata = chatbotService.checkKey(arr2, message);
-        if (keyfont != null && keyfont != '') {
+        if (keyfont != null && keyfont != "") {
             await chatbotService.sendMessage(sender_psid, keyfont);
             return;
-        } else if (keydata != null && keydata != '') {
+        } else if (keydata != null && keydata != "") {
             await chatbotService.sendTextMessage(sender_psid, keydata);
             return;
-        } else if (message.indexOf('bắt đầu') != -1 || message.indexOf('start') != -1) {
+        } else if (
+            message.indexOf("bắt đầu") != -1 ||
+            message.indexOf("start") != -1
+        ) {
             await chatbotService.handleGetStarted(sender_psid);
             return;
-
-        } else if (message.toLowerCase().indexOf('xổ số') != -1 || message.toLowerCase().indexOf('xo so') != -1) {
+        } else if (
+            message.toLowerCase().indexOf("xổ số") != -1 ||
+            message.toLowerCase().indexOf("xo so") != -1
+        ) {
             await chatbotService.getLuckyNumber(sender_psid);
             return;
-        } else if (message.toLowerCase().indexOf('covid') != -1 || message.toLowerCase().indexOf('corona') != -1 || message.toLowerCase().indexOf('cov') != -1) {
+        } else if (
+            message.toLowerCase().indexOf("covid") != -1 ||
+            message.toLowerCase().indexOf("corona") != -1 ||
+            message.toLowerCase().indexOf("cov") != -1
+        ) {
             await chatbotService.getCovidApi(sender_psid, message);
             return;
-        } else if (message.indexOf('mấy giờ') != -1 || message.indexOf('giờ giấc') != -1) {
+        } else if (
+            message.indexOf("mấy giờ") != -1 ||
+            message.indexOf("giờ giấc") != -1
+        ) {
             let msg = chatbotService.getTimeVietNam();
-            let response = { "text": `Bây giờ là ${msg} ` };
+            let response = { text: `Bây giờ là ${msg} ` };
             console.log(username);
             await chatbotService.callSendAPI(sender_psid, response);
             let msgtime = chatbotService.checktime(username);
-            let response2 = { "text": msgtime }
+            let response2 = { text: msgtime };
             await chatbotService.callSendAPI(sender_psid, response2);
             return;
-        } else if (message.indexOf('danh sách font') != -1 || message.indexOf('list font') != -1) {
+        } else if (
+            message.indexOf("danh sách font") != -1 ||
+            message.indexOf("list font") != -1
+        ) {
             await chatbotService.getFontSupport(sender_psid);
-            let response2 = { "text": 'Nếu bạn muốn lấy link nào thì nhắn tin tên một font trong list này\nHệ thống sẽ gửi cho bạn' }
+            let response2 = {
+                text: "Nếu bạn muốn lấy link nào thì nhắn tin tên một font trong list này\nHệ thống sẽ gửi cho bạn",
+            };
             await chatbotService.callSendAPI(sender_psid, response2);
             return;
         } else {
             await chatbotService.getGooleSearch(sender_psid, received_message.text);
             return;
         }
-
     } else if (received_message.attachments) {
         // Get the URL of the message attachment
         let attachment_url = received_message.attachments[0].payload.url;
         response = {
-            "attachment": {
-                "type": "template",
-                "payload": {
-                    "template_type": "generic",
-                    "elements": [{
-                        "title": "Bạn chắc chắc đây là ảnh của bạn chứ",
-                        "subtitle": "Nhấn vào nút để trả lời",
-                        "image_url": attachment_url,
-                        "buttons": [{
-                                "type": "postback",
-                                "title": "Đúng!",
-                                "payload": "yes",
+            attachment: {
+                type: "template",
+                payload: {
+                    template_type: "generic",
+                    elements: [{
+                        title: "Bạn chắc chắc đây là ảnh của bạn chứ",
+                        subtitle: "Nhấn vào nút để trả lời",
+                        image_url: attachment_url,
+                        buttons: [{
+                                type: "postback",
+                                title: "Đúng!",
+                                payload: "yes",
                             },
                             {
-                                "type": "postback",
-                                "title": "Không phải!",
-                                "payload": "no",
-                            }
+                                type: "postback",
+                                title: "Không phải!",
+                                payload: "no",
+                            },
                         ],
-                    }]
-                }
-            }
-        }
+                    }, ],
+                },
+            },
+        };
         await chatbotService.callSendAPI(sender_psid, response);
     }
 
     // Send the response message
-
 }
 
 // Handles messaging_postbacks events
@@ -231,45 +213,53 @@ async function handlePostback(sender_psid, received_postback) {
     // Get the payload for the postback
     let payload = received_postback.payload;
 
-
     switch (payload) {
-        case 'yes':
-            response = { "text": "Hỏi vậy chứ không có gì :vv" }
+        case "yes":
+            response = { text: "Hỏi vậy chứ không có gì :vv" };
             await chatbotService.callSendAPI(sender_psid, response);
             break;
-        case 'no':
-            response = { "text": "Kaka Kệ" }
+        case "no":
+            response = { text: "Kaka Kệ" };
             await chatbotService.callSendAPI(sender_psid, response);
             break;
-        case 'BOT_TUTORIAL':
+        case "BOT_TUTORIAL":
             let response3 = chatbotService.getVideoTutorial();
             await chatbotService.callSendAPI(sender_psid, response3);
-            response = { "text": "Vui lòng gửi tên font bạn cần tìm vào đây\nNếu không có bot sẽ không phản hồi!" }
+            response = {
+                text: "Vui lòng gửi tên font bạn cần tìm vào đây\nNếu không có bot sẽ không phản hồi!",
+            };
             await chatbotService.callSendAPI(sender_psid, response);
-            let response2 = { "text": "Nếu bạn muốn nhận hướng dẫn đầy đủ vui lòng gửi lại tin nhắn 'HDSD'" }
+            let response2 = {
+                text: "Nếu bạn muốn nhận hướng dẫn đầy đủ vui lòng gửi lại tin nhắn 'HDSD'",
+            };
             await chatbotService.callSendAPI(sender_psid, response2);
             break;
-        case 'LIST_FONT':
+        case "LIST_FONT":
             await chatbotService.getFontSupport(sender_psid);
-            let responseaa = { "text": 'Nếu bạn muốn lấy link nào thì nhắn tin tên một font trong list này\nHệ thống sẽ gửi cho bạn' }
+            let responseaa = {
+                text: "Nếu bạn muốn lấy link nào thì nhắn tin tên một font trong list này\nHệ thống sẽ gửi cho bạn",
+            };
             await chatbotService.callSendAPI(sender_psid, responseaa);
             break;
-        case 'PRICE_SERVICE':
-            response = { "text": "Hiện tại bên mình nhận việt hóa với giá 50.000 đồng một font." }
+        case "PRICE_SERVICE":
+            response = {
+                text: "Hiện tại bên mình nhận việt hóa với giá 50.000 đồng một font.",
+            };
             await chatbotService.callSendAPI(sender_psid, response);
-            let response2a = { "text": "Nếu bạn muốn sử dụng thì vui lòng liên hệ qua m.me/nam077.me" }
+            let response2a = {
+                text: "Nếu bạn muốn sử dụng thì vui lòng liên hệ qua m.me/nam077.me",
+            };
             await chatbotService.callSendAPI(sender_psid, response2a);
             break;
-        case 'GET_STARTED_PAYLOAD':
-        case 'RESTART_BOT':
+        case "GET_STARTED_PAYLOAD":
+        case "RESTART_BOT":
             await chatbotService.handleGetStarted(sender_psid);
             break;
         default:
-            response = { "text": 'Xin lỗi tôi không hiểu' }
+            response = { text: "Xin lỗi tôi không hiểu" };
             await chatbotService.callSendAPI(sender_psid, response);
     }
     // Send the message to acknowledge the postback
-
 }
 
 // Sends response messages via the Send API
@@ -278,100 +268,101 @@ let setupProfile = async(req, res) => {
     //call profile facebook api
     // Construct the message body
     let request_body = {
-            "get_started": {
-                "payload": "GET_STARTED_PAYLOAD"
-            },
-            "whitelisted_domains": ["https://chatbot-nvn.herokuapp.com/"]
-        }
-        //
-        // Send the HTTP request to the Messenger Platform
+        get_started: {
+            payload: "GET_STARTED_PAYLOAD",
+        },
+        whitelisted_domains: ["https://chatbot-nvn.herokuapp.com/"],
+    };
+    //
+    // Send the HTTP request to the Messenger Platform
     await request({
-        "uri": `https://graph.facebook.com/v12.0/me/messenger_profile?access_token=${PAGE_ACCESS_TOKEN}`,
-        "qs": { "access_token": PAGE_ACCESS_TOKEN },
-        "method": "POST",
-        "json": request_body
-    }, (err, res, body) => {
-        console.log(body);
-        if (!err) {
-            console.log('Cấu hình Profile thành công')
-        } else {
-            console.error("Unable Setup user profile:" + err);
+            uri: `https://graph.facebook.com/v12.0/me/messenger_profile?access_token=${PAGE_ACCESS_TOKEN}`,
+            qs: { access_token: PAGE_ACCESS_TOKEN },
+            method: "POST",
+            json: request_body,
+        },
+        (err, res, body) => {
+            console.log(body);
+            if (!err) {
+                console.log("Cấu hình Profile thành công");
+            } else {
+                console.error("Unable Setup user profile:" + err);
+            }
         }
-    });
+    );
 
-    return res.send("Set up thành công")
-
-}
+    return res.send("Set up thành công");
+};
 let setupPersistentMenu = async(req, res) => {
     //call profile facebook api
     // Construct the message body
     let request_body = {
-            "persistent_menu": [{
-                "locale": "default",
-                "composer_input_disabled": false,
-                "call_to_actions": [{
-                        "type": "web_url",
-                        "title": "Xem Trang",
-                        "url": "https://www.facebook.com/NVNFONT/",
-                        "webview_height_ratio": "full"
-                    },
-                    {
-                        "type": "web_url",
-                        "title": "Tham gia group",
-                        "url": "https://www.facebook.com/groups/NVNFONT/",
-                        "webview_height_ratio": "full"
-                    },
-                    {
-                        "type": "postback",
-                        "title": "Xem hướng dẫn sử dụng bot",
-                        "payload": "BOT_TUTORIAL"
-                    },
-                    {
-                        "type": "postback",
-                        "title": "Danh sách font hỗ trợ",
-                        "payload": "LIST_FONT"
-                    },
-                    {
-                        "type": "postback",
-                        "title": "Xem giá Việt hóa",
-                        "payload": "PRICE_SERVICE"
-                    },
-                    {
-                        "type": "postback",
-                        "title": "Khởi động lại bot",
-                        "payload": "RESTART_BOT"
-                    },
-
-                ]
-            }]
-        }
-        //
-        // Send the HTTP request to the Messenger Platform
+        persistent_menu: [{
+            locale: "default",
+            composer_input_disabled: false,
+            call_to_actions: [{
+                    type: "web_url",
+                    title: "Xem Trang",
+                    url: "https://www.facebook.com/NVNFONT/",
+                    webview_height_ratio: "full",
+                },
+                {
+                    type: "web_url",
+                    title: "Tham gia group",
+                    url: "https://www.facebook.com/groups/NVNFONT/",
+                    webview_height_ratio: "full",
+                },
+                {
+                    type: "postback",
+                    title: "Xem hướng dẫn sử dụng bot",
+                    payload: "BOT_TUTORIAL",
+                },
+                {
+                    type: "postback",
+                    title: "Danh sách font hỗ trợ",
+                    payload: "LIST_FONT",
+                },
+                {
+                    type: "postback",
+                    title: "Xem giá Việt hóa",
+                    payload: "PRICE_SERVICE",
+                },
+                {
+                    type: "postback",
+                    title: "Khởi động lại bot",
+                    payload: "RESTART_BOT",
+                },
+            ],
+        }, ],
+    };
+    //
+    // Send the HTTP request to the Messenger Platform
     await request({
-        "uri": `https://graph.facebook.com/v12.0/me/messenger_profile?access_token=${PAGE_ACCESS_TOKEN}`,
-        "qs": { "access_token": PAGE_ACCESS_TOKEN },
-        "method": "POST",
-        "json": request_body
-    }, (err, res, body) => {
-        console.log(body);
-        if (!err) {
-            console.log('Setup user profile succes')
-        } else {
-            console.error("Unable Setup user profile:" + err);
+            uri: `https://graph.facebook.com/v12.0/me/messenger_profile?access_token=${PAGE_ACCESS_TOKEN}`,
+            qs: { access_token: PAGE_ACCESS_TOKEN },
+            method: "POST",
+            json: request_body,
+        },
+        (err, res, body) => {
+            console.log(body);
+            if (!err) {
+                console.log("Setup user profile succes");
+            } else {
+                console.error("Unable Setup user profile:" + err);
+            }
         }
-    });
+    );
 
-    return res.send("Set up thành công")
-}
+    return res.send("Set up thành công");
+};
 let getGoogleSheet = async(req, res) => {
     try {
-
-        await pool.execute('DELETE FROM `nvnfont`');
-        await pool.execute('DELETE FROM `data`');
-        await pool.execute('DELETE FROM `listfont`');
-        await pool.execute('ALTER TABLE `nvnfont` AUTO_INCREMENT = 1;');
-        await pool.execute('ALTER TABLE `data` AUTO_INCREMENT = 1;');
-        await pool.execute('ALTER TABLE `listfont` AUTO_INCREMENT = 1;');
+        await pool.execute("DELETE FROM `nvnfont`");
+        await pool.execute("DELETE FROM `data`");
+        await pool.execute("DELETE FROM `listfont`");
+        await pool.execute("ALTER TABLE `nvnfont` AUTO_INCREMENT = 1;");
+        await pool.execute("ALTER TABLE `data` AUTO_INCREMENT = 1;");
+        await pool.execute("ALTER TABLE `listfont` AUTO_INCREMENT = 1;");
         // Initialize the sheet - doc ID is the long id in the sheets URL
         const doc = new GoogleSpreadsheet(SHEET_ID);
 
@@ -405,51 +396,64 @@ let getGoogleSheet = async(req, res) => {
             respone.push(element.Respone);
             img.push(element.Image);
         }
-        var listOfObjects = [];
+        var objectFont = [];
         for (let i = 0; i < key.length; i++) {
             let listkeyfont = [];
-            listkeyfont = key[i].split(',');
+            listkeyfont = key[i].split(",");
             for (let j = 0; j < listkeyfont.length; j++) {
                 let singlekey = listkeyfont[j].trim();
-                if (singlekey != null && singlekey != '') {
-                    var singleObj = {}
-                    singleObj['key'] = singlekey;
-                    singleObj['name'] = name[i];
-                    singleObj['link'] = linkdownload[i];
-                    singleObj['img'] = linkimage[i];
-                    singleObj['msg'] = msg[i];
-                    listOfObjects.push(singleObj);
-                    await pool.execute('INSERT INTO nvnfont(`name`, `key`, `link`, `image`, `message`) values (?, ?, ?, ?, ?)', [singleObj['name'], singleObj['key'], singleObj['link'], singleObj['img'], singleObj['msg']]);
-
+                if (singlekey != null && singlekey != "") {
+                    var singleObj = {};
+                    singleObj["key"] = singlekey;
+                    singleObj["name"] = name[i];
+                    singleObj["link"] = linkdownload[i];
+                    singleObj["img"] = linkimage[i];
+                    singleObj["msg"] = msg[i];
+                    objectFont.push(singleObj);
                 }
             }
-
-        };
-
+        }
+        let objectData = [];
         for (let i = 0; i < keylist.length; i++) {
             let listKey = [];
-            listKey = keylist[i].split(',');
+            listKey = keylist[i].split(",");
             for (let j = 0; j < listKey.length; j++) {
                 let singlekey = listKey[j].trim();
-                if (singlekey != null && singlekey != '') {
-                    var singleObj = {}
-                    singleObj['key'] = singlekey;
-                    singleObj['respone'] = respone[i];
-                    if (img[i] != null && img[i] != '') {
-                        singleObj['img'] = img[i];
+                if (singlekey != null && singlekey != "") {
+                    var singleObj = {};
+                    singleObj["key"] = singlekey;
+                    singleObj["respone"] = respone[i];
+                    if (img[i] != null && img[i] != "") {
+                        singleObj["image"] = img[i];
                     } else {
-                        singleObj['img'] = '';
+                        singleObj["image"] = "";
                     }
-                    await pool.execute('INSERT INTO data(`key`, `respone`, `image`) values (?, ?, ?)', [singleObj['key'], singleObj['respone'], singleObj['img']]);
+                    objectData.push(singleObj);
                 }
-
             }
-        };
-        let configs = listOfObjects;
-        let dataFont = '';
-        let arr = []
-        let arr2 = []
-        var listFontObject = [];
+        }
+        const data = JSON.stringify(objectFont);
+        const data2 = JSON.stringify(objectData);
+        var file = fs.createWriteStream("font.json");
+        try {
+            fs.writeFileSync("font.json", data);
+            console.log("JSON data is saved.");
+        } catch (error) {
+            console.error(err);
+        }
+        var file2 = fs.createWriteStream("data.json");
+        try {
+            fs.writeFileSync("data.json", data2);
+            console.log("JSON data is saved.");
+        } catch (error) {
+            console.error(err);
+        }
+
+        let configs = objectFont;
+        let dataFont = "";
+        let arr = [];
+        let arr2 = [];
+        var objectListFont = [];
         let count = 0;
         let dem = 1;
         for (let i = 0; i < configs.length; i++) {
@@ -460,15 +464,14 @@ let getGoogleSheet = async(req, res) => {
         for (let i = 0; i < arr.length; i++) {
             if (arr2.length == 40) {
                 for (const element of arr2) {
-                    dataFont += element + '\n';
+                    dataFont += element + "\n";
                 }
-                let singleObj = {}
-                singleObj['id'] = count;
-                singleObj['list'] = dataFont;
-                await pool.execute('INSERT INTO listfont(`list`) values (?)', [singleObj['list']]);
+                let singleObj = {};
+                singleObj["list"] = dataFont;
+                objectListFont.push(singleObj);
                 count = count + 1;
                 arr2 = [];
-                dataFont = '';
+                dataFont = "";
                 dem += 1;
             }
             if (arr2.length < 40) {
@@ -477,29 +480,98 @@ let getGoogleSheet = async(req, res) => {
             if (i == arr.length - 1) {
                 if (i > 40 * dem || i < 40 * dem) {
                     for (const element of arr2) {
-                        dataFont += element + '\n';
+                        dataFont += element + "\n";
                     }
-                    let singleObj = {}
-                    singleObj['id'] = count;
-                    singleObj['list'] = dataFont;
-                    await pool.execute('INSERT INTO listfont(`list`) values (?)', [singleObj['list']]);
+                    let singleObj = {};
+                    singleObj["list"] = dataFont;
+                    objectListFont.push(singleObj);
                     arr2 = [];
-                    dataFont = '';
+                    dataFont = "";
                 }
             }
         }
-
-        fs.writeFileSync("checkUpdate.txt", 'False');
-        return res.redirect('/');;
+        const data3 = JSON.stringify(objectListFont);
+        var file3 = fs.createWriteStream("listfont.json");
+        try {
+            fs.writeFileSync("listfont.json", data3);
+            console.log("JSON data is saved.");
+        } catch (error) {
+            console.error(err);
+        }
+        return res.redirect("/database");
     } catch (e) {
         console.log(e);
-        return res.send('Oops! Something wrongs, check logs console for detail ... ')
+        return res.send(
+            "Oops! Something wrongs, check logs console for detail ... "
+        );
     }
-}
+};
+let updateMySQL = (req, res) => {
+    var mysql = require("mysql2");
+    let host = process.env.HOSTDATABASE;
+    let user = process.env.USERDATABASE;
+    let password = process.env.PASSDATABASE;
+    let database = process.env.NAMEDATABASE;
+    var con = mysql.createConnection({
+        host: host,
+        user: user,
+        password: password,
+        database: database,
+    });
+    let config = require("../../font.json");
+    let objectFont = config;
+    var FontResult = [];
+    for (var i = 0; i < objectFont.length; i++) {
+        FontResult.push(
+            Object.keys(objectFont[i]).map((key) => objectFont[i][key])
+        );
+    }
+    let config2 = require("../../data.json");
+    let objectData = config2;
+    var listDataResult = [];
+    for (var i = 0; i < objectData.length; i++) {
+        listDataResult.push(
+            Object.keys(objectData[i]).map((key) => objectData[i][key])
+        );
+    }
+    let config3 = require("../../listfont.json");
+    let objectListFont = config3;
+    var listFontResult = [];
+    for (var i = 0; i < objectListFont.length; i++) {
+        listFontResult.push(
+            Object.keys(objectListFont[i]).map((key) => objectListFont[i][key])
+        );
+    }
+    con.connect(function(err) {
+        if (err) throw err;
+        console.log("Connected!");
+        //Make SQL statement:
+        var sql = "INSERT INTO nvnfont (`name`, `key`, `link`,`image`,`message`) VALUES ?";
+        var sql2 = "INSERT INTO data (`key`, `respone`,`image`) VALUES ?";
+        var sql3 = "INSERT INTO listfont (`list`) VALUES ?";
+        //Make an array of values:
+        //Execute the SQL statement, with the value array:
+        con.query(sql, [FontResult], function(err, result) {
+            if (err) throw err;
+            console.log("Number of records inserted: " + result.affectedRows);
+            return;
+        });
+        con.query(sql2, [listDataResult], function(err, result) {
+            if (err) throw err;
+            console.log("Number of records inserted: " + result.affectedRows);
+            return;
+        });
+        con.query(sql3, [listFontResult], function(err, result) {
+            if (err) throw err;
+            console.log("Number of records inserted: " + result.affectedRows);
+            return;
+        });
+    });
+    return res.redirect("/");
+};
 let getCrawler = async(req, res) => {
-
-    let message = 'zipcode hà nội'
-    let checkmsg = 'zipcode Đà Nẵng';
+    let message = "zipcode hà nội";
+    let checkmsg = "zipcode Đà Nẵng";
     if (checkmsg.indexOf("cov") == -1 && checkmsg.indexOf("corona") == -1) {
         let searchString = message;
         let encodedString = encodeURI(searchString);
@@ -517,12 +589,11 @@ let getCrawler = async(req, res) => {
         //Hỏi thông tin cơ bản
         let infor = $(data).find("div.bVj5Zb.FozYP");
         infor.each(function(e, i) {
-            console.log($(this).text() + '\n');
-
-        })
+            console.log($(this).text() + "\n");
+        });
         return res.send(data);
     }
-}
+};
 let sendDataFont = async(req, res) => {
     try {
         // Initialize the sheet - doc ID is the long id in the sheets URL
@@ -561,47 +632,46 @@ let sendDataFont = async(req, res) => {
         var listOfObjects = [];
         for (let i = 0; i < key.length; i++) {
             let listkeyfont = [];
-            listkeyfont = key[i].split(',');
+            listkeyfont = key[i].split(",");
             for (let j = 0; j < listkeyfont.length; j++) {
                 let singlekey = listkeyfont[j].trim();
-                if (singlekey != null && singlekey != '') {
-                    var singleObj = {}
-                    singleObj['key'] = singlekey;
-                    singleObj['name'] = name[i];
-                    singleObj['link'] = linkdownload[i];
-                    singleObj['img'] = linkimage[i];
-                    singleObj['msg'] = msg[i];
+                if (singlekey != null && singlekey != "") {
+                    var singleObj = {};
+                    singleObj["key"] = singlekey;
+                    singleObj["name"] = name[i];
+                    singleObj["link"] = linkdownload[i];
+                    singleObj["img"] = linkimage[i];
+                    singleObj["msg"] = msg[i];
                     listOfObjects.push(singleObj);
                 }
             }
-        };
+        }
         var listOfObjects2 = [];
         for (let i = 0; i < keylist.length; i++) {
             let listKey = [];
-            listKey = keylist[i].split(',');
+            listKey = keylist[i].split(",");
             for (let j = 0; j < listKey.length; j++) {
                 let singlekey = listKey[j].trim();
-                if (singlekey != null && singlekey != '') {
-                    var singleObj = {}
-                    singleObj['key'] = singlekey;
-                    singleObj['respone'] = respone[i];
-                    if (img[i] != null && img[i] != '') {
-                        singleObj['img'] = img[i];
+                if (singlekey != null && singlekey != "") {
+                    var singleObj = {};
+                    singleObj["key"] = singlekey;
+                    singleObj["respone"] = respone[i];
+                    if (img[i] != null && img[i] != "") {
+                        singleObj["img"] = img[i];
                     } else {
-                        singleObj['img'] = '';
+                        singleObj["img"] = "";
                     }
                     listOfObjects2.push(singleObj);
                 }
-
             }
-        };
+        }
         const data = JSON.stringify(listOfObjects);
         const data2 = JSON.stringify(listOfObjects2);
 
         let configs = listOfObjects;
-        let dataFont = '';
-        let arr = []
-        let arr2 = []
+        let dataFont = "";
+        let arr = [];
+        let arr2 = [];
         var listFontObject = [];
         let count = 0;
         let dem = 1;
@@ -613,15 +683,15 @@ let sendDataFont = async(req, res) => {
         for (let i = 0; i < arr.length; i++) {
             if (arr2.length == 40) {
                 for (const element of arr2) {
-                    dataFont += element + '\n';
+                    dataFont += element + "\n";
                 }
-                let singleObj = {}
-                singleObj['id'] = count;
-                singleObj['list'] = dataFont;
+                let singleObj = {};
+                singleObj["id"] = count;
+                singleObj["list"] = dataFont;
                 listFontObject.push(singleObj);
                 count = count + 1;
                 arr2 = [];
-                dataFont = '';
+                dataFont = "";
                 dem += 1;
             }
             if (arr2.length < 40) {
@@ -630,14 +700,14 @@ let sendDataFont = async(req, res) => {
             if (i == arr.length - 1) {
                 if (i > 40 * dem || i < 40 * dem) {
                     for (const element of arr2) {
-                        dataFont += element + '\n';
+                        dataFont += element + "\n";
                     }
-                    let singleObj = {}
-                    singleObj['id'] = count;
-                    singleObj['list'] = dataFont;
+                    let singleObj = {};
+                    singleObj["id"] = count;
+                    singleObj["list"] = dataFont;
                     listFontObject.push(singleObj);
                     arr2 = [];
-                    dataFont = '';
+                    dataFont = "";
                 }
             }
         }
@@ -645,30 +715,29 @@ let sendDataFont = async(req, res) => {
         return res.send(data);
     } catch (e) {
         console.log(e);
-        return res.send('Oops! Something wrongs, check logs console for detail ... ')
+        return res.send(
+            "Oops! Something wrongs, check logs console for detail ... "
+        );
     }
-
-}
-
+};
 
 let googleTranslate = (text) => {
-    let result = '';
+    let result = "";
 
-    translate('Cambodia', { to: 'en' }).then(res => {
-        result = res;
-    }).catch(err => {
-        console.error(err)
-    });
+    translate("Cambodia", { to: "en" })
+        .then((res) => {
+            result = res;
+        })
+        .catch((err) => {
+            console.error(err);
+        });
     console.log(result);
     return result;
-
-
-}
+};
 
 let test = async(req, res) => {
-
     await updateData();
-}
+};
 module.exports = {
     getHomePage: getHomePage,
     postWebhook: postWebhook,
@@ -679,4 +748,5 @@ module.exports = {
     getCrawler: getCrawler,
     sendDataFont: sendDataFont,
     test: test,
-}
+    updateMySQL: updateMySQL,
+};
