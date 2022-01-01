@@ -4,7 +4,6 @@ import pool from '../configs/connectDB';
 import request from "request";
 import cheerio from "cheerio";
 import axios from "axios";
-import pool from '../configs/connectDB';
 import { config } from 'dotenv';
 import { each, first } from 'cheerio/lib/api/traversing';
 const { GoogleSpreadsheet } = require('google-spreadsheet');
