@@ -56,14 +56,9 @@ let postWebhook = async(req, res) => {
 }
 let updateData = async() => {
     let checkUpdate;
-    try {
-        var readData = fs.readFileSync('checkUpdate.txt', 'utf8');
-        checkUpdate = readData.toString();
-
-    } catch (e) {
-        console.log('Error:', e.stack);
-    }
-    console.log(checkUpdate);
+    var readData = fs.readFileSync('checkUpdate.txt', 'utf8');
+    checkUpdate = readData.toString();
+    console.log('Có cập nhật hay không ' + checkUpdate);
     if (checkUpdate == 'False') {
         let fonts = 'https://chatbot-nvn.herokuapp.com/api/v1/fonts';
         return new Promise((reslove, reject) => {
@@ -159,8 +154,6 @@ async function handleMessage(sender_psid, received_message) {
         let arr = chatbotService.getArraydatafromJson('font');
 
         let arr2 = chatbotService.getArraydatafromJson('data');
-        console.log(arr);
-        console.log(arr2);
         let keyfont = chatbotService.checkKey(arr, message);
         let keydata = chatbotService.checkKey(arr2, message);
         if (keyfont != null && keyfont != '') {

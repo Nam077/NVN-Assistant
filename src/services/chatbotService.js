@@ -437,7 +437,6 @@ let getCovidApi = async(sender_psid, message) => {
                 console.error(err)
             })
         }
-        console.log(result)
         let config = require("../../listlocation.json");
         let datalocation = config;
         var item = datalocation.find((item) => item.key === result);
@@ -584,7 +583,6 @@ let getStartedQuickReplyTemplate = () => {
 };
 let getArraydatafromJson = (file) => {
     let config = require(`../../${file}.json`);
-    console.log(config);
     let arr = [];
     for (let i = 0; i < config.length; i++) {
         arr.push(config[i].key);
