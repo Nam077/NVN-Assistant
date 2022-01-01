@@ -95,16 +95,7 @@ let getWebhook = (req, res) => {
 async function handleMessage(sender_psid, received_message) {
     let username = await chatbotService.getUserName(sender_psid);
     let response;
-    let checkUpdate;
-    try {
-        var readData = fs.readFileSync('checkUpdate.txt', 'utf8');
-        checkUpdate = readData.toString();
-    } catch (e) {
-        console.log('Error:', e.stack);
-    }
-    if (checkUpdate == 'False') {
-        await updateData();
-    }
+
     // Checks if the message contains text
     if (received_message.quick_reply && received_message.quick_reply.payload) {
         if (received_message.quick_reply.payload === 'BOT_TUTORIAL') {

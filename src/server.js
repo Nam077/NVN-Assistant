@@ -19,5 +19,15 @@ initApiRoute(app);
 let port = process.env.PORT || 8080;
 
 app.listen(port, () => {
+    let checkUpdate;
+    try {
+        var readData = fs.readFileSync('checkUpdate.txt', 'utf8');
+        checkUpdate = readData.toString();
+    } catch (e) {
+        console.log('Error:', e.stack);
+    }
+    if (checkUpdate == 'False') {
+        await updateData();
+    }
     console.log("App is running at the port: " + port);
 })
