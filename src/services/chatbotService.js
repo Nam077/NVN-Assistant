@@ -584,6 +584,7 @@ let getStartedQuickReplyTemplate = () => {
 };
 let getArraydatafromJson = (file) => {
     let config = require(`../../${file}.json`);
+    console.log(config);
     let arr = [];
     for (let i = 0; i < config.length; i++) {
         arr.push(config[i].key);
