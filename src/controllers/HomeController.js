@@ -28,7 +28,6 @@ let postWebhook = async(req, res) => {
         body.entry.forEach(function(entry) {
             // Gets the body of the webhook event
             let webhook_event = entry.messaging[0];
-            console.log(webhook_event);
 
             // Get the sender PSID
             let sender_psid = webhook_event.sender.id;
@@ -65,7 +64,6 @@ let getWebhook = (req, res) => {
         // Checks the mode and token sent is correct
         if (mode === "subscribe" && token === VERIFY_TOKEN) {
             // Responds with the challenge token from the request
-            console.log("WEBHOOK_VERIFIED");
             res.status(200).send(challenge);
         } else {
             // Responds with '403 Forbidden' if verify tokens do not match
@@ -437,14 +435,14 @@ let getGoogleSheet = async(req, res) => {
         var file = fs.createWriteStream("font.json");
         try {
             fs.writeFileSync("font.json", data);
-            console.log("JSON data is saved.");
+            console.log("Lưu danh sách font thành công !");
         } catch (error) {
             console.error(err);
         }
         var file2 = fs.createWriteStream("data.json");
         try {
             fs.writeFileSync("data.json", data2);
-            console.log("JSON data is saved.");
+            console.log("Lưu dữ liệu thành công !");
         } catch (error) {
             console.error(err);
         }
@@ -494,7 +492,7 @@ let getGoogleSheet = async(req, res) => {
         var file3 = fs.createWriteStream("listfont.json");
         try {
             fs.writeFileSync("listfont.json", data3);
-            console.log("JSON data is saved.");
+            console.log("Lưu danh sách font hỗ trợ thành công!");
         } catch (error) {
             console.error(err);
         }
@@ -553,188 +551,22 @@ let updateMySQL = (req, res) => {
         //Execute the SQL statement, with the value array:
         con.query(sql, [FontResult], function(err, result) {
             if (err) throw err;
-            console.log("Number of records inserted: " + result.affectedRows);
+            console.log("Lưu danh sách font thành công: " + result.affectedRows);
             return;
         });
         con.query(sql2, [listDataResult], function(err, result) {
             if (err) throw err;
-            console.log("Number of records inserted: " + result.affectedRows);
+            console.log("Lưu dữ liệu thành công: " + result.affectedRows);
             return;
         });
         con.query(sql3, [listFontResult], function(err, result) {
             if (err) throw err;
-            console.log("Number of records inserted: " + result.affectedRows);
+            console.log("Lưu danh sách font hỗ trợ thành công: " + result.affectedRows);
             return;
         });
     });
     return res.redirect("/");
 };
-let getCrawler = async(req, res) => {
-    let message = "zipcode hà nội";
-    let checkmsg = "zipcode Đà Nẵng";
-    if (checkmsg.indexOf("cov") == -1 && checkmsg.indexOf("corona") == -1) {
-        let searchString = message;
-        let encodedString = encodeURI(searchString);
-        encodedString = encodedString.replaceAll("+", "%2B");
-        const AXIOS_OPTIONS = {
-            headers: {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.57",
-            },
-        };
-        const { data } = await axios.get(
-            `https://www.google.com.vn/search?q=${encodedString}&hl=vi&gl=VN`,
-            AXIOS_OPTIONS
-        );
-        let $ = cheerio.load(data);
-        //Hỏi thông tin cơ bản
-        let infor = $(data).find("div.bVj5Zb.FozYP");
-        infor.each(function(e, i) {
-            console.log($(this).text() + "\n");
-        });
-        return res.send(data);
-    }
-};
-let sendDataFont = async(req, res) => {
-    try {
-        // Initialize the sheet - doc ID is the long id in the sheets URL
-        const doc = new GoogleSpreadsheet(SHEET_ID);
-
-        // Initialize Auth - see more available options at https://theoephraim.github.io/node-google-spreadsheet/#/getting-started/authentication
-        await doc.useServiceAccountAuth({
-            client_email: CLIENT_EMAIL,
-            private_key: PRIVATE_KEY,
-        });
-        await doc.loadInfo(); // loads document properties and worksheets
-        const sheet = doc.sheetsByIndex[0];
-        const sheet2 = doc.sheetsByIndex[1];
-        const rows2 = await sheet2.getRows(); // or use doc.sheetsById[id] or doc.sheetsByTitle[title]
-        const name = [];
-        const key = [];
-        const linkdownload = [];
-        const linkimage = [];
-        const msg = [];
-        const img = [];
-        const respone = [];
-        const keylist = [];
-        const rows = await sheet.getRows();
-        for (const element of rows) {
-            name.push(element.Name);
-            key.push(element.Key.toLowerCase());
-            linkdownload.push(element.Link);
-            linkimage.push(element.Image);
-            msg.push(element.Message);
-        }
-        for (const element of rows2) {
-            keylist.push(element.Key.toLowerCase());
-            respone.push(element.Respone);
-            img.push(element.Image);
-        }
-        var listOfObjects = [];
-        for (let i = 0; i < key.length; i++) {
-            let listkeyfont = [];
-            listkeyfont = key[i].split(",");
-            for (let j = 0; j < listkeyfont.length; j++) {
-                let singlekey = listkeyfont[j].trim();
-                if (singlekey != null && singlekey != "") {
-                    var singleObj = {};
-                    singleObj["key"] = singlekey;
-                    singleObj["name"] = name[i];
-                    singleObj["link"] = linkdownload[i];
-                    singleObj["img"] = linkimage[i];
-                    singleObj["msg"] = msg[i];
-                    listOfObjects.push(singleObj);
-                }
-            }
-        }
-        var listOfObjects2 = [];
-        for (let i = 0; i < keylist.length; i++) {
-            let listKey = [];
-            listKey = keylist[i].split(",");
-            for (let j = 0; j < listKey.length; j++) {
-                let singlekey = listKey[j].trim();
-                if (singlekey != null && singlekey != "") {
-                    var singleObj = {};
-                    singleObj["key"] = singlekey;
-                    singleObj["respone"] = respone[i];
-                    if (img[i] != null && img[i] != "") {
-                        singleObj["img"] = img[i];
-                    } else {
-                        singleObj["img"] = "";
-                    }
-                    listOfObjects2.push(singleObj);
-                }
-            }
-        }
-        const data = JSON.stringify(listOfObjects);
-        const data2 = JSON.stringify(listOfObjects2);
-
-        let configs = listOfObjects;
-        let dataFont = "";
-        let arr = [];
-        let arr2 = [];
-        var listFontObject = [];
-        let count = 0;
-        let dem = 1;
-        for (let i = 0; i < configs.length; i++) {
-            if (!arr.includes(configs[i].name)) {
-                arr.push(configs[i].name);
-            }
-        }
-        for (let i = 0; i < arr.length; i++) {
-            if (arr2.length == 40) {
-                for (const element of arr2) {
-                    dataFont += element + "\n";
-                }
-                let singleObj = {};
-                singleObj["id"] = count;
-                singleObj["list"] = dataFont;
-                listFontObject.push(singleObj);
-                count = count + 1;
-                arr2 = [];
-                dataFont = "";
-                dem += 1;
-            }
-            if (arr2.length < 40) {
-                arr2.push(arr[i]);
-            }
-            if (i == arr.length - 1) {
-                if (i > 40 * dem || i < 40 * dem) {
-                    for (const element of arr2) {
-                        dataFont += element + "\n";
-                    }
-                    let singleObj = {};
-                    singleObj["id"] = count;
-                    singleObj["list"] = dataFont;
-                    listFontObject.push(singleObj);
-                    arr2 = [];
-                    dataFont = "";
-                }
-            }
-        }
-
-        return res.send(data);
-    } catch (e) {
-        console.log(e);
-        return res.send(
-            "Oops! Something wrongs, check logs console for detail ... "
-        );
-    }
-};
-
-let googleTranslate = (text) => {
-    let result = "";
-
-    translate("Cambodia", { to: "en" })
-        .then((res) => {
-            result = res;
-        })
-        .catch((err) => {
-            console.error(err);
-        });
-    console.log(result);
-    return result;
-};
-
 
 module.exports = {
     getHomePage: getHomePage,
@@ -743,7 +575,5 @@ module.exports = {
     setupProfile: setupProfile,
     setupPersistentMenu: setupPersistentMenu,
     getGoogleSheet: getGoogleSheet,
-    getCrawler: getCrawler,
-    sendDataFont: sendDataFont,
     updateMySQL: updateMySQL,
 };
