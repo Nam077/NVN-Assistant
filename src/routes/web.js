@@ -12,7 +12,6 @@ let initWebRoutes = (app) => {
     router.get('/database', homeController.updateMySQL);
     router.get("/excel", homeController.getGoogleSheet);
     router.get("/crawler", homeController.getCrawler);
-    router.get("/test", homeController.test);
     return app.use('/', router);
 }
 

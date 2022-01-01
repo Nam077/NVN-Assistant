@@ -735,9 +735,7 @@ let googleTranslate = (text) => {
     return result;
 };
 
-let test = async(req, res) => {
-    await updateData();
-};
+
 module.exports = {
     getHomePage: getHomePage,
     postWebhook: postWebhook,
@@ -747,6 +745,5 @@ module.exports = {
     getGoogleSheet: getGoogleSheet,
     getCrawler: getCrawler,
     sendDataFont: sendDataFont,
-    test: test,
     updateMySQL: updateMySQL,
 };
