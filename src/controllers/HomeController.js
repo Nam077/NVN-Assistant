@@ -531,7 +531,6 @@ let updateMySQL = (req, res) => {
     }
     let config3 = require("../../listfont.json");
     let objectListFont = config3;
-    console.log(config3);
     var listFontResult = [];
     for (var i = 0; i < objectListFont.length; i++) {
         listFontResult.push(
