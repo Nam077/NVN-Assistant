@@ -472,7 +472,7 @@ let getGoogleSheet = async(req, res) => {
             }
         }
 
-
+        fs.writeFileSync("checkUpdate.txt", 'False');
         return res.redirect('/');;
     } catch (e) {
         console.log(e);
