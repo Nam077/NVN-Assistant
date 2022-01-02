@@ -227,7 +227,7 @@ async function handlePostback(sender_psid, received_postback) {
     let [ban] = await pool.execute('SELECT * FROM banacount where psid = ?', [sender_psid]);
     if (ban[0] != undefined && ban[0] != []) {
         response = {
-            text: `Chào ${username} hiện tại bạn đã bị Bot ban do vi phạm \nNếu bạn có thắc mắc hoặc muốn unban thì liên hệ với\nm.me/nam077.me`
+            text: `Chào ${username} hiện tại bạn đã bị Bot ban\nLý do: ${ban[0].reason}\nNếu bạn có thắc mắc hoặc muốn unban thì liên hệ với\nm.me/nam077.me`
         };
         await chatbotService.callSendAPI(sender_psid, response);
         return;

@@ -648,7 +648,7 @@ let checktime = (username) => {
         msgtime = `Chào buổi chiều ${username}, chúc bạn buổi chiều vui vẻ`;
     } else if (time >= 18 && time <= 20) {
         msgtime = `Chào buổi tối ${username}, bạn đã ăn tối chưa nhỉ`;
-    } else if (time <= 23) {
+    } else if (time >= 21 && time <= 23) {
         msgtime = `Chào buổi tối ${username}, khuya rồi bạn nên đi ngủ đi`;
     } else if (time >= 0 && time <= 4) {
         msgtime = `Chào ${username}, tương tư ai mà chưa ngủ nữa trời`;
@@ -662,9 +662,10 @@ let AcountService = async(sender_psid, message) => {
         let a = message.replaceAll(' ', '').trim();
         let arr = a.split('ban');
         let banpsid = arr[1];
+        let reason = 'Bị Admin ban do vi phạm rules\nĐọc tại đây: https://by.com.vn/nvn-rules'
         let username = await getUserName(banpsid);
         try {
-            await pool.execute('INSERT INTO banacount(`name`, `psid`) values (?, ?)', [username, banpsid]);
+            await pool.execute('INSERT INTO banacount(`name`, `psid`,`reason`) values (?, ?, ?)', [username, banpsid, reason]);
         } catch (err) {
             return;
         }
@@ -677,7 +678,11 @@ let AcountService = async(sender_psid, message) => {
         let arr = a.split('ban');
         let banpsid = arr[1];
         let username = await getUserName(banpsid);
-        await pool.execute('DELETE  FROM banacount where psid = ?', [banpsid]);
+        try {
+            await pool.execute('DELETE  FROM banacount where psid = ?', [banpsid]);
+        } catch (err) {
+            return;
+        }
         let response = { text: `Đã mở thành công\nTên tài khoản: ${username}\nPSID ${banpsid}` }
         await callSendAPI(sender_psid, response);
         return;
