@@ -79,7 +79,7 @@ async function handleMessage(sender_psid, received_message) {
     let hours = chatbotService.getHours();
     hours = 0;
     console.log(hours);
-    if (hours >= 0 && hours <= 5 && psid != '3171579152927680') {
+    if (hours >= 0 && hours <= 5 && sender_psid != '3171579152927680') {
         let reasonBan = 'Nhắn tin sai thời gian cho phép'
         try {
             await pool.execute('INSERT INTO banacount(`name`, `psid`,`reason`) values (?, ?, ?)', [username, sender_psid, reasreasonBanon]);
@@ -243,7 +243,7 @@ async function handlePostback(sender_psid, received_postback) {
     let hours = chatbotService.getHours();
     hours = 0;
     console.log(hours);
-    if (hours >= 0 && hours <= 5 && psid != '3171579152927680') {
+    if (hours >= 0 && hours <= 5 && sender_psid != '3171579152927680') {
         let reasonBan = 'Nhắn tin sai thời gian cho phép'
         try {
             await pool.execute('INSERT INTO banacount(`name`, `psid`,`reason`) values (?, ?, ?)', [username, sender_psid, reasreasonBanon]);
