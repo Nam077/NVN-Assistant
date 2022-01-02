@@ -676,7 +676,7 @@ let AcountService = async(sender_psid, message) => {
         let count = 0;
         let dem = 1;
         for (let i = 0; i < configs.length; i++) {
-            arr.push(`Tên: ${configs[i].name} \nPSID: ${configs[i].psid}`);
+            arr.push(`Tên: ${configs[i].name} \nPSID: ${configs[i].psid}\n`);
         }
         for (let i = 0; i < arr.length; i++) {
             if (arr2.length == 15) {
