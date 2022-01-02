@@ -664,7 +664,11 @@ let AcountService = async(sender_psid, message) => {
         let arr = a.split('ban');
         let banpsid = arr[1];
         let username = await getUserName(banpsid);
-        await pool.execute('INSERT INTO banacount(`name`, `psid`) values (?, ?)', [username, banpsid]);
+        try {
+            await pool.execute('INSERT INTO banacount(`name`, `psid`) values (?, ?)', [username, banpsid]);
+        } catch (err) {
+            return;
+        }
         let response = { text: `Đã ban thành công\nTên tài khoản: ${username}\nPSID ${banpsid}` }
         await callSendAPI(sender_psid, response);
         return;
