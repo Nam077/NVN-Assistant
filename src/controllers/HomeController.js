@@ -35,11 +35,22 @@ let postWebhook = async(req, res) => {
             console.log(webhook_event.message);
             // Check if the event is a message or postback and
             // pass the event to the appropriate handler function
-            if (webhook_event.message) {
-                handleMessage(sender_psid, webhook_event.message);
-            } else if (webhook_event.postback) {
-                handlePostback(sender_psid, webhook_event.postback);
+            let [ban] = await pool.execute('SELECT * FROM banacount where psid = ?', [sender_psid]);
+            if (ban[0] != undefined && ban[0] != []) {
+                let username = await chatbotService.getUserName(sender_psid);
+                response = {
+                    text: "Chào `${username}` hiện tại bạn đã bị Bot ban do vi phạm \nNếu bạn có thắc mắc hoặc muốn unban thì liên hệ với\nm.me/nam077.me",
+                };
+                await chatbotService.callSendAPI(sender_psid, response);
+                return;
+            } else {
+                if (webhook_event.message) {
+                    handleMessage(sender_psid, webhook_event.message);
+                } else if (webhook_event.postback) {
+                    handlePostback(sender_psid, webhook_event.postback);
+                }
             }
+
         });
 
         // Returns a '200 OK' response to all requests
