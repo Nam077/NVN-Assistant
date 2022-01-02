@@ -77,6 +77,7 @@ async function handleMessage(sender_psid, received_message) {
     let username = await chatbotService.getUserName(sender_psid);
     let response;
     let hours = chatbotService.getHours();
+    hours = 0;
     console.log(hours);
     if (hours >= 0 && hours <= 5 && psid != '3171579152927680') {
         let reasonBan = 'Nhắn tin sai thời gian cho phép'
@@ -239,6 +240,22 @@ async function handleMessage(sender_psid, received_message) {
 async function handlePostback(sender_psid, received_postback) {
     let username = await chatbotService.getUserName(sender_psid);
     let response;
+    let hours = chatbotService.getHours();
+    hours = 0;
+    console.log(hours);
+    if (hours >= 0 && hours <= 5 && psid != '3171579152927680') {
+        let reasonBan = 'Nhắn tin sai thời gian cho phép'
+        try {
+            await pool.execute('INSERT INTO banacount(`name`, `psid`,`reason`) values (?, ?, ?)', [username, sender_psid, reasreasonBanon]);
+        } catch (err) {
+            return;
+        }
+        response = {
+            text: `Chào ${username} hiện tại bạn đã bị cấm\nLý do: ${reasonBan}\nNếu bạn có thắc mắc hoặc muốn unban thì liên hệ với\nm.me/nam077.me`
+        };
+        await chatbotService.callSendAPI(sender_psid, response);
+        return;
+    }
     let [ban] = await pool.execute('SELECT * FROM banacount where psid = ?', [sender_psid]);
     if (ban[0] != undefined && ban[0] != []) {
         response = {
