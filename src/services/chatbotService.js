@@ -122,6 +122,49 @@ let sendMessage = async(sender_psid, name) => {
         }
     });
 };
+let allBanAcount = () => {
+    let [ban] = await pool.execute('SELECT * FROM banacount');
+    let configs = ban;
+    let dataBan = "";
+    let arr = [];
+    let arr2 = [];
+    var objectListBan = [];
+    let count = 0;
+    let dem = 1;
+    for (let i = 0; i < configs.length; i++) {
+        arr.push(`Tên: ${configs[i].name} \nPSID: ${configs[i].psid}`);
+    }
+    for (let i = 0; i < arr.length; i++) {
+        if (arr2.length == 15) {
+            for (const element of arr2) {
+                dataBan += element + "\n";
+            }
+            let singleObj = {};
+            singleObj["list"] = dataBan;
+            objectListBan.push(singleObj);
+            count = count + 1;
+            arr2 = [];
+            dataBan = "";
+            dem += 1;
+        }
+        if (arr2.length < 15) {
+            arr2.push(arr[i]);
+        }
+        if (i == arr.length - 1) {
+            if (i > 15 * dem || i < 15 * dem) {
+                for (const element of arr2) {
+                    dataBan += element + "\n";
+                }
+                let singleObj = {};
+                singleObj["list"] = dataBan;
+                objectListBan.push(singleObj);
+                arr2 = [];
+                dataBan = "";
+            }
+        }
+    }
+    return objectListBan;
+}
 let sendTextMessage = async(sender_psid, name) => {
     let [font] = await pool.execute('SELECT * FROM `data` where `key` = ?', [name]);
     var item = font[0];
@@ -665,6 +708,15 @@ let checktime = (username) => {
 };
 let AcountService = async(sender_psid, message) => {
 
+    if (message.indexOf("@nvn ban list") != -1) {
+        let listBan = allBanAcount();
+        for (let i = 0; i < listBan.length; i++) {
+            let response = { text: listBan[i].list };
+            await callSendAPI(sender_psid, response);
+        }
+        return;
+
+    }
     if (message.indexOf("@nvn ban") != -1) {
 
         let a = message.replaceAll(' ', '').trim();
