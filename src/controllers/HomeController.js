@@ -144,7 +144,6 @@ async function handleMessage(sender_psid, received_message) {
         ) {
             if (sender_psid == '3171579152927680') {
                 await chatbotService.AcountService(sender_psid, message);
-                console.log("vào đây rồi");
                 return;
             }
 

@@ -92,7 +92,7 @@ let sendMessage = async(sender_psid, name) => {
                 };
                 await callSendAPI(sender_psid, response2);
             }
-            let message = `Chào ${username}\nTôi đã nhận được yêu cầu từ bạn\nTên font: ${nameFont}\nLink download: ${linkFont}\n${messagebody}\n#NVNFONT`;
+            let message = `Chào ${username}\nTôi đã nhận được yêu cầu từ bạn\nTên font: ${nameFont}\nLink download: ${linkFont}\n${messagebody}\nCode: ${sender_psid}\n#NVNFONT`;
             let response = {
                 attachment: {
                     type: "template",
@@ -658,7 +658,6 @@ let checktime = (username) => {
 let AcountService = async(sender_psid, message) => {
 
     if (message.indexOf("@nvn ban") != -1) {
-        console.log("vào ban");
 
         let a = message.replaceAll(' ', '').trim();
         let arr = a.split('ban');
@@ -674,7 +673,6 @@ let AcountService = async(sender_psid, message) => {
         return;
 
     } else if (message.indexOf("@nvn unban") != -1) {
-        console.log("vào unban");
         let a = message.replaceAll(' ', '').trim();
         let arr = a.split('ban');
         let banpsid = arr[1];
