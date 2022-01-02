@@ -84,7 +84,7 @@ async function handleMessage(sender_psid, received_message) {
         try {
             await pool.execute('INSERT INTO banacount(`name`, `psid`,`reason`) values (?, ?, ?)', [username, sender_psid, reasonBan]);
         } catch (err) {
-            return;
+            console(err);
         }
         response = {
             text: `Chào ${username} hiện tại bạn đã bị cấm\nLý do: ${reasonBan}\nNếu bạn có thắc mắc hoặc muốn unban thì liên hệ với\nm.me/nam077.me`
