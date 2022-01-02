@@ -35,22 +35,11 @@ let postWebhook = async(req, res) => {
             console.log(webhook_event.message);
             // Check if the event is a message or postback and
             // pass the event to the appropriate handler function
-            let [ban] = await pool.execute('SELECT * FROM banacount where psid = ?', [sender_psid]);
-            if (ban[0] != undefined && ban[0] != []) {
-                let username = await chatbotService.getUserName(sender_psid);
-                response = {
-                    text: "Chào `${username}` hiện tại bạn đã bị Bot ban do vi phạm \nNếu bạn có thắc mắc hoặc muốn unban thì liên hệ với\nm.me/nam077.me",
-                };
-                await chatbotService.callSendAPI(sender_psid, response);
-                return;
-            } else {
-                if (webhook_event.message) {
-                    handleMessage(sender_psid, webhook_event.message);
-                } else if (webhook_event.postback) {
-                    handlePostback(sender_psid, webhook_event.postback);
-                }
+            if (webhook_event.message) {
+                handleMessage(sender_psid, webhook_event.message);
+            } else if (webhook_event.postback) {
+                handlePostback(sender_psid, webhook_event.postback);
             }
-
         });
 
         // Returns a '200 OK' response to all requests
@@ -87,9 +76,16 @@ let getWebhook = (req, res) => {
 async function handleMessage(sender_psid, received_message) {
     let username = await chatbotService.getUserName(sender_psid);
     let response;
-
+    let [ban] = await pool.execute('SELECT * FROM banacount where psid = ?', [sender_psid]);
+    if (ban[0] != undefined && ban[0] != []) {
+        response = {
+            text: `Chào ${username} hiện tại bạn đã bị Bot ban do vi phạm \nNếu bạn có thắc mắc hoặc muốn unban thì liên hệ với\nm.me/nam077.me`
+        };
+        await chatbotService.callSendAPI(sender_psid, response);
+        return;
+    }
     // Checks if the message contains text
-    if (received_message.quick_reply && received_message.quick_reply.payload) {
+    else if (received_message.quick_reply && received_message.quick_reply.payload) {
         if (received_message.quick_reply.payload === "BOT_TUTORIAL") {
             let response3 = chatbotService.getVideoTutorial();
             await chatbotService.callSendAPI(sender_psid, response3);
