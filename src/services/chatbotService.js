@@ -658,6 +658,7 @@ let checktime = (username) => {
 let AcountService = async(sender_psid, message) => {
 
     if (message.indexOf("@nvn ban") != -1) {
+        console.log("vào ban");
 
         let a = message.replaceAll(' ', '').trim();
         let arr = a.split('ban');
@@ -668,7 +669,8 @@ let AcountService = async(sender_psid, message) => {
         await callSendAPI(sender_psid, response);
         return;
 
-    } else if (message.indexOf("@nvn unban")) {
+    } else if (message.indexOf("@nvn unban") != -1) {
+        console.log("vào unban");
         let a = message.replaceAll(' ', '').trim();
         let arr = a.split('ban');
         let banpsid = arr[1];
