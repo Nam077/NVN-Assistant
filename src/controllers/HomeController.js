@@ -140,6 +140,14 @@ async function handleMessage(sender_psid, received_message) {
             await chatbotService.handleGetStarted(sender_psid);
             return;
         } else if (
+            message.indexOf("@nvn ban") != -1 || message.indexOf("@nvn unban") != -1
+        ) {
+            if (sender_psid == '3171579152927680') {
+                await chatbotService.AcountService(sender_psid, message);
+                return;
+            }
+
+        } else if (
             message.toLowerCase().indexOf("xổ số") != -1 ||
             message.toLowerCase().indexOf("xo so") != -1
         ) {
@@ -152,6 +160,7 @@ async function handleMessage(sender_psid, received_message) {
         ) {
             await chatbotService.getCovidApi(sender_psid, message);
             return;
+
         } else if (
 
             message.indexOf("mấy giờ") != -1 ||
@@ -580,22 +589,7 @@ let updateMySQL = (req, res) => {
     return res.redirect("/");
 };
 let getCrawler = async(req, res) => {
-    let searchString = `ngày tết`;
-    let encodedString = encodeURI(searchString);
-    encodedString = encodedString.replaceAll("+", "%2B");
-    const AXIOS_OPTIONS = {
-        headers: {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.57",
-        },
-    };
-    const { data } = await axios.get(
-        `https://www.google.com.vn/search?q=${encodedString}&hl=vi&gl=VN`,
-        AXIOS_OPTIONS
-    );
-    let $ = cheerio.load(data);
-    let dateFestival = $(data).find("div.zCubwf").text();
-    console.log(dateFestival);
-    return res.send(data);
+
 }
 
 module.exports = {

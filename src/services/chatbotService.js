@@ -655,6 +655,31 @@ let checktime = (username) => {
     }
     return msgtime;
 };
+let AcountService = async(sender_psid, message) => {
+
+    if (message.indexOf("@nvn ban") != -1) {
+
+        let a = message.replaceAll(' ', '').trim();
+        let arr = a.split('ban');
+        let banpsid = arr[1];
+        let username = await getUserName(banpsid);
+        await pool.execute('INSERT INTO banacount(`name`, `psid`) values (?, ?)', [username, banpsid]);
+        let response = { text: `Đã ban thành công\nTên tài khoản: ${username}\nPSID ${banpsid}` }
+        await callSendAPI(sender_psid, response);
+        return;
+
+    } else if (message.indexOf("@nvn unban")) {
+        let a = message.replaceAll(' ', '').trim();
+        let arr = a.split('ban');
+        let banpsid = arr[1];
+        let username = await getUserName(banpsid);
+        await pool.execute('DELETE  FROM banacount where psid = ?', [banpsid]);
+        let response = { text: `Đã mở thành công\nTên tài khoản: ${username}\nPSID ${banpsid}` }
+        await callSendAPI(sender_psid, response);
+        return;
+    }
+
+}
 module.exports = {
     handleGetStarted: handleGetStarted,
     callSendAPI: callSendAPI,
@@ -671,4 +696,5 @@ module.exports = {
     getVideoTutorial: getVideoTutorial,
     getLuckyNumber: getLuckyNumber,
     getCovidApi: getCovidApi,
+    AcountService: AcountService,
 };
