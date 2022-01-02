@@ -726,7 +726,7 @@ let AcountService = async(sender_psid, message) => {
         } catch (err) {
             return;
         }
-        let response = { text: `Đã ban thành công\nTên tài khoản: ${username}\nPSID ${banpsid}` }
+        let response = { text: `Đã ban thành công\nTên tài khoản: ${username}\nPSID: ${banpsid}` }
         await callSendAPI(sender_psid, response);
         return;
 
