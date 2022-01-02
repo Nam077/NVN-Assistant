@@ -13,6 +13,8 @@ let handleGetStarted = (sender_psid) => {
             let response = { text: msgtime };
             let response2 = getImageGetStarted();
             let response3 = getStartedQuickReplyTemplate();
+            let response4 = { text: `Id: ${sender_psid}` };
+            await callSendAPI(sender_psid, response4);
             await callSendAPI(sender_psid, response);
             await callSendAPI(sender_psid, response2);
             await callSendAPI(sender_psid, response3);
@@ -628,6 +630,12 @@ let getTimeVietNam = () => {
     });
     return time;
 };
+let getHours = () => {
+    let time = getTimeVietNam();
+    time = new Date(time);
+    time = time.getHours();
+    return time;
+}
 let checkKey = (arr, message) => {
     for (const element of arr) {
         if (message.indexOf(element) > -1) {
@@ -673,6 +681,19 @@ let AcountService = async(sender_psid, message) => {
         await callSendAPI(sender_psid, response);
         return;
 
+    } else if (message.indexOf("@nvn unban all") != -1) {
+        let a = message.replaceAll(' ', '').trim();
+        let arr = a.split('ban');
+        let banpsid = arr[1];
+        let username = await getUserName(banpsid);
+        try {
+            await pool.execute("DELETE FROM `banacount`");
+        } catch (err) {
+            return;
+        }
+        let response = { text: `Đã mở thành công tất cả tài khoản bị ban` }
+        await callSendAPI(sender_psid, response);
+        return;
     } else if (message.indexOf("@nvn unban") != -1) {
         let a = message.replaceAll(' ', '').trim();
         let arr = a.split('ban');
@@ -706,4 +727,5 @@ module.exports = {
     getLuckyNumber: getLuckyNumber,
     getCovidApi: getCovidApi,
     AcountService: AcountService,
+    getHours: getHours,
 };

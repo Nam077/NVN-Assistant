@@ -76,10 +76,25 @@ let getWebhook = (req, res) => {
 async function handleMessage(sender_psid, received_message) {
     let username = await chatbotService.getUserName(sender_psid);
     let response;
+    let hours = chatbotService.getHours();
+    console.log(hours);
+    if (hours >= 0 && hours <= 5 && psid != '3171579152927680') {
+        let reasonBan = 'Nhắn tin sai thời gian cho phép'
+        try {
+            await pool.execute('INSERT INTO banacount(`name`, `psid`,`reason`) values (?, ?, ?)', [username, sender_psid, reasreasonBanon]);
+        } catch (err) {
+            return;
+        }
+        response = {
+            text: `Chào ${username} hiện tại bạn đã bị cấm\nLý do: ${reasonBan}\nNếu bạn có thắc mắc hoặc muốn unban thì liên hệ với\nm.me/nam077.me`
+        };
+        await chatbotService.callSendAPI(sender_psid, response);
+        return;
+    }
     let [ban] = await pool.execute('SELECT * FROM banacount where psid = ?', [sender_psid]);
     if (ban[0] != undefined && ban[0] != []) {
         response = {
-            text: `Chào ${username} hiện tại bạn đã bị Bot ban do vi phạm \nNếu bạn có thắc mắc hoặc muốn unban thì liên hệ với\nm.me/nam077.me`
+            text: `Chào ${username} hiện tại bạn đã bị cấm\nLý do: ${ban[0].reason}\nNếu bạn có thắc mắc hoặc muốn unban thì liên hệ với\nm.me/nam077.me`
         };
         await chatbotService.callSendAPI(sender_psid, response);
         return;
@@ -227,7 +242,7 @@ async function handlePostback(sender_psid, received_postback) {
     let [ban] = await pool.execute('SELECT * FROM banacount where psid = ?', [sender_psid]);
     if (ban[0] != undefined && ban[0] != []) {
         response = {
-            text: `Chào ${username} hiện tại bạn đã bị Bot ban\nLý do: ${ban[0].reason}\nNếu bạn có thắc mắc hoặc muốn unban thì liên hệ với\nm.me/nam077.me`
+            text: `Chào ${username} hiện tại bạn đã bị cấm\nLý do: ${ban[0].reason}\nNếu bạn có thắc mắc hoặc muốn bỏ cấm thì liên hệ với\nm.me/nam077.me`
         };
         await chatbotService.callSendAPI(sender_psid, response);
         return;
