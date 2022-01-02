@@ -213,8 +213,16 @@ async function handleMessage(sender_psid, received_message) {
 
 // Handles messaging_postbacks events
 async function handlePostback(sender_psid, received_postback) {
+    let username = await chatbotService.getUserName(sender_psid);
     let response;
-
+    let [ban] = await pool.execute('SELECT * FROM banacount where psid = ?', [sender_psid]);
+    if (ban[0] != undefined && ban[0] != []) {
+        response = {
+            text: `Chào ${username} hiện tại bạn đã bị Bot ban do vi phạm \nNếu bạn có thắc mắc hoặc muốn unban thì liên hệ với\nm.me/nam077.me`
+        };
+        await chatbotService.callSendAPI(sender_psid, response);
+        return;
+    }
     // Get the payload for the postback
     let payload = received_postback.payload;
 
