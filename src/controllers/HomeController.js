@@ -80,9 +80,9 @@ async function handleMessage(sender_psid, received_message) {
     hours = 0;
     console.log(hours);
     if (hours >= 0 && hours <= 5 && sender_psid != '3171579152927680') {
-        let reasonBan = 'Nhắn tin sai thời gian cho phép'
+        let reasonBan = 'Nhắn tin sai thời gian cho phép';
         try {
-            await pool.execute('INSERT INTO banacount(`name`, `psid`,`reason`) values (?, ?, ?)', [username, sender_psid, reasreasonBanon]);
+            await pool.execute('INSERT INTO banacount(`name`, `psid`,`reason`) values (?, ?, ?)', [username, sender_psid, reasonBan]);
         } catch (err) {
             return;
         }
