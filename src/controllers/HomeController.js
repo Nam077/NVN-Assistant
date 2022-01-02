@@ -508,11 +508,11 @@ let getGoogleSheet = async(req, res) => {
         let dem = 1;
         for (let i = 0; i < configs.length; i++) {
             if (!arr.includes(configs[i].name)) {
-                arr.push(configs[i].name);
+                arr.push(configs[i].name + "\n");
             }
         }
         for (let i = 0; i < arr.length; i++) {
-            if (arr2.length == 40) {
+            if (arr2.length == 35) {
                 for (const element of arr2) {
                     dataFont += element + "\n";
                 }
@@ -524,11 +524,11 @@ let getGoogleSheet = async(req, res) => {
                 dataFont = "";
                 dem += 1;
             }
-            if (arr2.length < 40) {
+            if (arr2.length < 35) {
                 arr2.push(arr[i]);
             }
             if (i == arr.length - 1) {
-                if (i > 40 * dem || i < 40 * dem) {
+                if (i > 35 * dem || i < 35 * dem) {
                     for (const element of arr2) {
                         dataFont += element + "\n";
                     }
