@@ -274,7 +274,7 @@ let getGooleSearch = async(sender_psid, message) => {
             }
             //ngay le
             let dateFestival = $(data).find("div.zCubwf").text();
-            if (tedateFestivalam1 != null && dateFestival != "") {
+            if (dateFestival != null && dateFestival != "") {
                 let response = { text: dateFestival };
                 await callSendAPI(sender_psid, response);
             }
