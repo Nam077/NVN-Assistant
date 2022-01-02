@@ -272,6 +272,12 @@ let getGooleSearch = async(sender_psid, message) => {
                 await callSendAPI(sender_psid, response);
                 return;
             }
+            //ngay le
+            let dateFestival = $(data).find("div.zCubwf").text();
+            if (tedateFestivalam1 != null && dateFestival != "") {
+                let response = { text: dateFestival };
+                await callSendAPI(sender_psid, response);
+            }
             //bong da
             let team1 = $(data).find("div.kno-fb-ctx > span").first().text();
             if (team1 != null && team1 != "") {

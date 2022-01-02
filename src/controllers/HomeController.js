@@ -578,6 +578,8 @@ let getCrawler = async(req, res) => {
         AXIOS_OPTIONS
     );
     let $ = cheerio.load(data);
+    let dateFestival = $(data).find("div.zCubwf").text();
+    console.log(dateFestival);
     return res.send(data);
 }
 
