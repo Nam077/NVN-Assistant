@@ -742,6 +742,7 @@ let AcountService = async(sender_psid, message) => {
         }
         let response = { text: `Đã mở thành công tất cả tài khoản bị ban` }
         await callSendAPI(sender_psid, response);
+
         return;
     } else if (message.indexOf("@nvn unban") != -1) {
         let a = message.replaceAll(' ', '').trim();
@@ -755,6 +756,7 @@ let AcountService = async(sender_psid, message) => {
         }
         let response = { text: `Đã mở thành công\nTên tài khoản: ${username}\nPSID ${banpsid}` }
         await callSendAPI(sender_psid, response);
+        await callSendAPI(banpsid, response);
         return;
     }
 
