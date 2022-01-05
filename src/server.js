@@ -15,6 +15,7 @@ viewEngine(app);
 
 //config web routes
 webRoutes(app);
+console.log("sdfnkds");
 initApiRoute(app);
 
 let port = process.env.PORT || 8080;
